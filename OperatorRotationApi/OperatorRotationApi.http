@@ -1,0 +1,4 @@
+@OperatorRotationApi_HostAddress = http://localhost:5005
+
+GET {{OperatorRotationApi_HostAddress}}/api/rotations
+Accept: application/json
