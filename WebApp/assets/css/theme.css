@@ -1,136 +1,311 @@
 /*================================================================================
-  OPilot Brand Theme
-    • Navy      → #15303D
-    • Teal      → #2F6F6B
-    • Off‑white → #F4F2ED
+  OPilot Brand Theme Variables
 ================================================================================*/
-
 :root {
-  /* Base background & text */
-  --bg-page:       #F4F2ED;   /* page background */
-  --bg-surface:    #FFFFFF;   /* cards, panels, modals */
-  --text-primary:  #15303D;   /* main text, nav text */
-  --text-secondary:#2F6F6B;   /* subtitles, secondary text */
+  /* Core palette */
+  --color-navy:       #15303D;   /* primary text, nav text */
+  --color-teal:       #2F6F6B;   /* secondary text, buttons */
+  --color-offwhite:   #F4F2ED;   /* page background */
+  --color-white:      #FFFFFF;   /* panel background */
+  --color-border:     #CDD1D4;   /* neutral borders */
 
-  /* Panels & borders */
-  --panel-bg:      var(--bg-surface);
-  --border-color:  #CDD1D4;   /* light neutral for borders */
-
-  /* Navigation & sidebar */
-  --nav-bg:        #FFFFFF;   /* navbar background */
-  --sidebar-bg:    #f4edef;   /* sidebar background */
-
-  /* Buttons */
-  --btn-bg:        #2F6F6B;   /* default button background */
-  --btn-text:      #FFFFFF;   /* default button text */
-  --btn-hover:     #1E4A49;   /* hover state */
-
-  /* Accent (if you still want to keep the gold for arrows, etc) */
-  --accent:        #2F6F6B;   /* amber/gold highlight */
-
-  /* Modal background */
-  --modal-bg:      var(--bg-surface);
-
-  /* Drop‑indicator */
-  --drop-indicator-outline: 2px dashed var(--accent);
-  --drop-indicator-bg: rgba(255, 193, 7, 0.2);
+  /* Semantic aliases */
+  --bg-page:          var(--color-offwhite);
+  --bg-panel:         var(--color-white);
+  --text-primary:     var(--color-navy);
+  --text-secondary:   var(--color-teal);
+  --border-color:     var(--color-border);
+  --btn-bg:           var(--color-teal);
+  --btn-hover:        #1E4A49;
+  --btn-text:         var(--color-white);
+  --sidebar-bg:       #222222; /* dark sidebar */
+  --sidebar-text:     var(--color-white);
+  --accent:           #FFC107; /* amber highlight */
+  --drop-outline:     2px dashed var(--accent);
+  --drop-bg:          rgba(255, 193, 7, 0.2);
 }
 
 /*================================================================================
-  Global Resets & Application
+  Global Reset & Base
 ================================================================================*/
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+}
 
 body {
   background: var(--bg-page);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Links and headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+}
+p, span, label, input, button {
   color: var(--text-primary);
 }
 
 /*================================================================================
   Navbar
 ================================================================================*/
-
 .navbar {
-  background: var(--nav-bg);
-  color: var(--bg-surface);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-panel);
+  border-bottom: 10px solid var(--border-color);
+  padding: 12px 20px;
+}
+
+#toggleEditModeBtn {
+  background: #d9534f;
+  color: var(--btn-text);
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+body.edit-mode #toggleEditModeBtn {
+  background: #5cb85c;
+}
+
+.login-fields input {
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  border: 1px solid var(--border-color);
+  padding: 6px 10px;
+}
+.login-btn {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.login-btn:hover {
+  background: var(--btn-hover);
+}
+
+/*================================================================================
+  Main Layout
+================================================================================*/
+.main {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  flex: 1;
+  overflow: hidden;
 }
 
 /*================================================================================
   Sidebar
 ================================================================================*/
-
 .sidebar {
   background: var(--sidebar-bg);
-  color: var(--bg-surface);
+  color: var(--sidebar-text);
+  padding: 20px;
+  overflow-y: auto;
 }
 
-/*================================================================================
-  Panels & Cards (rides, schedule, shift boxes…)
-================================================================================*/
-
-.ride-box,
-.operator-shift-container,
-.rotation-schedule,
-.modal-box {
-  background: var(--panel-bg);
-  border-color: var(--border-color);
-  color: var(--text-primary);
+/* Keep schedule & tasks on sidebar in same panel style?  If not, override: */
+.rotation-schedule {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
 }
 
-/*================================================================================
-  Buttons
-================================================================================*/
-
-button {
+/* Buttons in sidebar */
+.sidebar button {
+  width: 100%;
+  margin-bottom: 10px;
   background: var(--btn-bg);
   color: var(--btn-text);
   border: none;
-  border-radius: 6px;
+  padding: 8px;
   cursor: pointer;
-  transition: background 0.2s ease;
 }
-
-button:hover {
+.sidebar button:hover {
   background: var(--btn-hover);
 }
 
 /*================================================================================
-  Accents & Icons
+  Panels (rides, shifts, modals…)
 ================================================================================*/
+.ride-box,
+.operator-shift-container,
+.rotation-schedule,
+.modal-box {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  padding: 16px;
+}
 
-.ride-icon {
-  background-color: var(--text-secondary);
+/* Unified border radius if you ever re‑enable rounding */
+.ride-box,
+.operator-shift-container,
+.rotation-schedule,
+.modal-box {
+  border-radius: 0;
 }
 
 /*================================================================================
-  Drop‑Indicator
+  Shift / Break Boxes
 ================================================================================*/
+.operator-shift-container {
+  margin-bottom: 20px;
+}
+.operators-on-shift,
+.operators-on-break {
+  display: flex;
+  gap: 12px;
+  background: var(--bg-panel);
+  padding: 10px;
+  border: 1px solid var(--border-color);
+}
 
-.drop-indicator {
-  outline: var(--drop-indicator-outline);
-  background-color: var(--drop-indicator-bg);
+/*================================================================================
+  Ride Panels & Positions
+================================================================================*/
+.ride-container {
+  overflow-x: auto;
+  padding-top: 20px;
+}
+.ride-group {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.ride-box {
+  min-width: 300px;
+  max-width: 90vw;
+}
+.ride-header {
+  text-align: center;
+  margin-bottom: 12px;
+}
+.ride-icon {
+  background: var(--text-secondary);
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 6px;
+  border-radius: 50%;
+}
+.positions-container {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+.position-box {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  padding: 10px 18px;
+}
+.arrow {
+  font-size: 2em;
+  color: var(--accent);
+  align-self: center;
+}
+
+/*================================================================================
+  Rotation Schedule Styles
+================================================================================*/
+.rotation-schedule h3 {
+  color: var(--accent);
+}
+.rotation-time-block + .rotation-time-block {
+  margin-top: 20px;
+}
+
+/*================================================================================
+  Toolbar above operations
+================================================================================*/
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.toolbar button {
+  flex: 1;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+}
+.toolbar button:hover {
+  background: var(--btn-hover);
 }
 
 /*================================================================================
   Modals
 ================================================================================*/
-
 .modal-overlay {
-  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
 .modal-box {
-  background: var(--modal-bg);
-  color: var(--text-primary);
+  width: 400px;
+}
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+.modal-buttons button {
+  flex: 1;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+}
+.modal-buttons button:hover {
+  background: var(--btn-hover);
 }
 
 /*================================================================================
-overrides
+  Drag & Drop Indicator
 ================================================================================*/
-
-.arrow {
-  color: var(--accent);
+.drop-indicator {
+  outline: var(--drop-outline);
+  background: var(--drop-bg);
+}
+/*================================================================================
+  1) Make Sidebar & Schedule Panels the SAME color
+================================================================================*/
+.sidebar,
+.rotation-schedule {
+  background: var(--sidebar-bg) !important;
+  color: var(--sidebar-text) !important;
+  border-color: var(--sidebar-bg) !important; /* remove the light border */
 }
 
-.rotation-time-label {
-  color: var(--accent);
+/* If you want the <h3> in schedule to pop against that dark sidebar: */
+.rotation-schedule h3 {
+  color: var(--btn-bg);
+}
+
+/*================================================================================
+  2) Fix hidden‐modal so it truly goes away
+================================================================================*/
+.modal-overlay.hidden {
+  display: none !important;
+}
+
+/* Make sure clicking outside the white box dismisses it */
+.modal-overlay {
+  cursor: pointer;
+}
+.modal-overlay .modal-box {
+  cursor: default;
+}
+.modal-overlay:not(.hidden) {
+  display: flex;
 }
