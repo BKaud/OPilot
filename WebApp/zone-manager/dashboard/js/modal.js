@@ -205,8 +205,7 @@ export function showAddRideModal(onConfirm) {
   document.getElementById('addRideConfirm').onclick = () => {
     const rn = document.getElementById('newRideName').value.trim();
     if (!rn) return alert('Ride name required');
-    const pns = Array.from(namesDiv.querySelectorAll('.posName'))
-                     .map(i => i.value.trim() || `Position`);
+    const pns = Array.from(namesDiv.querySelectorAll('.posName')).map(i => i.value.trim() || `Position`);
     modalOverlay.classList.add('hidden');
     onConfirm(rn, pns);
   };

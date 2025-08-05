@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,25 +8,27 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="../../assets/css/theme.css" />
 </head>
+
 <body>
   <!-- NAVBAR (unchanged) -->
   <nav class="navbar">
     <div class="navbar-logo">
-      <img src="../../assets/images/Opilotlogonavy.png" alt="OPilot Logo" />
+      <img id="logoanim" src="../../assets/images/compassanim.gif" alt="OPilot Logo" />
+      <img id="logotext" class="logoText" src="../../assets/images/oppilottext.png" />
     </div>
-    <button id="toggleEditModeBtn">Edit Mode: OFF</button>
-    <div class="navbar-login">
-      <div class="login-fields">
-        <input type="text" placeholder="Username" />
-        <input type="password" placeholder="Password" />
-      </div>
-      <button class="login-btn">Login</button>
+      <div class="navbar-login">
+        <div class="login-fields">
+          <input type="text" placeholder="Username" />
+          <input type="password" placeholder="Password" />
+        </div>
+        <button class="login-btn">Login</button>
     </div>
   </nav>
 
+
   <div class="main">
     <!-- LEFT Static Sidebar (just buttons now) -->
-    <aside class="sidebar">
+    <aside id="sidebar" class="sidebar closed">
       <button id="add-event-btn" class="btn-special">Add Event</button>
       <button id="push-rotation-btn" class="btn-special">Push Rotation</button>
       <div class="button-row">
@@ -38,38 +41,43 @@
 
     <!-- RIGHT operations area now split into two columns -->
     <section class="operations-container">
-      <!-- 1) Schedule column -->
+      <!-- 1) Schedule column (unchanged) -->
       <div class="ops-col ops-schedule">
         <h3>Rotation Schedule</h3>
-        <!-- reuse your schedule markup in here -->
-        <div class="rotation-time-block">
-          <h4>2:00 PM Rotation</h4>
-          <!-- ... -->
-        </div>
-        <div class="rotation-time-block">
-          <h4>2:15 PM Rotation</h4>
-          <!-- ... -->
-        </div>
+        <!-- … your rotation‐time‐block items … -->
       </div>
 
-      <!-- 2) Main ops column (shifts + rides) -->
-      
+      <!-- 2) Main ops column -->
+      <div class="ops-col ops-main">
+        <!-- (optional) slider preview -->
+        <div class="rotation-preview">
+          <input type="range" id="rotationSlider" min="0" max="100" value="0" />
+        </div>
 
+        <!-- Current Ride Positions header -->
         <h2 id="crp">Current Ride Positions</h2>
+
+        <!-- Ride panels -->
         <div class="ride-container">
           <div class="ride-group">
             <!-- rides rendered here -->
           </div>
         </div>
-        <div class="ops-col ops-main">
-        <div class="operator-shift-container">
-          <h3>Operators On Shift</h3>
-          <div id="operatorsOnShift" class="operators-on-shift"></div>
-          <h3>On Break</h3>
-          <div id="operatorsOnBreak" class="operators-on-break"></div>
+
+        <!-- Bottom: Shift & Break side by side -->
+        <div class="bottom-panels">
+          <div class="panel-box shift-panel">
+            <h3>Operators On Shift</h3>
+            <div id="operatorsOnShift" class="operators-on-shift"></div>
+          </div>
+          <div class="panel-box break-panel">
+            <h3>On Break</h3>
+            <div id="operatorsOnBreak" class="operators-on-break"></div>
+          </div>
         </div>
       </div>
     </section>
+
   </div>
 
   <!-- MODAL OVERLAY (unchanged) -->
@@ -88,5 +96,33 @@
   <script type="module" src="js/render.js"></script>
   <script type="module" src="js/modal.js"></script>
   <script type="module" src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+      const sidebar = document.getElementById('sidebar');
+      const logoAnim = document.getElementById('logoanim');
+      const logoText = document.getElementById('logotext')
+      const forwardGif = '../../assets/images/compassanim.gif';
+      const reverseGif = '../../assets/images/compassanim-reverse.gif';
+
+
+      sidebar.addEventListener('mouseover', () => {
+        const isOpen = sidebar.classList.toggle('open');
+        sidebar.classList.toggle('closed', !isOpen);
+        logoText.classList.add('act')
+        logoText.classList.remove('logoText')
+        // swap the GIF src to replay forward or backward
+        logoAnim.src = isOpen ? forwardGif : reverseGif;
+        // force‐reload so it starts from the beginning
+        logoAnim.src = logoAnim.src + '?t=' + Date.now();
+      });
+
+      sidebar.addEventListener('mouseout', () => {
+        logoText.classList.remove('act')
+        logoText.classList.add('logoText')
+      });
+    });
+  </script>
 </body>
+
 </html>

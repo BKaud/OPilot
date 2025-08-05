@@ -1,10 +1,10 @@
 /*===============================================================================
-  style.css — Layout & Component Styles for Operator Rotation Manager
-  (Assumes theme.css has defined your color variables)
+  style.css — Styles for Operator Rotation Manager
+  Depends on theme.css for all `--*` variables
 ================================================================================*/
 
 /*-------------------------------------------------------------------------------
-  1) Reset & Base
+  1. Reset & Base
 -------------------------------------------------------------------------------*/
 * {
   box-sizing: border-box;
@@ -12,7 +12,6 @@
   padding: 0;
   font-family: "Segoe UI", sans-serif;
 }
-
 body {
   display: flex;
   flex-direction: column;
@@ -23,67 +22,12 @@ body {
 }
 
 /*-------------------------------------------------------------------------------
-  2) Navbar
+  2. Navbar
 -------------------------------------------------------------------------------*/
-.navbar {
-  display: flex;
-  align-items: center;
-  padding: 12px 20px;
-  background: var(--nav-bg);
-  border-bottom: 2px solid var(--border-color);
-  position: relative;
-}
-
-.navbar-logo img {
-  height: 50px;
-}
-
-#toggleEditModeBtn {
-  margin: 0 auto;
-  padding: 6px 12px;
-  background: #d9534f;
-  color: var(--btn-text);
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-  font-weight: bold;
-}
-body.edit-mode #toggleEditModeBtn {
-  background: #5cb85c;
-}
-
-.navbar-login {
-  position: absolute;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.navbar-login .login-fields {
-  display: flex;
-  gap: 6px;
-}
-.navbar-login input {
-  padding: 4px 8px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  background: var(--sidebar-bg);
-  color: var(--bg-surface);
-}
-.navbar-login .login-btn {
-  padding: 6px 12px;
-  background: var(--btn-bg);
-  color: var(--btn-text);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.navbar-login .login-btn:hover {
-  background: var(--btn-hover);
-}
+/* Remove all navbar rules from here */
 
 /*-------------------------------------------------------------------------------
-  3) Main Layout
+  3. Main Layout
 -------------------------------------------------------------------------------*/
 .main {
   display: flex;
@@ -93,18 +37,33 @@ body.edit-mode #toggleEditModeBtn {
 }
 
 /*-------------------------------------------------------------------------------
-  4) Sidebar (buttons only)
+  4. Sidebar
 -------------------------------------------------------------------------------*/
 .sidebar {
+  width: 80px;               /* collapsed width */
+  transition: width 0.25s ease;
+  overflow: hidden;          /* hide overflowing buttons */
+}
+.sidebar:hover {
   width: 250px;
-  background: var(--sidebar-bg);
   padding: 16px;
+  background: var(--sidebar-bg) !important;
+  color: var(--sidebar-text) !important;
   display: flex;
   flex-direction: column;
   gap: 12px;
   overflow-y: auto;
 }
+.sidebar:hover .btn-special,
+.sidebar:hover .button-row {
+  display: flex;             /* restore your button layouts */
+}
+.sidebar .btn-special,
+.sidebar .button-row { opacity: 0; transition: opacity .25s; }
+.sidebar:hover .btn-special,
+.sidebar:hover .button-row { opacity: 1; }
 
+/* Sidebar Buttons */
 .sidebar .btn-special {
   padding: 8px;
   background: var(--btn-bg);
@@ -117,6 +76,7 @@ body.edit-mode #toggleEditModeBtn {
   background: var(--btn-hover);
 }
 
+/* Core Add/Remove hidden outside edit mode */
 .button-row {
   display: flex;
   flex-wrap: wrap;
@@ -131,9 +91,6 @@ body.edit-mode #toggleEditModeBtn {
   border-radius: 4px;
   cursor: pointer;
   transition: background 0.2s;
-}
-/* hide core Add/Remove except in edit mode */
-.button-row button {
   display: none;
 }
 body.edit-mode .button-row button {
@@ -144,45 +101,45 @@ body.edit-mode .button-row button {
 }
 
 /*-------------------------------------------------------------------------------
-  5) Operations Container (split into 2 columns)
+  5. Rotation Schedule (Sidebar)
 -------------------------------------------------------------------------------*/
-.operations-container {
-  display: flex;
-  flex: 1;
-  gap: 20px;
-  overflow: hidden;
-}
-
-/* -- Schedule column -- */
 .ops-schedule {
   width: 240px;
-  background: #e7e7e7;
-  border-radius: 4px;
+  /* Was being forced dark via sidebar overrides — switch it back: */
+  background: var(--bg-panel) !important;
+  color: var(--text-primary) !important;
   padding: 20px;
   overflow-y: auto;
 }
 
+/* Schedule Header */
 .ops-schedule h3 {
-  margin-bottom: 8px;
-  color: var(--text-primary);
+  margin-bottom: 12px;
+  color: var(--btn-bg);
 }
+
+/* Time Blocks */
 .rotation-time-block {
   margin-bottom: 16px;
+}
+.rotation-time-block + .rotation-time-block {
+  margin-top: 20px;
 }
 .rotation-time-block h4 {
   font-size: 1rem;
   color: var(--text-secondary);
   margin-bottom: 6px;
 }
+
+/* Individual Rotation Boxes */
 .operator-rotation-box {
   background: var(--sidebar-bg);
   border: 1px solid var(--border-color);
-  border-radius: 4px;
   padding: 8px;
   margin-bottom: 6px;
 }
 .operator-rotation-box .operator-name {
-  font-weight: 700;
+  font-weight: bold;
   color: var(--text-primary);
 }
 .rotation-details div {
@@ -195,114 +152,175 @@ body.edit-mode .button-row button {
   text-align: right;
 }
 
-/* -- Main operations column -- */
+/*-------------------------------------------------------------------------------
+  6. Operations Container
+-------------------------------------------------------------------------------*/
+.operations-container {
+  flex: 1;
+  display: flex;
+  gap: 20px;
+  overflow: hidden;
+  transition: margin-left 0.25s ease;
+}
+
+/* Main Column (rides, slider, bottom panels) */
 .ops-main {
   flex: 1;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  justify-content: space-between; /* bottom-panels at bottom */
+  height: 100%;
+  overflow-y: auto;
 }
 
 /*-------------------------------------------------------------------------------
-  6) Shifts & Breaks Panel
+  7. Rotation Preview Slider
 -------------------------------------------------------------------------------*/
-.operator-shift-container {
-  background: var(--panel-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  padding: 12px;
-  color: var(--text-primary);
+.rotation-preview {
+  padding: 0 10px;
 }
-.operators-on-shift,
-.operators-on-break {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 8px;
-  background: var(--sidebar-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  min-height: 40px;
+#rotationSlider {
+  width: 100%;
+  height: 12px;
+  background: transparent;
+  margin: 16px 0;
 }
-.operator-item {
+/* Track & Thumb for WebKit */
+#rotationSlider::-webkit-slider-runnable-track {
+  height: 12px;
+  background: var(--border-color);
+  border-radius: 6px;
+}
+#rotationSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 24px; height: 24px;
   background: var(--btn-bg);
-  color: var(--btn-text);
-  padding: 6px 10px;
-  border-radius: 4px;
-  cursor: default;
-  pointer-events: none;
+  border-radius: 50%;
+  margin-top: -6px;
+  cursor: pointer;
 }
-body.edit-mode .operator-item {
-  pointer-events: auto;
-  cursor: grab;
+/* Track & Thumb for Firefox */
+#rotationSlider::-moz-range-track {
+  height: 12px;
+  background: var(--border-color);
+  border-radius: 6px;
 }
-.operator-item:active {
-  cursor: grabbing;
+#rotationSlider::-moz-range-thumb {
+  width: 24px; height: 24px;
+  background: var(--btn-bg);
+  border-radius: 50%;
+  cursor: pointer;
+}
+/* Track & Thumb for IE/Edge */
+#rotationSlider::-ms-track {
+  height: 12px;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+#rotationSlider::-ms-fill-lower,
+#rotationSlider::-ms-fill-upper {
+  background: var(--border-color);
+  border-radius: 6px;
+}
+#rotationSlider::-ms-thumb {
+  width: 24px; height: 24px;
+  background: var(--btn-bg);
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 /*-------------------------------------------------------------------------------
-  7) Ride Panels & Positions
+  8. Current Ride Positions
 -------------------------------------------------------------------------------*/
 .ride-container {
-  flex: 1;
   display: flex;
   justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
+  padding: 20px 0;
+  overflow-x: auto;
+}
+.ride-group {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap;        /* allow wrapping if too many to fit */
+  justify-content: center;/* center them in the container */
+  gap: 20px;
 }
 .ride-box {
-  background: var(--panel-bg);
+  background: var(--bg-panel);
   border: 1px solid var(--border-color);
-  border-radius: 4px;
   padding: 12px;
-  min-width: 240px;
+  min-width: 300px;
   flex: 1;
-  max-width: 45%;
+  max-width: 90vw;
+  border-radius: 4px;
 }
 .ride-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 8px;
+  text-align: center;
+  margin-bottom: 12px;
 }
 .ride-icon {
-  width: 40px;
-  height: 40px;
+  width: 50px; height: 50px;
   background: var(--text-secondary);
   border-radius: 50%;
-  margin-bottom: 4px;
+  margin: 0 auto 6px;
 }
 .positions-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
-  overflow-x: auto;
+  gap: 12px;
 }
 .position-box {
-  background: var(--sidebar-bg);
+  background: var(--bg-panel);
   border: 1px solid var(--border-color);
-  border-radius: 4px;
-  padding: 6px 12px;
+  padding: 10px 18px;
   min-width: 80px;
   white-space: nowrap;
+  border-radius: 4px;
 }
 .arrow {
-  font-size: 1.5em;
+  font-size: 2em;
   color: var(--accent);
+  align-self: center;
 }
 
 /*-------------------------------------------------------------------------------
-  8) Drag‑Drop Highlight
+  9. Bottom Panels (Shifts & Break)
+-------------------------------------------------------------------------------*/
+.bottom-panels {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.panel-box {
+  flex: 1;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  border-radius: 4px;
+}
+/* Inside each panel, operators wrap nicely */
+.operator-shift-container,
+.operators-on-break {
+  display: flex;
+  gap: 12px;
+  background: var(--bg-panel);
+  padding: 10px;
+}
+
+/*-------------------------------------------------------------------------------
+ 10. Drag‑Drop Highlight
 -------------------------------------------------------------------------------*/
 .drop-indicator {
-  outline: var(--drop-indicator-outline);
-  background-color: var(--drop-indicator-bg);
+  outline: var(--drop-outline);
+  background-color: var(--drop-bg);
 }
 
 /*-------------------------------------------------------------------------------
-  9) Modals
+ 11. Modals
 -------------------------------------------------------------------------------*/
 .modal-overlay {
   position: fixed;
@@ -314,23 +332,23 @@ body.edit-mode .operator-item {
   z-index: 1000;
 }
 .modal-box {
-  background: var(--modal-bg);
+  background: var(--bg-panel);
   border: 1px solid var(--border-color);
-  border-radius: 4px;
   padding: 24px;
   width: 280px;
   text-align: center;
+  border-radius: 4px;
 }
 .modal-buttons {
-  margin-top: 16px;
   display: flex;
   gap: 12px;
+  margin-top: 16px;
 }
 .modal-buttons button {
   flex: 1;
-  padding: 6px 0;
   background: var(--btn-bg);
   color: var(--btn-text);
+  padding: 8px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -340,4 +358,109 @@ body.edit-mode .operator-item {
 }
 .hidden {
   display: none;
+}
+
+/*-------------------------------------------------------------------------------
+ 12. Responsive Breakpoints
+-------------------------------------------------------------------------------*/
+/* ≤ 1024px */
+@media (max-width: 1024px) {
+  .sidebar { width: 200px; }
+  .ops-schedule { width: 180px; }
+  .ride-box { min-width: 200px; max-width: 40%; }
+}
+
+/* ≤ 768px */
+/* ===== tablets & portrait mode ==== */
+@media (max-width: 768px) {
+  .main {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+  .sidebar {
+    display: none;       /* or turn into a hamburger */
+  }
+  .operations-container {
+    flex-direction: column;
+  }
+  .ops-schedule,
+  .ops-main {
+    width: 100%;
+  }
+  .bottom-panels {
+    flex-direction: column;
+  }
+}
+
+
+/* ≤ 480px */
+@media (max-width: 480px) {
+  .navbar-logo img { height: 40px; }
+  #toggleEditModeBtn { padding: 4px 8px; font-size: .85rem; }
+  .sidebar { display: none; /* switch to a hamburger */ }
+  .ops-schedule,
+  .ops-main { width: 100%; }
+  .ride-box { max-width: 100%; }
+  .bottom-panels { flex-direction: column; }
+}
+.modal-buttons button {
+  flex: 1;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.modal-buttons button:hover {
+  background: var(--btn-hover);
+}
+.hidden {
+  display: none;
+}
+
+/*-------------------------------------------------------------------------------
+ 12. Responsive Breakpoints
+-------------------------------------------------------------------------------*/
+/* ≤ 1024px */
+@media (max-width: 1024px) {
+  .sidebar { width: 200px; }
+  .ops-schedule { width: 180px; }
+  .ride-box { min-width: 200px; max-width: 40%; }
+}
+
+/* ≤ 768px */
+/* ===== tablets & portrait mode ==== */
+@media (max-width: 768px) {
+  .main {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+  .sidebar {
+    display: none;       /* or turn into a hamburger */
+  }
+  .operations-container {
+    flex-direction: column;
+  }
+  .ops-schedule,
+  .ops-main {
+    width: 100%;
+  }
+  .bottom-panels {
+    flex-direction: column;
+  }
+}
+
+
+/* ≤ 480px */
+@media (max-width: 480px) {
+  .navbar-logo img { height: 40px; }
+  #toggleEditModeBtn { padding: 4px 8px; font-size: .85rem; }
+  .sidebar { display: none; /* switch to a hamburger */ }
+  .ops-schedule,
+  .ops-main { width: 100%; }
+  .ride-box { max-width: 100%; }
+  .bottom-panels { flex-direction: column; }
 }
