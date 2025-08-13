@@ -2,7 +2,11 @@
   style.css — Styles for Operator Rotation Manager
   Depends on theme.css for all `--*` variables
 ================================================================================*/
-
+html{
+  width: 100%;
+  max-width: 100vw;
+  height: 100%;
+}
 /*-------------------------------------------------------------------------------
   1. Reset & Base
 -------------------------------------------------------------------------------*/
@@ -16,64 +20,74 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  width: 100vw;
+  max-width: 100vw;
   background: var(--bg-page);
   color: var(--text-primary);
   overflow: auto;
 }
 
 /*-------------------------------------------------------------------------------
-  2. Navbar
--------------------------------------------------------------------------------*/
-/* Remove all navbar rules from here */
-
-/*-------------------------------------------------------------------------------
   3. Main Layout
 -------------------------------------------------------------------------------*/
 .main {
-  display: flex;
+  display: grid;
+  grid-template-columns: 80px 390px auto; /* sidebar, schedule, dashboard */
+  grid-template-rows: 1fr;
   flex: 1;
-  height: calc(100vh - 80px);
+  height: 100vh;
+  min-height: 0;
   overflow: hidden;
+  transition: grid-template-columns 0.25s;
+  width: 100vw;
+  max-width: 100vw;
 }
 
 /*-------------------------------------------------------------------------------
   4. Sidebar
 -------------------------------------------------------------------------------*/
 .sidebar {
-  width: 80px;               /* collapsed width */
+  grid-column: 1;
+  grid-row: 1;
+  width: 80px;
+  height: 100%;
+  min-height: 0;
   transition: width 0.25s ease;
-  overflow: hidden;          /* hide overflowing buttons */
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 2;
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  display: flex;
+  flex-direction: column;
 }
 .sidebar:hover {
   width: 250px;
-  padding: 16px;
   background: var(--sidebar-bg) !important;
   color: var(--sidebar-text) !important;
   display: flex;
   flex-direction: column;
-  gap: 12px;
   overflow-y: auto;
 }
 .sidebar:hover .btn-special,
 .sidebar:hover .button-row {
   display: flex;             /* restore your button layouts */
 }
-.sidebar .btn-special,
-.sidebar .button-row { opacity: 0; transition: opacity .25s; }
-.sidebar:hover .btn-special,
-.sidebar:hover .button-row { opacity: 1; }
+.sidebar .btn-special, .sidebar .button-row {
+   opacity: 0; transition: opacity .25s; 
+  }
+.sidebar:hover .btn-special, .sidebar:hover .button-row { 
+  opacity: 1; 
+}
 
 /* Sidebar Buttons */
 .sidebar .btn-special {
-  padding: 8px;
-  background: var(--btn-bg);
   color: var(--btn-text);
   border: none;
-  border-radius: 4px;
   cursor: pointer;
 }
 .sidebar .btn-special:hover {
-  background: var(--btn-hover);
+  background: var(--sidebar-darker-bg);
 }
 
 /* Core Add/Remove hidden outside edit mode */
@@ -103,15 +117,38 @@ body.edit-mode .button-row button {
 /*-------------------------------------------------------------------------------
   5. Rotation Schedule (Sidebar)
 -------------------------------------------------------------------------------*/
-.ops-schedule {
-  width: 240px;
-  /* Was being forced dark via sidebar overrides — switch it back: */
-  background: var(--bg-panel) !important;
-  color: var(--text-primary) !important;
-  padding: 20px;
-  overflow-y: auto;
+/* When sidebar is hovered, push rotation schedule right */
+.sidebar:hover ~ .ops-schedule .ops-schedule-content {
+  margin-left: 170px; /* Sidebar expands from 80px to 250px */
+  transition: margin-left 0.25s;
 }
 
+/* Rotation Schedule */
+.ops-schedule {
+  grid-column: 2;
+  grid-row: 1;
+  width: 100%;
+  max-width: 390px;
+  min-width: 180px;
+  height: 100%;
+  min-height: 0;
+  background: var(--bg-panel) !important;
+  color: var(--text-primary) !important;
+  padding: 20px 0 20px 0;
+  overflow-y: auto;
+  transition: max-width 0.25s;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+.ops-schedule-content{
+  margin-left: 0px; /* Sidebar expands from 80px to 250px */
+  transition: margin-left 0.25s;
+  padding-left: 20px;
+  padding-right: 20px;
+  flex: 1;
+  min-height: 0;
+}
 /* Schedule Header */
 .ops-schedule h3 {
   margin-bottom: 12px;
@@ -155,24 +192,27 @@ body.edit-mode .button-row button {
 /*-------------------------------------------------------------------------------
   6. Operations Container
 -------------------------------------------------------------------------------*/
-.operations-container {
-  flex: 1;
-  display: flex;
-  gap: 20px;
-  overflow: hidden;
-  transition: margin-left 0.25s ease;
-}
+/* Remove .operations-container rules if not needed */
 
 /* Main Column (rides, slider, bottom panels) */
 .ops-main {
-  flex: 1;
+  grid-column: 3;
+  grid-row: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* bottom-panels at bottom */
-  height: 100%;
+  justify-content: space-between;
   overflow-y: auto;
+  background: var(--bg-panel);
+  padding: 20px;
 }
-
+.operator-item{
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 5px;
+}
 /*-------------------------------------------------------------------------------
   7. Rotation Preview Slider
 -------------------------------------------------------------------------------*/
@@ -363,104 +403,169 @@ body.edit-mode .button-row button {
 /*-------------------------------------------------------------------------------
  12. Responsive Breakpoints
 -------------------------------------------------------------------------------*/
-/* ≤ 1024px */
+/* ≤ 1024px: shrink schedule/dashboard columns */
 @media (max-width: 1024px) {
-  .sidebar { width: 200px; }
-  .ops-schedule { width: 180px; }
-  .ride-box { min-width: 200px; max-width: 40%; }
+  .main {
+    grid-template-columns: 60px 180px 1fr;
+  }
+  .sidebar { width: 60px; }
+  .ops-schedule { max-width: 180px; min-width: 120px; }
+  .ride-box { min-width: 180px; max-width: 50%; }
 }
 
-/* ≤ 768px */
-/* ===== tablets & portrait mode ==== */
+/* ≤ 768px: stack columns vertically, sidebar becomes top bar */
 @media (max-width: 768px) {
   .main {
     display: flex;
     flex-direction: column;
     height: auto;
+    overflow: visible;
   }
   .sidebar {
-    display: none;       /* or turn into a hamburger */
-  }
-  .operations-container {
-    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    grid-column: auto;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding: 8px 0;
+    gap: 8px;
+    position: static;
+    z-index: 1;
   }
   .ops-schedule,
   .ops-main {
     width: 100%;
+    max-width: none;
+    min-width: 0;
+    grid-column: auto;
+  }
+  .ops-schedule-content {
+    margin-left: 0 !important;
   }
   .bottom-panels {
     flex-direction: column;
+    gap: 12px;
   }
 }
 
-
-/* ≤ 480px */
+/* ≤ 480px: mobile, everything full width, smaller padding */
 @media (max-width: 480px) {
-  .navbar-logo img { height: 40px; }
-  #toggleEditModeBtn { padding: 4px 8px; font-size: .85rem; }
-  .sidebar { display: none; /* switch to a hamburger */ }
-  .ops-schedule,
-  .ops-main { width: 100%; }
-  .ride-box { max-width: 100%; }
-  .bottom-panels { flex-direction: column; }
-}
-.modal-buttons button {
-  flex: 1;
-  background: var(--btn-bg);
-  color: var(--btn-text);
-  padding: 8px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.modal-buttons button:hover {
-  background: var(--btn-hover);
-}
-.hidden {
-  display: none;
-}
-
-/*-------------------------------------------------------------------------------
- 12. Responsive Breakpoints
--------------------------------------------------------------------------------*/
-/* ≤ 1024px */
-@media (max-width: 1024px) {
-  .sidebar { width: 200px; }
-  .ops-schedule { width: 180px; }
-  .ride-box { min-width: 200px; max-width: 40%; }
-}
-
-/* ≤ 768px */
-/* ===== tablets & portrait mode ==== */
-@media (max-width: 768px) {
   .main {
     display: flex;
     flex-direction: column;
     height: auto;
+    overflow: visible;
   }
   .sidebar {
-    display: none;       /* or turn into a hamburger */
+    width: 100vw;
+    min-width: 0;
+    max-width: none;
+    grid-column: auto;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding: 6px 0;
+    gap: 6px;
+    position: static;
+    z-index: 1;
+    display: flex;
   }
-  .operations-container {
-    flex-direction: column;
+  .sidebar .btn-special,
+  .sidebar .button-row {
+    opacity: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
   }
   .ops-schedule,
   .ops-main {
-    width: 100%;
+    width: 100vw;
+    max-width: none;
+    min-width: 0;
+    grid-column: auto;
+    padding: 8px;
+    margin: 0;
   }
-  .bottom-panels {
-    flex-direction: column;
+  .ops-schedule-content {
+    margin-left: 0 !important;
   }
+  .ride-box { max-width: 100vw; min-width: 120px; }
+  .bottom-panels { flex-direction: column; gap: 6px; }
+  .rotation-preview { padding: 0 2px; }
+  .navbar-logo img { height: 32px; }
+  .navbar-login { min-height: 60px; }
+  .navbar-login .login-fields input { font-size: 0.9rem; }
+  .navbar-login .login-btn { font-size: 0.9rem; padding: 4px 8px; }
+  .panel-box { padding: 8px; }
 }
 
-
-/* ≤ 480px */
+/* Remove unsupported overlay for phones */
 @media (max-width: 480px) {
-  .navbar-logo img { height: 40px; }
-  #toggleEditModeBtn { padding: 4px 8px; font-size: .85rem; }
-  .sidebar { display: none; /* switch to a hamburger */ }
-  .ops-schedule,
-  .ops-main { width: 100%; }
-  .ride-box { max-width: 100%; }
-  .bottom-panels { flex-direction: column; }
+  .unsupported-screen {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
 }
+
+/* Unsupported screen overlay (hidden by default, with transition) */
+.unsupported-screen {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  display: flex;
+  transition: opacity 0.4s cubic-bezier(.4,0,.2,1), visibility 0.4s;
+}
+
+.unsupported-logo {
+  display: block;
+  margin-bottom: 24px;
+  max-width: 200px;
+}
+
+.unsupported-message {
+  font-size: 1.5rem;
+  color: #222;
+  text-align: center;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Show unsupported overlay ONLY for desktop (devices that support hover) and small screens */
+@media (max-width: 768px) and (hover: hover) {
+  body > *:not(.unsupported-screen) {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: opacity 0.4s cubic-bezier(.4,0,.2,1), visibility 0.4s;
+  }
+  .unsupported-screen {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transition: opacity 0.4s cubic-bezier(.4,0,.2,1), visibility 0.4s;
+  }
+}
+
+/* Hide unsupported overlay for mobile devices (no hover) */
+@media (max-width: 768px) and (hover: none) {
+  .unsupported-screen {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+  body > *:not(.unsupported-screen) {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+}
+

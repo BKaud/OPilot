@@ -100,19 +100,6 @@ window.addEventListener('DOMContentLoaded', () => {
     loadRotationSchedule();
   }
 
-  // Toggle edit mode
-  toggleEditBtn.addEventListener('click', () => {
-    if (!editMode) {
-      showConfirmModal('Enable edit mode?<br/>' +
-  '<span style="color:#c9c9c9;;">' +
-    '(Discouraged during operation hours. Use "Add Event" button instead.)' +
-  '</span>', () => {
-        editMode = true; updateUI();
-      });
-    } else {
-      editMode = false; updateUI();
-    }
-  });
 
   // DRAG & DROP handlers (only in edit mode)
   rideGroup.addEventListener('operatordrop', ev => {

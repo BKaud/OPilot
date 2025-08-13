@@ -9,10 +9,10 @@
   <link rel="stylesheet" href="../../assets/css/theme.css" />
 </head>
 
-<body>
+<body style="width:100vw;max-width:100vw;">
   <!-- NAVBAR (unchanged) -->
   <nav class="navbar">
-    <div class="navbar-logo">
+    <div id="navbar-logo" class="navbar-logo">
       <img id="logoanim" src="../../assets/images/compassanim.gif" alt="OPilot Logo" />
       <img id="logotext" class="logoText" src="../../assets/images/oppilottext.png" />
     </div>
@@ -26,8 +26,8 @@
   </nav>
 
 
-  <div class="main">
-    <!-- LEFT Static Sidebar (just buttons now) -->
+  <div class="main" style="width:100vw;max-width:100vw;">
+    <!-- Sidebar -->
     <aside id="sidebar" class="sidebar closed">
       <button id="add-event-btn" class="btn-special">Add Event</button>
       <button id="push-rotation-btn" class="btn-special">Push Rotation</button>
@@ -39,45 +39,43 @@
       </div>
     </aside>
 
-    <!-- RIGHT operations area now split into two columns -->
-    <section class="operations-container">
-      <!-- 1) Schedule column (unchanged) -->
-      <div class="ops-col ops-schedule">
+    <!-- Rotation Schedule -->
+    <div class="ops-col ops-schedule">
+      <div class="ops-schedule-content">
         <h3>Rotation Schedule</h3>
-        <!-- … your rotation‐time‐block items … -->
+      <!-- … your rotation‐time‐block items … -->
+      </div>
+    </div>
+
+    <!-- Ride Position Dashboard -->
+    <div class="ops-col ops-main">
+      <!-- (optional) slider preview -->
+      <div class="rotation-preview">
+        <input type="range" id="rotationSlider" min="0" max="100" value="0" />
       </div>
 
-      <!-- 2) Main ops column -->
-      <div class="ops-col ops-main">
-        <!-- (optional) slider preview -->
-        <div class="rotation-preview">
-          <input type="range" id="rotationSlider" min="0" max="100" value="0" />
-        </div>
+      <!-- Current Ride Positions header -->
+      <h2 id="crp">Current Ride Positions</h2>
 
-        <!-- Current Ride Positions header -->
-        <h2 id="crp">Current Ride Positions</h2>
-
-        <!-- Ride panels -->
-        <div class="ride-container">
-          <div class="ride-group">
-            <!-- rides rendered here -->
-          </div>
-        </div>
-
-        <!-- Bottom: Shift & Break side by side -->
-        <div class="bottom-panels">
-          <div class="panel-box shift-panel">
-            <h3>Operators On Shift</h3>
-            <div id="operatorsOnShift" class="operators-on-shift"></div>
-          </div>
-          <div class="panel-box break-panel">
-            <h3>On Break</h3>
-            <div id="operatorsOnBreak" class="operators-on-break"></div>
-          </div>
+      <!-- Ride panels -->
+      <div class="ride-container">
+        <div class="ride-group">
+          <!-- rides rendered here -->
         </div>
       </div>
-    </section>
 
+      <!-- Bottom: Shift & Break side by side -->
+      <div class="bottom-panels">
+        <div class="panel-box shift-panel">
+          <h3>Operators On Shift</h3>
+          <div id="operatorsOnShift" class="operators-on-shift"></div>
+        </div>
+        <div class="panel-box break-panel">
+          <h3>On Break</h3>
+          <div id="operatorsOnBreak" class="operators-on-break"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- MODAL OVERLAY (unchanged) -->
@@ -88,6 +86,14 @@
         <button id="modalConfirm">Yes</button>
         <button id="modalCancel">No</button>
       </div>
+    </div>
+  </div>
+
+  <!-- UNSUPPORTED SCREEN OVERLAY -->
+  <div class="unsupported-screen">
+    <img class="unsupported-logo" src="../../assets/images/compassanim.gif" alt="OPilot Logo" />
+    <div class="unsupported-message">
+      Screens this small are not supported
     </div>
   </div>
 
@@ -104,21 +110,30 @@
       const logoText = document.getElementById('logotext')
       const forwardGif = '../../assets/images/compassanim.gif';
       const reverseGif = '../../assets/images/compassanim-reverse.gif';
+      const navLogo = document.getElementById('navbar-logo')
 
 
       sidebar.addEventListener('mouseover', () => {
         const isOpen = sidebar.classList.toggle('open');
         sidebar.classList.toggle('closed', !isOpen);
-        logoText.classList.add('act')
+        //---------------------------------------------------
+        //Text logo fading
         logoText.classList.remove('logoText')
+        //---------------------------------------------------
+
         // swap the GIF src to replay forward or backward
-        logoAnim.src = isOpen ? forwardGif : reverseGif;
+
         // force‐reload so it starts from the beginning
         logoAnim.src = logoAnim.src + '?t=' + Date.now();
+
+        //---------------------------------------------------
+
+        logoText.classList.add('act')
       });
 
       sidebar.addEventListener('mouseout', () => {
         logoText.classList.remove('act')
+        //Text logo fading
         logoText.classList.add('logoText')
       });
     });
