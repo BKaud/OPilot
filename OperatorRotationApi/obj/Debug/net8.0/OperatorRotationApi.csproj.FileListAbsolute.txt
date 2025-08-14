@@ -65,3 +65,37 @@ C:\Users\brade\OneDrive - Delaware Area Career Center\ProjectRepository\sites\OP
 C:\Users\brade\OneDrive - Delaware Area Career Center\ProjectRepository\sites\OPilot\OperatorRotationApi\obj\Debug\net8.0\OperatorRotationApi.pdb
 C:\Users\brade\OneDrive - Delaware Area Career Center\ProjectRepository\sites\OPilot\OperatorRotationApi\obj\Debug\net8.0\OperatorRotationApi.genruntimeconfig.cache
 C:\Users\brade\OneDrive - Delaware Area Career Center\ProjectRepository\sites\OPilot\OperatorRotationApi\obj\Debug\net8.0\ref\OperatorRotationApi.dll
+C:\OPilot\OperatorRotationApi\bin\Debug\net8.0\appsettings.Development.json
+C:\OPilot\OperatorRotationApi\bin\Debug\net8.0\appsettings.json
+C:\OPilot\OperatorRotationApi\bin\Debug\net8.0\OperatorRotationApi.exe
+C:\OPilot\OperatorRotationApi\bin\Debug\net8.0\OperatorRotationApi.deps.json
+C:\OPilot\OperatorRotationApi\bin\Debug\net8.0\OperatorRotationApi.runtimeconfig.json
+C:\OPilot\OperatorRotationApi\bin\Debug\net8.0\OperatorRotationApi.dll
+C:\OPilot\OperatorRotationApi\bin\Debug\net8.0\OperatorRotationApi.pdb
+C:\OPilot\OperatorRotationApi\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
+C:\OPilot\OperatorRotationApi\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\OPilot\OperatorRotationApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\OPilot\OperatorRotationApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\OPilot\OperatorRotationApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\OperatorRotationApi.csproj.AssemblyReference.cache
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\OperatorRotationApi.GeneratedMSBuildEditorConfig.editorconfig
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\OperatorRotationApi.AssemblyInfoInputs.cache
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\OperatorRotationApi.AssemblyInfo.cs
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\OperatorRotationApi.csproj.CoreCompileInputs.cache
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\OperatorRotationApi.MvcApplicationPartsAssemblyInfo.cs
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\OperatorRotationApi.MvcApplicationPartsAssemblyInfo.cache
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\OperatorRotationApi.sourcelink.json
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\staticwebassets.build.json
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\staticwebassets.development.json
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\staticwebassets\msbuild.OperatorRotationApi.Microsoft.AspNetCore.StaticWebAssets.props
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\staticwebassets\msbuild.build.OperatorRotationApi.props
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.OperatorRotationApi.props
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.OperatorRotationApi.props
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\staticwebassets.pack.json
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\scopedcss\bundle\OperatorRotationApi.styles.css
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\Operator.06F3178F.Up2Date
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\OperatorRotationApi.dll
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\refint\OperatorRotationApi.dll
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\OperatorRotationApi.pdb
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\OperatorRotationApi.genruntimeconfig.cache
+C:\OPilot\OperatorRotationApi\obj\Debug\net8.0\ref\OperatorRotationApi.dll

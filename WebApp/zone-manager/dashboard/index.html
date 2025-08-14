@@ -13,8 +13,8 @@
   <!-- NAVBAR -->
   <nav class="navbar">
     <div id="navbar-logo" class="navbar-logo">
-      <img id="logoanim" src="../../assets/images/compassanim.gif" alt="OPilot Logo" />
-      <img id="logotext" class="logoText" src="../../assets/images/oppilottext.png" />
+      <img id="logoanim" src="../../assets/images/icons/compassanim.gif" alt="OPilot Logo" />
+      <img id="logotext" class="logoText" src="../../assets/images/icons/oppilottext.png" />
     </div>
     <div class="navbar-login">
       <div class="login-fields">
@@ -32,7 +32,7 @@
         <!-- Homepage -->
         <div class="nav-item">
           <a href="#" class="nav-link active">
-            <div class="nav-icon">🏠</div>
+            <div class="nav-icon"><img src="../../assets/images/icons/homepage.png"></div>
             <span class="nav-text">Homepage</span>
           </a>
         </div>
@@ -40,7 +40,7 @@
         <!-- Zones (Expandable) -->
         <div class="nav-item expandable" id="zones">
           <a href="#" class="nav-link expandable">
-            <div class="nav-icon">🎢</div>
+            <div class="nav-icon"><img src="../../assets/images/icons/zones.png"></div>
             <span class="nav-text">Zones</span>
           </a>
           <div class="sub-nav" id="zones-sub">
@@ -92,20 +92,28 @@
         <div class="bottom-section">
           <div class="nav-item">
             <a href="#" class="nav-link">
-              <div class="nav-icon">👤</div>
+              <div class="nav-icon"><img src="../../assets/images/icons/accsett.png"></div>
               <span class="nav-text">Account Settings</span>
             </a>
           </div>
           <div class="nav-item">
             <a href="#" class="nav-link">
-              <div class="nav-icon">📋</div>
+              <div class="nav-icon"><img src="../../assets/images/icons/changelog.png"></div>
               <span class="nav-text">Changelog</span>
             </a>
           </div>
         </div>
       </div>
+    </aside>
 
-      <!-- Action Buttons Section -->
+    <!-- Rotation Schedule -->
+    <div class="ops-col ops-schedule">
+      <div class="ops-schedule-content">
+        <h3>Rotation Schedule</h3>
+        <p>Schedule content goes here...</p>
+      </div>
+
+      <!-- Action Buttons Section (Moved Here) -->
       <div class="action-buttons">
         <button id="add-event-btn" class="btn-special">
           <div class="btn-icon">+</div>
@@ -122,14 +130,6 @@
           <button id="addOperatorBtn">Add Operator</button>
           <button id="removeOperatorBtn">Remove Operator</button>
         </div>
-      </div>
-    </aside>
-
-    <!-- Rotation Schedule -->
-    <div class="ops-col ops-schedule">
-      <div class="ops-schedule-content">
-        <h3>Rotation Schedule</h3>
-        <p>Schedule content goes here...</p>
       </div>
     </div>
 
@@ -165,7 +165,7 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
+   document.addEventListener('DOMContentLoaded', function () {
       const sidebar = document.getElementById('sidebar');
       const logoAnim = document.getElementById('logoanim');
       const logoText = document.getElementById('logotext');
@@ -183,12 +183,15 @@
         logoText.classList.add('logoText');
       });
 
-      // Zone expansion functionality
+      // Zone expansion functionality - FIXED
       document.getElementById('zones').addEventListener('click', function(e) {
-        if (e.target.classList.contains('expandable')) {
+        // Only handle clicks on the main zones link, not child elements
+        if (e.target.closest('.nav-link') === this.querySelector('.nav-link')) {
           e.preventDefault();
+          e.stopPropagation(); // Prevent event bubbling
+          
           const subNav = document.getElementById('zones-sub');
-          const expandable = e.target;
+          const expandable = this.querySelector('.nav-link');
           
           if (subNav.classList.contains('expanded')) {
             subNav.classList.remove('expanded');
@@ -200,13 +203,16 @@
         }
       });
 
-      // Individual zone expansion (Rides 1, Rides 2, etc.)
+      // Individual zone expansion (Rides 1, Rides 2, etc.) - FIXED
       document.querySelectorAll('.zone-item').forEach(zoneItem => {
         zoneItem.addEventListener('click', function(e) {
-          if (e.target.classList.contains('expandable')) {
+          // Only handle clicks on the zone's own expandable link
+          if (e.target.closest('.sub-nav-link') === this.querySelector('.sub-nav-link')) {
             e.preventDefault();
+            e.stopPropagation(); // Prevent event bubbling to parent zones
+            
             const zoneSubNav = this.querySelector('.zone-sub-nav');
-            const expandable = e.target;
+            const expandable = this.querySelector('.sub-nav-link');
             
             if (zoneSubNav.classList.contains('expanded')) {
               zoneSubNav.classList.remove('expanded');
@@ -223,6 +229,7 @@
       document.querySelectorAll('.nav-link, .sub-nav-link, .zone-sub-link').forEach(link => {
         link.addEventListener('click', function(e) {
           if (!this.classList.contains('expandable')) {
+            e.stopPropagation(); // Prevent bubbling for non-expandable links
             // Remove active class from all nav items
             document.querySelectorAll('.nav-link, .sub-nav-link, .zone-sub-link').forEach(item => {
               item.classList.remove('active');
@@ -237,6 +244,7 @@
       document.addEventListener('click', function(e) {
         if (e.target.textContent.trim() === 'Edit Mode') {
           e.preventDefault();
+          e.stopPropagation();
           document.body.classList.toggle('edit-mode');
         }
       });
@@ -245,3 +253,4 @@
 </body>
 
 </html>
+``` 
