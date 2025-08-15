@@ -63,6 +63,7 @@ p, span, label, input, button {
   background: var(--bg-panel);
   min-height: 80px;
 }
+
 .navbar-logo {
   display: flex;
   align-items: center;
@@ -70,17 +71,21 @@ p, span, label, input, button {
   gap: 10px;
   border-bottom: 10px solid var(--border-color);
 }
+
 .navbar-logo img {
   height: 60px;
 }
+
 .logoText {
   opacity: 0;
   transition: opacity 0.5s ease;
 }
+
 .logoText.act {
   opacity: 1;
   transition: opacity 0.5s ease;
 }
+
 .navbar-login {
   flex: 1;
   display: flex;
@@ -90,10 +95,12 @@ p, span, label, input, button {
   min-height: 90px;
   border-bottom: 10px solid var(--border-color);
 }
+
 .navbar-login .login-fields {
   display: flex;
   gap: 6px;
 }
+
 .navbar-login input {
   padding: 6px 10px;
   background: var(--sidebar-bg);
@@ -101,6 +108,7 @@ p, span, label, input, button {
   border: 1px solid var(--border-color);
   border-radius: 4px;
 }
+
 .navbar-login .login-btn {
   padding: 6px 12px;
   background: var(--btn-bg);
@@ -109,6 +117,7 @@ p, span, label, input, button {
   border-radius: 4px;
   cursor: pointer;
 }
+
 .navbar-login .login-btn:hover {
   background: var(--btn-hover);
 }
@@ -150,51 +159,49 @@ p, span, label, input, button {
 .sidebar {
   grid-column: 1;
   grid-row: 1;
-  width: 80px;
+  width: 65px;
   transition: width 0.25s ease;
-  overflow: visible; /* Changed from hidden to visible */
+  overflow: visible;
   z-index: 2;
   background: var(--sidebar-bg);
   color: var(--sidebar-text);
   display: flex;
   flex-direction: column;
-  position: relative; /* Added for proper positioning */
+  position: relative;
 }
 
 .sidebar:hover {
   width: 250px;
   background: var(--sidebar-bg) !important;
   color: var(--sidebar-text) !important;
-  overflow-y: auto; /* Only add scroll on hover when expanded */
+  overflow-y: auto;
 }
 
-/* Navigation section with proper scrolling */
 .nav-section {
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-height: 0; /* Important for flex overflow */
-  overflow: hidden; /* Hide overflow by default */
+  min-height: 0;
+  overflow: hidden;
 }
 
 .sidebar:hover .nav-section {
-  overflow-y: auto; /* Enable scrolling only when sidebar is expanded */
+  overflow-y: auto;
 }
 
 .nav-upper {
-  flex: 1; /* Take up available space */
+  flex: 1;
   display: flex;
   flex-direction: column;
-  min-height: 0; /* Important for proper flex behavior */
+  min-height: 0;
 }
 
 .nav-lower {
-  flex-shrink: 0; /* Don't shrink the bottom section */
+  flex-shrink: 0;
   border-top: 2px solid var(--sidebar-gray);
-  margin-top: 8px; /* Small gap between upper and lower */
+  margin-top: 8px;
 }
 
-/* Navigation Items */
 .nav-item {
   position: relative;
   border-bottom: 1px solid var(--sidebar-gray);
@@ -225,7 +232,7 @@ p, span, label, input, button {
   color: var(--btn-text);
 }
 
-.nav-icon img{
+.nav-icon img {
   width: 20px;
   height: 20px;
   margin-right: 12px;
@@ -280,7 +287,7 @@ p, span, label, input, button {
 }
 
 .sub-nav.expanded {
-  max-height: 500px; /* Increased from 300px */
+  max-height: 500px;
 }
 
 .sub-nav-link {
@@ -340,7 +347,7 @@ p, span, label, input, button {
 }
 
 .zone-sub-nav.expanded {
-  max-height: 300px; /* Increased from 200px */
+  max-height: 400px;
 }
 
 .zone-sub-link {
@@ -376,9 +383,10 @@ p, span, label, input, button {
 
 /* Action buttons section - FIXED */
 .action-buttons {
-  flex-shrink: 0; /* Don't shrink */
+  flex-shrink: 0;
   padding: 16px 0;
-  border-top: 2px solid var(--sidebar-gray);
+  border-top: 2px solid var(--color-border);
+  padding: 20px;
 }
 
 .btn-special {
@@ -386,7 +394,6 @@ p, span, label, input, button {
   align-items: center;
   width: 100%;
   padding: 20px 8px;
-  background: var(--sidebar-bg);
   color: var(--btn-text);
   border: none;
   cursor: pointer;
@@ -395,6 +402,8 @@ p, span, label, input, button {
   transition: all 0.3s ease;
   margin-bottom: 8px;
   justify-content: center;
+  background-color: #1A1A1A;
+  border-radius: 10px;
 }
 
 .btn-special:hover {
@@ -413,9 +422,8 @@ p, span, label, input, button {
 }
 
 .btn-text {
-  opacity: 0;
-  transition: opacity 0.3s ease 0.1s;
   white-space: nowrap;
+  color: var(--btn-text)  ;
 }
 
 .sidebar:hover .btn-text {
@@ -536,3 +544,30 @@ body.edit-mode .button-row button {
 .modal-overlay:not(.hidden) {
   display: flex;
 }
+
+#zones-sub {
+  max-height: 400px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sidebar-gray) var(--sidebar-bg);
+}
+
+#zones-sub::-webkit-scrollbar {
+  width: 8px;
+}
+
+#zones-sub::-webkit-scrollbar-thumb {
+  background-color: var(--sidebar-gray);
+  border-radius: 4px;
+}
+
+#zones-sub::-webkit-scrollbar-track {
+  background-color: var(--sidebar-bg);
+}
+
+#zones-sub.collapsed {
+  max-height: 0; /* Collapse the zones content */
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+

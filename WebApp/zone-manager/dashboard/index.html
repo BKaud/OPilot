@@ -14,7 +14,7 @@
   <nav class="navbar">
     <div id="navbar-logo" class="navbar-logo">
       <img id="logoanim" src="../../assets/images/icons/compassanim.gif" alt="OPilot Logo" />
-      <img id="logotext" class="logoText" src="../../assets/images/icons/oppilottext.png" />
+      <img id="logotext" class="logoText" src="../../assets/images/oppilottext.png" />
     </div>
     <div class="navbar-login">
       <div class="login-fields">
@@ -119,11 +119,11 @@
       <!-- Action Buttons Section (Moved Here) -->
       <div class="action-buttons">
         <button id="add-event-btn" class="btn-special">
-          <div class="btn-icon">+</div>
+          <div><img class="btn-icon"src="../../assets/images/icons/addevent.png"></div>
           <span class="btn-text">Add Event</span>
         </button>
         <button id="push-rotation-btn" class="btn-special">
-          <div class="btn-icon">🔄</div>
+          <div ><img class="btn-icon"src="../../assets/images/icons/rotation.png"></div>
           <span class="btn-text">Push Rotation</span>
         </button>
 
@@ -250,6 +250,14 @@
           e.stopPropagation();
           document.body.classList.toggle('edit-mode');
         }
+      });
+
+      // Toggle Zones Collapsibility
+      const zones = document.getElementById('zones');
+      const zonesSub = document.getElementById('zones-sub');
+      zones.addEventListener('click', function (e) {
+        e.preventDefault();
+        zonesSub.classList.toggle('collapsed');
       });
     });
   </script>

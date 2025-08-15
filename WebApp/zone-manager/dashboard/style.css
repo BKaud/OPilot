@@ -51,7 +51,7 @@ body {
 /* Main layout */
 .main {
   display: grid;
-  grid-template-columns: 80px 390px auto;
+  grid-template-columns: 65px 500px 1fr auto; /* Adjusted to remove space between sidebar and schedule */
   grid-template-rows: 1fr;
   flex: 1;
   height: 100vh;
@@ -64,10 +64,10 @@ body {
 
 /* Rest of your existing styles for other components */
 .ops-schedule {
-  grid-column: 2;
+  grid-column: 2; /* Adjusted to align directly without sidebar */
   grid-row: 1;
   width: 100%;
-  max-width: 390px;
+  max-width: 500px;
   min-width: 180px;
   height: 100%;
   min-height: 0;
@@ -153,5 +153,4 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  background: var(--bg-panel);
 }
