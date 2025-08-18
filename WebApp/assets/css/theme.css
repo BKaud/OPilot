@@ -378,9 +378,11 @@ p, span, label, input, button {
 /* Action buttons section - FIXED */
 .action-buttons {
   flex-shrink: 0;
-  padding: 16px 0;
   border-top: 2px solid var(--color-border);
   padding: 20px;
+  background: var(--bg-panel); /* Match ride-box background */
+  border-left: 1px solid var(--border-color); /* Optional: match ride-box border if needed */
+  border-right: 1px solid var(--border-color); /* Optional: match ride-box border if needed */
 }
 
 .btn-special {
@@ -388,20 +390,19 @@ p, span, label, input, button {
   align-items: center;
   width: 100%;
   padding: 20px 8px;
-  color: var(--btn-text);
-  border: none;
+  color: var(--text-primary);
   cursor: pointer;
   font-size: 15px;
   font-weight: bold;
   transition: all 0.3s ease;
-  margin-bottom: 8px;
   justify-content: center;
-  background-color: #1A1A1A;
-  border-radius: 10px;
+  background-color: var(--bg-panel); /* Match ride-box background */
+  border: 2px solid var(--border-color); /* Match ride-box border */
+  border-radius: 8px; /* Match ride-box border radius */
 }
 
 .btn-special:hover {
-  background: var(--sidebar-darker-bg);
+  border-color: var(--accent);
 }
 
 .btn-icon {
