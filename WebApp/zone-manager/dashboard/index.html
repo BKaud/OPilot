@@ -172,7 +172,7 @@
 
           <div class="ride-grid">
             <!-- Sample ride cards -->
-            <div class="ride-card">
+            <div class="ride-card" draggable="true" data-id="ride-1">
               <div class="ride-header">
                 <div class="ride-name">Thunder Mountain</div>
                 <div class="ride-status status-operational">Operational</div>
@@ -193,7 +193,7 @@
               </div>
             </div>
 
-            <div class="ride-card">
+            <div class="ride-card" draggable="true" data-id="ride-2">
               <div class="ride-header">
                 <div class="ride-name">Space Coaster</div>
                 <div class="ride-status status-operational">Operational</div>
@@ -210,7 +210,7 @@
               </div>
             </div>
 
-            <div class="ride-card">
+            <div class="ride-card" draggable="true" data-id="ride-3">
               <div class="ride-header">
                 <div class="ride-name">Carousel</div>
                 <div class="ride-status status-maintenance">Maintenance</div>
@@ -223,7 +223,7 @@
               </div>
             </div>
 
-            <div class="ride-card">
+            <div class="ride-card" draggable="true" data-id="ride-4">
               <div class="ride-header">
                 <div class="ride-name">Bumper Cars</div>
                 <div class="ride-status status-operational">Operational</div>
@@ -239,66 +239,64 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Side Panel -->
-        <div class="side-panel">
-          <div class="panel-card">
-            <div class="section-header">
-              <h3 class="section-title">Operators On Shift</h3>
-              <span class="time-badge">12 Active</span>
+            <!-- Sidebar Elements Moved Here -->
+            <div class="panel-card">
+              <div class="section-header">
+                <h3 class="section-title">Operators On Shift</h3>
+                <span class="time-badge">12 Active</span>
+              </div>
+              <div class="operator-list">
+                <div class="operator-item">
+                  <div class="operator-info">
+                    <div class="operator-name-main">John Smith</div>
+                    <div class="operator-details">Thunder Mountain • 2.5hrs</div>
+                  </div>
+                </div>
+                <div class="operator-item">
+                  <div class="operator-info">
+                    <div class="operator-name-main">Sarah Jones</div>
+                    <div class="operator-details">Thunder Mountain • 1.8hrs</div>
+                  </div>
+                </div>
+                <div class="operator-item">
+                  <div class="operator-info">
+                    <div class="operator-name-main">Mike Davis</div>
+                    <div class="operator-details">Space Coaster • 3.2hrs</div>
+                  </div>
+                </div>
+                <div class="operator-item">
+                  <div class="operator-info">
+                    <div class="operator-name-main">Lisa Wilson</div>
+                    <div class="operator-details">Space Coaster • 1.5hrs</div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="operator-list">
-              <div class="operator-item">
-                <div class="operator-info">
-                  <div class="operator-name-main">John Smith</div>
-                  <div class="operator-details">Thunder Mountain • 2.5hrs</div>
-                </div>
-              </div>
-              <div class="operator-item">
-                <div class="operator-info">
-                  <div class="operator-name-main">Sarah Jones</div>
-                  <div class="operator-details">Thunder Mountain • 1.8hrs</div>
-                </div>
-              </div>
-              <div class="operator-item">
-                <div class="operator-info">
-                  <div class="operator-name-main">Mike Davis</div>
-                  <div class="operator-details">Space Coaster • 3.2hrs</div>
-                </div>
-              </div>
-              <div class="operator-item">
-                <div class="operator-info">
-                  <div class="operator-name-main">Lisa Wilson</div>
-                  <div class="operator-details">Space Coaster • 1.5hrs</div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div class="panel-card">
-            <div class="section-header">
-              <h3 class="section-title">On Break</h3>
-              <span class="time-badge">3 Break</span>
-            </div>
-            <div class="operator-list">
-              <div class="operator-item on-break">
-                <div class="operator-info">
-                  <div class="operator-name-main">Alex Johnson</div>
-                  <div class="operator-details">Break • 12min remaining</div>
-                </div>
+            <div class="panel-card">
+              <div class="section-header">
+                <h3 class="section-title">On Break</h3>
+                <span class="time-badge">3 Break</span>
               </div>
-              <div class="operator-item on-break">
-                <div class="operator-info">
-                  <div class="operator-name-main">Emily Chen</div>
-                  <div class="operator-details">Break • 8min remaining</div>
+              <div class="operator-list">
+                <div class="operator-item on-break">
+                  <div class="operator-info">
+                    <div class="operator-name-main">Alex Johnson</div>
+                    <div class="operator-details">Break • 12min remaining</div>
+                  </div>
                 </div>
-              </div>
-              <div class="operator-item on-break">
-                <div class="operator-info">
-                  <div class="operator-name-main">David Park</div>
-                  <div class="operator-details">Lunch • 35min remaining</div>
+                <div class="operator-item on-break">
+                  <div class="operator-info">
+                    <div class="operator-name-main">Emily Chen</div>
+                    <div class="operator-details">Break • 8min remaining</div>
+                  </div>
+                </div>
+                <div class="operator-item on-break">
+                  <div class="operator-info">
+                    <div class="operator-name-main">David Park</div>
+                    <div class="operator-details">Lunch • 35min remaining</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -465,6 +463,7 @@
         });
       });
     </script>
+    <script type="text/javascript" src="layoutedit.js"></script>
 </body>
 
 </html>
