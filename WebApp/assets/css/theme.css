@@ -566,3 +566,73 @@ body.edit-mode .button-row button {
   transition: max-height 0.3s ease;
 }
 
+/* Operators Footer Section */
+.ops-operators-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 24px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  padding: 20px 0 0 0;
+  border-top: 2px solid #CDD1D4;
+  width: 100%;
+}
+
+/* Each section stretches to fill available space */
+.ops-operators-section {
+  flex: 1 1 0;
+  min-width: 260px;
+  max-width: none;
+  background: #FFFFFF;
+  border: 1px solid #CDD1D4;
+  border-radius: 8px;
+  padding: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Operator list: show up to 4 per column, then wrap to next column */
+.ops-operators-section .operator-list {
+  column-count: 2;
+  column-gap: 16px;
+  max-height: 220px;
+  overflow-y: auto;
+  /* Remove flex properties for column layout */
+  display: block;
+  width: 100%;
+  align-items: initial;
+  gap: initial;
+}
+
+/* Operator card: ensure it breaks after 4th card in a column */
+.operator-item {
+  break-inside: avoid;
+  display: block;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+/* Responsive: stack vertically on small screens */
+@media (max-width: 900px) {
+  .ops-operators-footer {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .ops-operators-section {
+    max-width: 100%;
+  }
+  .ops-operators-section .operator-list {
+    column-count: 1;
+  }
+}
+
+/* ...existing code... */
+
+.ride-card.drag-over {
+  border: 2px dashed #1E4A49;
+  background: #f0f8ff;
+}
+

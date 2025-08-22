@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const rideGrid = document.querySelector('.ride-grid');
   let draggedElement = null;
+  let dropTarget = null;
 
   // Handle drag start
   rideGrid.addEventListener('dragstart', (e) => {
@@ -14,6 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
   rideGrid.addEventListener('dragend', (e) => {
     if (e.target.classList.contains('ride-card')) {
       e.target.classList.remove('dragging');
+      if (dropTarget) {
+        dropTarget.classList.remove('drag-over');
+        dropTarget = null;
+      }
       draggedElement = null;
     }
   });
@@ -21,28 +26,49 @@ document.addEventListener('DOMContentLoaded', () => {
   // Handle drag over
   rideGrid.addEventListener('dragover', (e) => {
     e.preventDefault();
-    const afterElement = getDragAfterElement(rideGrid, e.clientY);
-    if (afterElement == null) {
-      rideGrid.appendChild(draggedElement);
-    } else {
+    const afterElement = getDragAfterElement(rideGrid, e.clientX, e.clientY);
+    if (afterElement && afterElement !== draggedElement) {
       rideGrid.insertBefore(draggedElement, afterElement);
+      setDropTarget(afterElement);
+    } else if (!afterElement) {
+      rideGrid.appendChild(draggedElement);
+      clearDropTarget();
     }
   });
 
-  // Helper function to determine the element after which to insert
-  function getDragAfterElement(container, y) {
+  // Highlight drop target
+  function setDropTarget(target) {
+    if (dropTarget && dropTarget !== target) {
+      dropTarget.classList.remove('drag-over');
+    }
+    dropTarget = target;
+    if (dropTarget) {
+      dropTarget.classList.add('drag-over');
+    }
+  }
+  function clearDropTarget() {
+    if (dropTarget) {
+      dropTarget.classList.remove('drag-over');
+      dropTarget = null;
+    }
+  }
+
+  // Helper: find the card after which to insert
+  function getDragAfterElement(container, x, y) {
     const draggableElements = [...container.querySelectorAll('.ride-card:not(.dragging)')];
-    return draggableElements.reduce(
-      (closest, child) => {
-        const box = child.getBoundingClientRect();
-        const offset = y - box.top - box.height / 2;
-        if (offset < 0 && offset > closest.offset) {
-          return { offset, element: child };
-        } else {
-          return closest;
-        }
-      },
-      { offset: Number.NEGATIVE_INFINITY }
-    ).element;
+    let closest = null;
+    let closestDist = Number.POSITIVE_INFINITY;
+    draggableElements.forEach(child => {
+      const rect = child.getBoundingClientRect();
+      // Use center point distance for best UX
+      const dx = x - (rect.left + rect.width / 2);
+      const dy = y - (rect.top + rect.height / 2);
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < closestDist) {
+        closestDist = dist;
+        closest = child;
+      }
+    });
+    return closest;
   }
 });

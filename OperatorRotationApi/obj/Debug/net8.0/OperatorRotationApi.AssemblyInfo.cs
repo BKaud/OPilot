@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OperatorRotationApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+88628a7d6bbd45fd130e5a77079f045504340261")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+92d2cb1affce81ff24673c0ecd7b15dfac551457")]
 [assembly: System.Reflection.AssemblyProductAttribute("OperatorRotationApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OperatorRotationApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
