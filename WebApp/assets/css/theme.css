@@ -376,14 +376,7 @@ p, span, label, input, button {
 }
 
 /* Action buttons section - FIXED */
-.action-buttons {
-  flex-shrink: 0;
-  border-top: 2px solid var(--color-border);
-  padding: 20px;
-  background: var(--bg-panel); /* Match ride-box background */
-  border-left: 1px solid var(--border-color); /* Optional: match ride-box border if needed */
-  border-right: 1px solid var(--border-color); /* Optional: match ride-box border if needed */
-}
+
 
 .btn-special {
   display: flex;
@@ -600,22 +593,11 @@ body.edit-mode .button-row button {
   column-gap: 16px;
   max-height: 220px;
   overflow-y: auto;
+  display: block;
   /* Remove flex properties for column layout */
-  display: block;
-  width: 100%;
-  align-items: initial;
-  gap: initial;
+  /* ...existing code... */
 }
 
-/* Operator card: ensure it breaks after 4th card in a column */
-.operator-item {
-  break-inside: avoid;
-  display: block;
-  width: 100%;
-  margin-bottom: 8px;
-}
-
-/* Responsive: stack vertically on small screens */
 @media (max-width: 900px) {
   .ops-operators-footer {
     flex-direction: column;
@@ -629,7 +611,12 @@ body.edit-mode .button-row button {
   }
 }
 
-/* ...existing code... */
+/* Operator card: ensure it breaks after 4th card in a column */
+.operator-item {
+  /* ...existing code... */
+  break-inside: avoid;
+  /* ...existing code... */
+}
 
 .ride-card.drag-over {
   border: 2px dashed #1E4A49;
