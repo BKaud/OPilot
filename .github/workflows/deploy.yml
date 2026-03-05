@@ -19,10 +19,11 @@ jobs:
           sed -i "s/define('DB_PORT', '3306');/define('DB_PORT', '3306');/" DBfiles/db_config.php
           sed -i "s/define('DB_USER', 'root');/define('DB_USER', '${{ secrets.SERVER_USER }}');/" DBfiles/db_config.php
           sed -i "s/define('DB_PASS', 'password');/define('DB_PASS', '${{ secrets.SERVER_PASS }}');/" DBfiles/db_config.php
+          sed -i "s/define('DB_NAME', 'oppilot');/define('DB_NAME', '${{ secrets.SERVER_DB_NAME }}');/" DBfiles/db_config.php
           
           # Verify the changes (for debugging)
           echo "=== Modified db_config.php ==="
-          grep -E "DB_HOST|DB_PORT|DB_USER|DB_PASS" DBfiles/db_config.php
+          grep -E "DB_HOST|DB_PORT|DB_USER|DB_PASS|DB_NAME" DBfiles/db_config.php
 
       - name: Deploy via SFTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
