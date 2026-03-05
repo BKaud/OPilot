@@ -76,12 +76,7 @@
         <h1>Edit Mode</h1>
         <div class="breadcrumb">Zones › Rides 1 › <span>Edit Mode</span></div>
       </div>
-      <div class="header-controls">
-        <span class="mode-badge">Edit Mode</span>
-        <button class="btn btn-gray btn-sm" onclick="clearSel()">Deselect</button>
-        <button class="btn btn-danger btn-sm" onclick="location.reload()">Discard</button>
-        <button class="btn btn-teal btn-sm" onclick="saveLayoutToDb()">Save Layout</button>
-      </div>
+
     </div>
 
     <div class="edit-body">
@@ -130,13 +125,13 @@
           </div>
           
           <div class="tray-section">
-            <div class="tray-header">Attractions <button class="tray-btn">+ Add to Canvas</button></div>
+            <div class="tray-header">Attractions</div>
             <div class="tray-scroll">
               <!-- Attractions will be loaded dynamically from database -->
             </div>
           </div>
           <div class="tray-section">
-            <div class="tray-header">Unassigned Operators <button class="tray-btn">Manage</button></div>
+            <div class="tray-header">Unassigned Operators</div>
             <div class="tray-scroll">
               <!-- Operators will be loaded dynamically from database -->
             </div>
@@ -259,7 +254,6 @@ function renderAttractionBar() {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
         </svg>
-        <div class="tnum">${index + 1}</div>
         <div class="attr-thumb-label">${attraction.name}</div>
       </div>
     `;
@@ -363,6 +357,37 @@ function renderGrid() {
       draggedSlotId = null;
       document.getElementById('returnDropZone').classList.remove('active');
     });
+
+    // Reorder within grid by dragging one box onto another
+    box.addEventListener('dragover', (e) => {
+      if (dragType === 'rideslot' && draggedSlotId !== slot.id) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.dataTransfer.dropEffect = 'move';
+        box.classList.add('drag-over');
+      }
+    });
+
+    box.addEventListener('dragleave', () => {
+      if (dragType === 'rideslot') box.classList.remove('drag-over');
+    });
+
+    box.addEventListener('drop', (e) => {
+      if (dragType === 'rideslot' && draggedSlotId !== slot.id) {
+        e.preventDefault();
+        e.stopPropagation();
+        box.classList.remove('drag-over');
+        const fromIdx = rideSlots.findIndex(s => s.id === draggedSlotId);
+        const toIdx   = rideSlots.findIndex(s => s.id === slot.id);
+        if (fromIdx !== -1 && toIdx !== -1) {
+          [rideSlots[fromIdx], rideSlots[toIdx]] = [rideSlots[toIdx], rideSlots[fromIdx]];
+          const prevSelected = selectedSlot ? selectedSlot.id : null;
+          renderGrid();
+          if (prevSelected) selectRideSlot(prevSelected);
+          autoSaveLayout('Rotation order updated');
+        }
+      }
+    });
   });
   
   updateSlotCount();
@@ -394,7 +419,7 @@ function renderPositionSlots() {
       <input type="text" class="prop-input" value="${pos.name}" disabled placeholder="Position Name" />
       <select class="prop-select" onchange="updatePositionOperator(${idx}, this.value)">
         <option value="">Unassigned</option>
-        ${availableOperators.map(op => `<option value="${op.id}" ${pos.operatorId === op.id ? 'selected' : ''}>${op.name}</option>`).join('')}
+        ${availableOperators.map(op => `<option value="${op.id}" ${String(pos.operatorId) === String(op.id) ? 'selected' : ''}>${op.name}</option>`).join('')}
       </select>
     </div>
   `).join('');

@@ -251,7 +251,7 @@
 
 
 /* BOTTOM TRAY */
-.bottom-tray { height:126px; flex-shrink:0; border-top:2px solid var(--border-panel); background:#cacaca; display:flex; overflow:hidden; position:relative; }
+.bottom-tray { height:200px; flex-shrink:0; border-top:2px solid var(--border-panel); background:#cacaca; display:flex; overflow:hidden; position:relative; }
 .tray-section { display:flex; flex-direction:column; border-right:1px solid var(--border-panel); overflow:hidden; flex:1; }
 .tray-section:last-child { border-right:none; }
 
@@ -304,13 +304,13 @@
 .tray-header { font-family:'Rajdhani',sans-serif; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.6px; color:var(--text-label); padding:4px 10px; background:#c4c4c4; border-bottom:1px solid var(--border-panel); flex-shrink:0; display:flex; align-items:center; justify-content:space-between; }
 .tray-btn { font-family:'Rajdhani',sans-serif; font-size:9px; font-weight:700; border:1px solid #b0b0b0; background:#bbb; border-radius:2px; padding:1px 7px; cursor:pointer; color:var(--text-dark); }
 .tray-btn:hover { background:#aaa; }
-.tray-scroll { flex:1; overflow-x:auto; overflow-y:hidden; display:flex; align-items:center; gap:8px; padding:7px 10px; }
+.tray-scroll { flex:1; overflow-y:auto; overflow-x:hidden; display:flex; flex-direction:column; align-items:stretch; gap:6px; padding:7px 10px; }
 .tray-scroll::-webkit-scrollbar { height:5px; }
 .tray-scroll::-webkit-scrollbar-thumb { background:#999; border-radius:3px; }
 .tray-scroll::-webkit-scrollbar-track { background:#c0c0c0; }
 
 /* Attraction thumbs */
-.attr-thumb { flex-shrink:0; width:118px; height:78px; border-radius:4px; background:linear-gradient(135deg,#999,#777); border:2px solid #aaa; position:relative; display:flex; align-items:flex-end; cursor:grab; transition:border-color 0.13s, opacity 0.13s; overflow:hidden; user-select:none; }
+.attr-thumb { width:100%; height:52px; border-radius:4px; background:linear-gradient(135deg,#999,#777); border:2px solid #aaa; position:relative; display:flex; align-items:flex-end; cursor:grab; transition:border-color 0.13s, opacity 0.13s; overflow:hidden; user-select:none; flex-shrink:0; }
 .attr-thumb:hover { border-color:var(--teal); }
 .attr-thumb svg { position:absolute; inset:0; margin:auto; width:28px; height:28px; opacity:0.2; stroke:#fff; }
 .attr-thumb-label { position:relative; width:100%; background:rgba(0,0,0,0.5); color:#fff; font-family:'Rajdhani',sans-serif; font-size:10px; font-weight:700; padding:3px 6px; }
@@ -340,7 +340,7 @@
 }
 
 /* Operator chips */
-.op-chip { flex-shrink:0; background:#d0d0d0; border:1px solid #b8b8b8; border-radius:3px; padding:5px 9px; cursor:grab; transition:border-color 0.13s; user-select:none; }
+.op-chip { width:100%; background:#d0d0d0; border:1px solid #b8b8b8; border-radius:3px; padding:5px 9px; cursor:grab; transition:border-color 0.13s; user-select:none; flex-shrink:0; }
 .op-chip:hover { border-color:var(--teal); }
 .op-chip-name { font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:700; color:var(--text-dark); white-space:nowrap; }
 .op-chip-tier { font-size:9px; color:var(--text-label); margin-top:1px; }
