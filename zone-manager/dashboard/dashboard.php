@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>OPilot – Zone Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../assets/css/theme.css" />
 <link rel="stylesheet" href="style.css" />
-<link rel="stylesheet" href="../assets/css/theme.css" />
 </head>
 <body>
 
@@ -44,10 +44,10 @@
             <div class="zone-item expandable" id="rides1-zone">
               <a href="#" class="sub-nav-link expandable">Rides 1</a>
               <div class="zone-sub-nav expanded" id="rides1-sub">
-                <a href="#" class="zone-sub-link active">Dashboard</a>
-                <a href="#" class="zone-sub-link">Edit Mode</a>
+                <a href="dashboard.php" class="zone-sub-link active">Dashboard</a>
+                <a href="../EditMode/editmode.php" class="zone-sub-link">Edit Mode</a>
                 <a href="#" class="zone-sub-link">Config</a>
-                <a href="#" class="zone-sub-link">Settings</a>
+                <a href="../confignsettings/settings.php" class="zone-sub-link">Settings</a>
               </div>
             </div>
             <div class="zone-item expandable" id="rides2-zone">
