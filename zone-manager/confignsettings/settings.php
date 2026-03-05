@@ -154,75 +154,7 @@
               <div class="field-label">Select Attraction to Configure</div>
               <div class="attraction-grid" id="attractionGrid">
 
-                <div class="attraction-thumb selected" data-id="tidal1" onclick="selectAttraction(this, 'Tidal Twist 1')">
-                  <div class="thumb-bg">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/><path d="M12 8v8M8 12h8"/></svg>
-                  </div>
-                  <div class="thumb-check">
-                    <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg>
-                  </div>
-                  <div class="attraction-label">Tidal Twist</div>
-                </div>
-
-                <div class="attraction-thumb" data-id="tidal2" onclick="selectAttraction(this, 'Tidal Twist 2')">
-                  <div class="thumb-bg">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/><path d="M12 8v8M8 12h8"/></svg>
-                  </div>
-                  <div class="thumb-check">
-                    <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg>
-                  </div>
-                  <div class="attraction-label">Tidal Twist</div>
-                </div>
-
-                <div class="attraction-thumb" data-id="coaster1" onclick="selectAttraction(this, 'Space Coaster')">
-                  <div class="thumb-bg">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 17l5-10 4 6 3-4 6 8"/></svg>
-                  </div>
-                  <div class="thumb-check">
-                    <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg>
-                  </div>
-                  <div class="attraction-label">Space Coaster</div>
-                </div>
-
-                <div class="attraction-thumb" data-id="cars1" onclick="selectAttraction(this, 'Bumper Cars')">
-                  <div class="thumb-bg">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="9" width="20" height="8" rx="2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
-                  </div>
-                  <div class="thumb-check">
-                    <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg>
-                  </div>
-                  <div class="attraction-label">Bumper Cars</div>
-                </div>
-
-                <div class="attraction-thumb" data-id="carousel1" onclick="selectAttraction(this, 'Carousel')">
-                  <div class="thumb-bg">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
-                  </div>
-                  <div class="thumb-check">
-                    <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg>
-                  </div>
-                  <div class="attraction-label">Carousel</div>
-                </div>
-
-                <div class="attraction-thumb" data-id="drop1" onclick="selectAttraction(this, 'Drop Tower')">
-                  <div class="thumb-bg">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="2" x2="12" y2="22"/><polyline points="7,17 12,22 17,17"/></svg>
-                  </div>
-                  <div class="thumb-check">
-                    <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg>
-                  </div>
-                  <div class="attraction-label">Drop Tower</div>
-                </div>
-
-                <div class="attraction-thumb" data-id="thunder1" onclick="selectAttraction(this, 'Thunder Mountain')">
-                  <div class="thumb-bg">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                  </div>
-                  <div class="thumb-check">
-                    <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg>
-                  </div>
-                  <div class="attraction-label">Thunder Mountain</div>
-                </div>
+                <!-- Attraction tiles loaded dynamically from DB -->
 
                 <div class="attraction-thumb" data-id="add" onclick="addAttraction()">
                   <div class="thumb-bg" style="background: linear-gradient(135deg, #b0b0b0, #a0a0a0);">
@@ -271,31 +203,30 @@
 
               <div class="input-group" style="margin-bottom:8px;">
                 <label>Status</label>
-                <select>
-                  <option>Operational</option>
-                  <option>Maintenance</option>
-                  <option>Closed</option>
-                  <option>Seasonal</option>
+                <select id="attractionStatus">
+                  <option value="up">Operational</option>
+                  <option value="maint">Maintenance</option>
+                  <option value="down">Closed</option>
                 </select>
               </div>
 
               <div class="field-label">Operation Hours</div>
               <div class="hours-row" style="margin-bottom:10px;">
-                <input type="time" value="09:00" />
+                <input type="time" id="attractionHoursOpen" value="09:00" />
                 <span class="hours-sep">–</span>
-                <input type="time" value="20:00" />
+                <input type="time" id="attractionHoursClose" value="20:00" />
               </div>
 
               <div class="toggle-wrap" style="margin-bottom:6px;">
                 <label class="toggle">
-                  <input type="checkbox" checked />
+                  <input type="checkbox" id="attractionInRotation" checked />
                   <span class="toggle-slider"></span>
                 </label>
                 <span class="toggle-label">Included in Rotation</span>
               </div>
               <div class="toggle-wrap">
                 <label class="toggle">
-                  <input type="checkbox" />
+                  <input type="checkbox" id="attractionRequiresCert" />
                   <span class="toggle-slider"></span>
                 </label>
                 <span class="toggle-label">Requires Certification</span>
@@ -310,33 +241,8 @@
 
               <div class="field-label">Positions &amp; Permission Tiers</div>
 
-              <!-- Position rows -->
+              <!-- Position rows loaded from DB -->
               <div id="positionList">
-
-                <div class="position-row">
-                  <input type="text" placeholder="Position Name" value="Station 1" />
-                  <div class="divider">→</div>
-                  <input type="text" placeholder="Edit Position Name" />
-                </div>
-
-                <div class="position-row">
-                  <input type="text" placeholder="Position Name" value="Station 2" />
-                  <div class="divider">→</div>
-                  <input type="text" placeholder="Edit Position Name" />
-                </div>
-
-                <div class="position-row">
-                  <input type="text" placeholder="Position Name" value="Load Platform" />
-                  <div class="divider">→</div>
-                  <input type="text" placeholder="Edit Position Name" />
-                </div>
-
-                <div class="position-row">
-                  <input type="text" placeholder="Position Name" value="Control Booth" />
-                  <div class="divider">→</div>
-                  <input type="text" placeholder="Edit Position Name" />
-                </div>
-
               </div>
 
               <div class="inline-btn-row">
@@ -358,15 +264,11 @@
               <hr class="section-sep" />
 
               <div class="field-label">Main Position</div>
-              <select style="width:100%;">
-                <option>Station 1</option>
-                <option>Station 2</option>
-                <option>Load Platform</option>
-                <option>Control Booth</option>
+              <select id="mainPosition" style="width:100%;">
               </select>
 
               <div class="field-label" style="margin-top:10px;">Required Certifications</div>
-              <textarea placeholder="List required certifications or notes…">Basic Safety, Ride Op Level 1</textarea>
+              <textarea id="requiredCerts" placeholder="List required certifications or notes…"></textarea>
 
             </div>
           </div>
@@ -411,48 +313,131 @@
     });
   });
 
-  // Attraction selector
-  function selectAttraction(el, name) {
+  // Attraction selector — fetch ride data from DB and populate right panel
+  let currentRideId = null;
+
+  function selectAttraction(el, name, rideId) {
     document.querySelectorAll('.attraction-thumb').forEach(t => t.classList.remove('selected'));
     el.classList.add('selected');
-    const nameInput = document.getElementById('attractionName');
-    if (nameInput) nameInput.value = name;
+
+    if (!rideId) return;
+    currentRideId = rideId;
+
+    fetch('api.php?action=getAttractionData&ride_id=' + rideId)
+      .then(res => res.json())
+      .then(data => {
+        if (!data.success) return;
+
+        const ride = data.ride;
+        const positions = data.positions;
+
+        // Populate attraction name
+        document.getElementById('attractionName').value = ride.ride_name;
+
+        // Populate status
+        const statusEl = document.getElementById('attractionStatus');
+        if (statusEl) statusEl.value = ride.ride_status || 'up';
+
+        // Populate in-rotation toggle (placed on canvas = in rotation)
+        const rotationEl = document.getElementById('attractionInRotation');
+        if (rotationEl) rotationEl.checked = ride.ride_is_placed_on_canvas == 1;
+
+        // Build position list
+        const posList = document.getElementById('positionList');
+        posList.innerHTML = '';
+
+        const mainPosSelect = document.getElementById('mainPosition');
+        mainPosSelect.innerHTML = '';
+
+        positions.forEach(pos => {
+          // Position row
+          const row = document.createElement('div');
+          row.className = 'position-row';
+          row.setAttribute('data-pos-id', pos.pos_id);
+          const holder = pos.acc_name ? ` (${pos.acc_name})` : '';
+          row.innerHTML = `
+            <input type="text" placeholder="Position Name" value="${pos.pos_name}" readonly />
+            <div class="divider">→</div>
+            <input type="text" placeholder="Assigned" value="${pos.acc_name || 'Unassigned'}" readonly />
+          `;
+          posList.appendChild(row);
+
+          // Main position option
+          const opt = document.createElement('option');
+          opt.value = pos.pos_id;
+          opt.textContent = pos.pos_name;
+          mainPosSelect.appendChild(opt);
+        });
+
+        if (positions.length === 0) {
+          posList.innerHTML = '<div style="color:#888;font-size:12px;padding:6px 0;">No positions assigned to this ride.</div>';
+        }
+
+        posCount = positions.length;
+      })
+      .catch(err => console.error('Failed to load attraction data:', err));
   }
 
   function addAttraction() {
     const name = prompt("Enter attraction name:");
     if (!name) return;
 
-    const grid = document.getElementById("attractionGrid");
-    const newTile = document.createElement("div");
-    newTile.className = "attraction-thumb";
-    newTile.setAttribute("data-id", name.toLowerCase().replace(/\s+/g, "-"));
+    // Save to database
+    const formData = new FormData();
+    formData.append('action', 'addAttraction');
+    formData.append('name', name);
+    formData.append('zone_id', 1); // Current zone ID
 
-    newTile.innerHTML = `
-      <div class="thumb-bg">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <circle cx="12" cy="12" r="10"/>
-        </svg>
-      </div>
-      <div class="thumb-check">
-        <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2">
-          <polyline points="1.5,5 4,7.5 8.5,2.5"/>
-        </svg>
-      </div>
-      <div class="attraction-label">${name}</div>
-    `;
+    fetch('api.php', { method: 'POST', body: formData })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.success) {
+          alert('Error saving attraction: ' + data.error);
+          return;
+        }
 
-    newTile.onclick = function () {
-      selectAttraction(this, name);
-    };
+        // Add the tile to the grid after successful DB insert
+        const grid = document.getElementById("attractionGrid");
+        const newTile = document.createElement("div");
+        newTile.className = "attraction-thumb";
+        newTile.setAttribute("data-id", "ride" + data.ride_id);
 
-    const addTile = grid.querySelector('[data-id="add"]');
-    grid.insertBefore(newTile, addTile);
+        newTile.innerHTML = `
+          <div class="thumb-bg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+            </svg>
+          </div>
+          <div class="thumb-check">
+            <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2">
+              <polyline points="1.5,5 4,7.5 8.5,2.5"/>
+            </svg>
+          </div>
+          <div class="attraction-label">${data.ride_name}</div>
+        `;
+
+        newTile.onclick = function () {
+          selectAttraction(this, data.ride_name, data.ride_id);
+        };
+
+        const addTile = grid.querySelector('[data-id="add"]');
+        grid.insertBefore(newTile, addTile);
+
+        // Auto-select the new tile
+        selectAttraction(newTile, data.ride_name, data.ride_id);
+      })
+      .catch(err => {
+        alert('Failed to save attraction: ' + err.message);
+      });
   }
 
   // Position management
-  let posCount = 4;
+  let posCount = 0;
   function addPosition() {
+    if (!currentRideId) {
+      alert('Select an attraction first.');
+      return;
+    }
     posCount++;
     const list = document.getElementById('positionList');
     const row = document.createElement('div');
@@ -460,9 +445,15 @@
     row.innerHTML = `
       <input type="text" placeholder="Position Name" value="Position ${posCount}" />
       <div class="divider">→</div>
-      <input type="text" placeholder="Edit Position Name" />
+      <input type="text" placeholder="Assigned" value="Unassigned" readonly />
     `;
     list.appendChild(row);
+
+    // Add to main position dropdown
+    const mainPosSelect = document.getElementById('mainPosition');
+    const opt = document.createElement('option');
+    opt.textContent = 'Position ' + posCount;
+    mainPosSelect.appendChild(opt);
   }
 
   function removePosition() {
@@ -470,6 +461,12 @@
     if (list.children.length > 1) {
       list.removeChild(list.lastChild);
       posCount--;
+
+      // Remove last option from main position dropdown
+      const mainPosSelect = document.getElementById('mainPosition');
+      if (mainPosSelect.options.length > 0) {
+        mainPosSelect.remove(mainPosSelect.options.length - 1);
+      }
     }
   }
 
@@ -477,6 +474,58 @@
   function togglePerm(el) {
     el.classList.toggle('active');
   }
+
+  // ── Load attraction grid from DB on page load ──
+  function loadAttractions(zoneId = 1) {
+    fetch('api.php?action=getZoneAttractions&zone_id=' + zoneId)
+      .then(res => res.json())
+      .then(data => {
+        if (!data.success) return;
+
+        const grid = document.getElementById('attractionGrid');
+        const addTile = grid.querySelector('[data-id="add"]');
+
+        // Remove all existing tiles except the "Add New" tile
+        Array.from(grid.children).forEach(child => {
+          if (child !== addTile) child.remove();
+        });
+
+        data.attractions.forEach((ride, index) => {
+          const tile = document.createElement('div');
+          tile.className = 'attraction-thumb' + (index === 0 ? ' selected' : '');
+          tile.setAttribute('data-id', 'ride' + ride.ride_id);
+
+          tile.innerHTML = `
+            <div class="thumb-bg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/>
+              </svg>
+            </div>
+            <div class="thumb-check">
+              <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2">
+                <polyline points="1.5,5 4,7.5 8.5,2.5"/>
+              </svg>
+            </div>
+            <div class="attraction-label">${ride.ride_name}</div>
+          `;
+
+          tile.onclick = function () {
+            selectAttraction(this, ride.ride_name, ride.ride_id);
+          };
+
+          grid.insertBefore(tile, addTile);
+
+          // Load data for the first attraction
+          if (index === 0) {
+            selectAttraction(tile, ride.ride_name, ride.ride_id);
+          }
+        });
+      })
+      .catch(err => console.error('Failed to load attractions:', err));
+  }
+
+  // Load on page ready
+  loadAttractions(1);
 </script>
 </body>
 </html>
