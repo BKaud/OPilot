@@ -3,7 +3,7 @@ name: Deploy to Atspace via FTP
 on:
   push:
     branches:
-      - main  # triggers on every push to main
+      - main
 
 jobs:
   deploy:
@@ -15,8 +15,13 @@ jobs:
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          server: f32-preview.atspace.me
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ../../
-          server-dir: /home/www/
+          port: 21
+          local-dir: ./   
+          server-dir: /home/www/ 
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
