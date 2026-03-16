@@ -464,6 +464,7 @@ function updatePositionOperator(idx, operatorId) {
 // Auto-save with visual feedback
 let saveTimeout = null;
 async function autoSaveLayout(message = 'Saving...') {
+  console.log('[autoSaveLayout] Triggered with message:', message);
   // Clear any pending save
   if (saveTimeout) clearTimeout(saveTimeout);
   
@@ -510,6 +511,8 @@ function showSaveIndicator(message) {
 // Save layout to database
 async function saveLayoutToDb() {
   try {
+    console.log('[saveLayoutToDb] Sending data to API:', { zone_id: ZONE_ID, attractions: rideSlots });
+    
     const response = await fetch('api.php?action=saveLayout', {
       method: 'POST',
       headers: {
@@ -522,6 +525,7 @@ async function saveLayoutToDb() {
     });
     
     const data = await response.json();
+    console.log('[saveLayoutToDb] API Response:', data);
     
     if (data.success) {
       showSaveIndicator('✓ Saved successfully');
