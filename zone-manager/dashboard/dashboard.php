@@ -125,6 +125,18 @@
                   <span class="pos-chip assigned">Control</span>
                 </div>
                 <div class="card-operator">Lead: M. Torres</div>
+                <div class="rotation-change-preview">
+                  <div class="rotation-label">
+                    <span class="rotation-time-badge">11:00 AM</span>
+                    <span class="rotation-text">Rotation D</span>
+                  </div>
+                  <div class="rotation-staff">
+                    <div class="staff-item">Station 1: J. Williams</div>
+                    <div class="staff-item">Station 2: M. Lopez</div>
+                    <div class="staff-item">Load: R. Chen</div>
+                    <div class="staff-item">Control: S. James</div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -145,6 +157,18 @@
                   <span class="pos-chip empty">Control</span>
                 </div>
                 <div class="card-operator">Lead: D. Reyes</div>
+                <div class="rotation-change-preview">
+                  <div class="rotation-label">
+                    <span class="rotation-time-badge">11:00 AM</span>
+                    <span class="rotation-text">Rotation D</span>
+                  </div>
+                  <div class="rotation-staff">
+                    <div class="staff-item">Station 1: K. Park</div>
+                    <div class="staff-item">Station 2: M. Torres</div>
+                    <div class="staff-item">Load: N. Silva</div>
+                    <div class="staff-item">Control: A. Khan</div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -164,6 +188,17 @@
                   <span class="pos-chip assigned">Control</span>
                 </div>
                 <div class="card-operator">Lead: A. Kim</div>
+                <div class="rotation-change-preview">
+                  <div class="rotation-label">
+                    <span class="rotation-time-badge">11:00 AM</span>
+                    <span class="rotation-text">Rotation D</span>
+                  </div>
+                  <div class="rotation-staff">
+                    <div class="staff-item">Load: P. Brown</div>
+                    <div class="staff-item">Unload: J. Davis</div>
+                    <div class="staff-item">Control: E. Wilson</div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -182,6 +217,16 @@
                   <span class="pos-chip break">Control</span>
                 </div>
                 <div class="card-operator">Lead: —</div>
+                <div class="rotation-change-preview">
+                  <div class="rotation-label">
+                    <span class="rotation-time-badge">11:00 AM</span>
+                    <span class="rotation-text">Rotation D</span>
+                  </div>
+                  <div class="rotation-staff">
+                    <div class="staff-item">Floor: T. Martinez</div>
+                    <div class="staff-item">Control: M. Jackson</div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -208,6 +253,16 @@
                   <span class="pos-chip assigned">Control</span>
                 </div>
                 <div class="card-operator">Lead: P. Vega</div>
+                <div class="rotation-change-preview">
+                  <div class="rotation-label">
+                    <span class="rotation-time-badge">11:00 AM</span>
+                    <span class="rotation-text">Rotation D</span>
+                  </div>
+                  <div class="rotation-staff">
+                    <div class="staff-item">Platform: C. Garcia</div>
+                    <div class="staff-item">Control: L. Rodriguez</div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -227,6 +282,17 @@
                   <span class="pos-chip assigned">Control</span>
                 </div>
                 <div class="card-operator">Lead: S. Okoro</div>
+                <div class="rotation-change-preview">
+                  <div class="rotation-label">
+                    <span class="rotation-time-badge">11:00 AM</span>
+                    <span class="rotation-text">Rotation D</span>
+                  </div>
+                  <div class="rotation-staff">
+                    <div class="staff-item">Load 1: H. Anderson</div>
+                    <div class="staff-item">Load 2: B. Thomas</div>
+                    <div class="staff-item">Control: D. Moore</div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -247,6 +313,19 @@
                   <span class="pos-chip assigned">Control</span>
                 </div>
                 <div class="card-operator">Lead: J. Marsh</div>
+                <div class="rotation-change-preview">
+                  <div class="rotation-label">
+                    <span class="rotation-time-badge">11:00 AM</span>
+                    <span class="rotation-text">Rotation D</span>
+                  </div>
+                  <div class="rotation-staff">
+                    <div class="staff-item">Station 1: V. Santos</div>
+                    <div class="staff-item">Station 2: W. Taylor</div>
+                    <div class="staff-item">Dispatch: X. White</div>
+                    <div class="staff-item">Control: Y. Harris</div>
+                    <div class="staff-item">Assist: Z. Martin</div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -390,6 +469,10 @@
 </div>
 
 <script>
+  // Zone configuration
+  const ZONE_ID = 1; // Default to Rides 1
+  let zoneData = null;
+
   // Sidebar expand/collapse
   const sidebar = document.querySelector('.sidebar');
 
@@ -403,6 +486,83 @@
       item.querySelector('.zone-sub-nav').classList.toggle('expanded');
     });
   });
+
+  // Load zone data from database on page load
+  async function loadZoneData() {
+    try {
+      const response = await fetch(`EditMode/api.php?action=getZoneData&zone_id=${ZONE_ID}`);
+      const data = await response.json();
+      
+      if (data.success && data.attractions) {
+        zoneData = data.attractions;
+        populateDashboard(zoneData);
+      } else {
+        console.warn('No zone data found, using sample data');
+      }
+    } catch (error) {
+      console.error('Error loading zone data:', error);
+    }
+  }
+
+  // Populate dashboard with real data from database
+  function populateDashboard(attractions) {
+    const attractionRow = document.getElementById('attractionRow');
+    
+    // Clear existing cards (keep rotation preview if we want to add it back)
+    const existingCards = attractionRow.querySelectorAll('.attraction-card');
+    existingCards.forEach(card => {
+      if (!card.classList.contains('rotation-info-card')) {
+        card.remove();
+      }
+    });
+
+    // Create cards from database data
+    attractions.forEach((attraction, index) => {
+      if (!attraction.isPlaced) return; // Skip attractions not placed on canvas
+      
+      const card = document.createElement('div');
+      card.className = 'attraction-card';
+      
+      const positionsHTML = attraction.positions.map(pos => {
+        const chipClass = pos.operator ? 'assigned' : 'empty';
+        return `<span class="pos-chip ${chipClass}">${pos.name}</span>`;
+      }).join('');
+
+      const leadOperator = attraction.positions.find(p => p.name.toLowerCase().includes('control') || p.name.toLowerCase().includes('lead'));
+      const leadName = leadOperator?.operator || '—';
+      const posCount = attraction.positions.length;
+
+      card.innerHTML = `
+        <div class="card-thumb">
+          <div class="card-status-dot"></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/><path d="M12 8v8M8 12h8"/></svg>
+          <div class="card-num">${index + 1}</div>
+        </div>
+        <div class="card-body">
+          <div class="card-name">${attraction.name}</div>
+          <div class="card-meta"><span>${posCount} positions</span><span>Tier 1</span></div>
+          <div class="card-positions">
+            ${positionsHTML}
+          </div>
+          <div class="card-operator">Lead: ${leadName}</div>
+          <div class="rotation-change-preview">
+            <div class="rotation-label">
+              <span class="rotation-time-badge">11:00 AM</span>
+              <span class="rotation-text">Rotation D</span>
+            </div>
+            <div class="rotation-staff">
+              ${attraction.positions.map(pos => `<div class="staff-item">${pos.name}: ${pos.operator || 'TBD'}</div>`).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+      
+      attractionRow.appendChild(card);
+    });
+  }
+
+  // Load data when page loads
+  document.addEventListener('DOMContentLoaded', loadZoneData);
 
   // Live clock
   function padZ(n) { return String(n).padStart(2,'0'); }
@@ -466,7 +626,8 @@
     if (countdownSecs < 0) countdownSecs = 900;
     const m = Math.floor(countdownSecs / 60);
     const s = countdownSecs % 60;
-    document.getElementById('rotCountdown').textContent = `${padZ(m)}:${padZ(s)}`;
+    const timeStr = `${padZ(m)}:${padZ(s)}`;
+    document.getElementById('rotCountdown').textContent = timeStr;
   }, 1000);
 
   // Preview mode toggle button
