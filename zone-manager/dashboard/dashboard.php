@@ -231,38 +231,46 @@
                 <div class="card-name">Pirate Ship</div>
                 <div class="card-meta"><span>ROTATION D • 3 of 4 Positions</span></div>
                 
-                <!-- Position/Station Boxes - Stacked Vertical -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 8px 0;">
+                <!-- Position/Station Boxes - Full Width Stacked -->
+                <div style="display: flex; flex-direction: column; gap: 6px; margin: 8px 0;">
                   <!-- Station 1 -->
-                  <div style="background: var(--teal-glow); border: 1px solid var(--teal); border-radius: 2px; padding: 3px 5px; text-align: center;">
-                    <div style="font-size: 7px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.2px;">Station 1</div>
-                  </div>
-                  <div style="background: var(--teal-glow); border: 1px solid var(--teal); border-radius: 2px; padding: 3px 5px; text-align: center;">
-                    <div style="font-size: 7px; font-weight: 600; color: var(--teal);">H. Brown</div>
+                  <div style="border: 2px solid #333; border-radius: 2px; overflow: visible; display: flex; gap: 2px;">
+                    <div style="flex: 1; background: transparent; border: 1px solid #999; border-radius: 2px; padding: 3px 5px; text-align: center;">
+                      <div style="font-size: 7px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.2px;">Station 1</div>
+                    </div>
+                    <div style="flex: 1; background: var(--teal-glow); border: 1px solid var(--teal); border-radius: 2px; padding: 3px 5px; text-align: center;">
+                      <div style="font-size: 7px; font-weight: 600; color: var(--teal);">H. Brown</div>
+                    </div>
                   </div>
 
                   <!-- Station 2 -->
-                  <div style="background: var(--teal-glow); border: 1px solid var(--teal); border-radius: 2px; padding: 3px 5px; text-align: center;">
-                    <div style="font-size: 7px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.2px;">Station 2</div>
-                  </div>
-                  <div style="background: var(--teal-glow); border: 1px solid var(--teal); border-radius: 2px; padding: 3px 5px; text-align: center;">
-                    <div style="font-size: 7px; font-weight: 600; color: var(--teal);">J. Kim</div>
+                  <div style="border: 2px solid #333; border-radius: 2px; overflow: visible; display: flex; gap: 2px;">
+                    <div style="flex: 1; background: transparent; border: 1px solid #999; border-radius: 2px; padding: 3px 5px; text-align: center;">
+                      <div style="font-size: 7px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.2px;">Station 2</div>
+                    </div>
+                    <div style="flex: 1; background: var(--teal-glow); border: 1px solid var(--teal); border-radius: 2px; padding: 3px 5px; text-align: center;">
+                      <div style="font-size: 7px; font-weight: 600; color: var(--teal);">J. Kim</div>
+                    </div>
                   </div>
 
                   <!-- Station 3 -->
-                  <div style="background: var(--teal-glow); border: 1px solid var(--teal); border-radius: 2px; padding: 3px 5px; text-align: center;">
-                    <div style="font-size: 7px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.2px;">Station 3</div>
-                  </div>
-                  <div style="background: var(--teal-glow); border: 1px solid var(--teal); border-radius: 2px; padding: 3px 5px; text-align: center;">
-                    <div style="font-size: 7px; font-weight: 600; color: var(--teal);">M. Lee</div>
+                  <div style="border: 2px solid #333; border-radius: 2px; overflow: visible; display: flex; gap: 2px;">
+                    <div style="flex: 1; background: transparent; border: 1px solid #999; border-radius: 2px; padding: 3px 5px; text-align: center;">
+                      <div style="font-size: 7px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.2px;">Station 3</div>
+                    </div>
+                    <div style="flex: 1; background: var(--teal-glow); border: 1px solid var(--teal); border-radius: 2px; padding: 3px 5px; text-align: center;">
+                      <div style="font-size: 7px; font-weight: 600; color: var(--teal);">M. Lee</div>
+                    </div>
                   </div>
 
                   <!-- Station 4 (Empty) -->
-                  <div style="background: rgba(192, 57, 43, 0.1); border: 1px solid rgba(192, 57, 43, 0.3); border-radius: 2px; padding: 3px 5px; text-align: center;">
-                    <div style="font-size: 7px; font-weight: 700; color: var(--accent-red); text-transform: uppercase; letter-spacing: 0.2px;">Station 4</div>
-                  </div>
-                  <div style="background: rgba(192, 57, 43, 0.1); border: 1px solid rgba(192, 57, 43, 0.3); border-radius: 2px; padding: 3px 5px; text-align: center;">
-                    <div style="font-size: 7px; font-weight: 600; color: var(--accent-red);">EMPTY</div>
+                  <div style="border: 2px solid #333; border-radius: 2px; overflow: visible; display: flex; gap: 2px;">
+                    <div style="flex: 1; background: transparent; border: 1px solid #999; border-radius: 2px; padding: 3px 5px; text-align: center;">
+                      <div style="font-size: 7px; font-weight: 700; color: var(--accent-red); text-transform: uppercase; letter-spacing: 0.2px;">Station 4</div>
+                    </div>
+                    <div style="flex: 1; background: rgba(192, 57, 43, 0.1); border: 1px solid rgba(192, 57, 43, 0.3); border-radius: 2px; padding: 3px 5px; text-align: center;">
+                      <div style="font-size: 7px; font-weight: 600; color: var(--accent-red);">EMPTY</div>
+                    </div>
                   </div>
                 </div>
 
@@ -321,87 +329,7 @@
         <div class="timeline-wrap">
           <!-- Schedule list -->
           <div class="schedule-list" id="scheduleList">
-            <div class="sched-item">
-              <div class="sched-item-time">09:00 AM</div>
-              <div class="sched-item-desc">Park Open · All positions fill</div>
-              <div class="sched-item-badge">Rotation A</div>
-            </div>
-            <div class="sched-item">
-              <div class="sched-item-time">09:45 AM</div>
-              <div class="sched-item-desc">First break wave begins</div>
-              <div class="sched-item-badge warn">Breaks</div>
-            </div>
-            <div class="sched-item">
-              <div class="sched-item-time">10:00 AM</div>
-              <div class="sched-item-desc">Rotation B · Shift swap</div>
-              <div class="sched-item-badge">Rotation B</div>
-            </div>
-            <div class="sched-item">
-              <div class="sched-item-time">10:15 AM</div>
-              <div class="sched-item-desc">Break wave 2</div>
-              <div class="sched-item-badge warn">Breaks</div>
-            </div>
-            <div class="now-line" id="nowLine"></div>
-            <div class="sched-item active">
-              <div class="sched-item-time">10:32 AM</div>
-              <div class="sched-item-desc">Current · Rotation C active</div>
-              <div class="sched-item-badge">Rotation C</div>
-            </div>
-            <div class="sched-item">
-              <div class="sched-item-time">10:45 AM</div>
-              <div class="sched-item-desc">Break wave 3 · 3 operators</div>
-              <div class="sched-item-badge warn">Breaks</div>
-            </div>
-            <div class="sched-item">
-              <div class="sched-item-time">11:00 AM</div>
-              <div class="sched-item-desc">Rotation D · Thunder Mtn +1</div>
-              <div class="sched-item-badge">Rotation D</div>
-            </div>
-            <div class="sched-item">
-              <div class="sched-item-time">11:30 AM</div>
-              <div class="sched-item-desc">Lunch wave begins</div>
-              <div class="sched-item-badge warn">Lunch</div>
-            </div>
-            <div class="sched-item">
-              <div class="sched-item-time">12:00 PM</div>
-              <div class="sched-item-desc">Peak ops · Rotation E</div>
-              <div class="sched-item-badge">Rotation E</div>
-            </div>
-            <div class="sched-item">
-              <div class="sched-item-time">12:30 PM</div>
-              <div class="sched-item-desc">Break wave 4</div>
-              <div class="sched-item-badge warn">Breaks</div>
-            </div>
-            <div class="sched-item">
-              <div class="sched-item-time">01:00 PM</div>
-              <div class="sched-item-desc">Rotation F</div>
-              <div class="sched-item-badge">Rotation F</div>
-            </div>
-            <div class="sched-item">
-              <div class="sched-item-time">01:45 PM</div>
-              <div class="sched-item-desc">Maintenance window: Bumper Cars</div>
-              <div class="sched-item-badge warn">Maint.</div>
-            </div>
-            <div class="sched-item">
-              <div class="sched-item-time">02:00 PM</div>
-              <div class="sched-item-desc">Rotation G · Full staff</div>
-              <div class="sched-item-badge">Rotation G</div>
-            </div>
-            <div class="sched-item">
-              <div class="sched-item-time">04:00 PM</div>
-              <div class="sched-item-desc">Afternoon break wave</div>
-              <div class="sched-item-badge warn">Breaks</div>
-            </div>
-            <div class="sched-item">
-              <div class="sched-item-time">06:00 PM</div>
-              <div class="sched-item-desc">Rotation H · Wind-down</div>
-              <div class="sched-item-badge">Rotation H</div>
-            </div>
-            <div class="sched-item">
-              <div class="sched-item-time">08:00 PM</div>
-              <div class="sched-item-desc">Park Close · Wrap</div>
-              <div class="sched-item-badge">Close</div>
-            </div>
+            <!-- Generated by JavaScript from rotation schedule data -->
           </div>
 
           <!-- Vertical scrubber -->
@@ -425,6 +353,319 @@
   console.log('[Dashboard] Script loaded - beginning initialization');
   console.log('[Dashboard] About to load zone data');
   
+  // ============================================================
+  // ROTATION SCHEDULE DATA - Easy to modify for EditMode later
+  // ============================================================
+  const rotationSchedule = {
+    // 9am-12pm: 30 min intervals with varied ride assignments
+    morning: [
+      { time: '09:00', label: '09:00 AM', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'H. Brown', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'J. Kim', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'M. Lee', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'S. Brown', ride: 'Bumper Cars' }
+      ]},
+      { time: '09:30', label: '09:30 AM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'J. Kim', ride: 'Thunder Mountain' },
+        { position: 'Station 2', operator: 'M. Lee', ride: 'Space Coaster' },
+        { position: 'Station 3', operator: 'S. Brown', ride: 'Bumper Cars' },
+        { position: 'Station 4', operator: 'H. Brown', ride: 'Log Flume' }
+      ]},
+      { time: '10:00', label: '10:00 AM', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'M. Lee', ride: 'Space Coaster' },
+        { position: 'Station 2', operator: 'S. Brown', ride: 'Bumper Cars' },
+        { position: 'Station 3', operator: 'H. Brown', ride: 'Log Flume' },
+        { position: 'Station 4', operator: 'J. Kim', ride: 'Pirate Ship' }
+      ]},
+      { time: '10:30', label: '10:30 AM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'S. Brown', ride: 'Bumper Cars' },
+        { position: 'Station 2', operator: 'H. Brown', ride: 'Log Flume' },
+        { position: 'Station 3', operator: 'J. Kim', ride: 'Pirate Ship' },
+        { position: 'Station 4', operator: 'M. Lee', ride: 'Thunder Mountain' }
+      ]},
+      { time: '11:00', label: '11:00 AM', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'H. Brown', ride: 'Log Flume' },
+        { position: 'Station 2', operator: 'J. Kim', ride: 'Pirate Ship' },
+        { position: 'Station 3', operator: 'M. Lee', ride: 'Thunder Mountain' },
+        { position: 'Station 4', operator: 'S. Brown', ride: 'Space Coaster' }
+      ]},
+      { time: '11:30', label: '11:30 AM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'J. Kim', ride: 'Log Flume' },
+        { position: 'Station 2', operator: 'M. Lee', ride: 'Pirate Ship' },
+        { position: 'Station 3', operator: 'S. Brown', ride: 'Thunder Mountain' },
+        { position: 'Station 4', operator: 'H. Brown', ride: 'Space Coaster' }
+      ]},
+      { time: '12:00', label: '12:00 PM', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'M. Lee', ride: 'Log Flume' },
+        { position: 'Station 2', operator: 'S. Brown', ride: 'Pirate Ship' },
+        { position: 'Station 3', operator: 'H. Brown', ride: 'Thunder Mountain' },
+        { position: 'Station 4', operator: 'J. Kim', ride: 'Space Coaster' }
+      ]}
+    ],
+    // 1pm-8pm: 15 min intervals with repeating pattern
+    afternoon: [
+      { time: '13:00', label: '01:00 PM', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'H. Brown', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'J. Kim', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'M. Lee', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'S. Brown', ride: 'Bumper Cars' }
+      ]},
+      { time: '13:15', label: '01:15 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'J. Kim', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'M. Lee', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'S. Brown', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'H. Brown', ride: 'Bumper Cars' }
+      ]},
+      { time: '13:30', label: '01:30 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'M. Lee', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'S. Brown', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'H. Brown', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'J. Kim', ride: 'Bumper Cars' }
+      ]},
+      { time: '13:45', label: '01:45 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'S. Brown', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'H. Brown', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'J. Kim', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'M. Lee', ride: 'Bumper Cars' }
+      ]},
+      { time: '14:00', label: '02:00 PM', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'H. Brown', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'J. Kim', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'M. Lee', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'S. Brown', ride: 'Bumper Cars' }
+      ]},
+      { time: '14:15', label: '02:15 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'J. Kim', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'M. Lee', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'S. Brown', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'H. Brown', ride: 'Bumper Cars' }
+      ]},
+      { time: '14:30', label: '02:30 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'M. Lee', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'S. Brown', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'H. Brown', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'J. Kim', ride: 'Bumper Cars' }
+      ]},
+      { time: '14:45', label: '02:45 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'S. Brown', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'H. Brown', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'J. Kim', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'M. Lee', ride: 'Bumper Cars' }
+      ]},
+      { time: '15:00', label: '03:00 PM', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'H. Brown', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'J. Kim', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'M. Lee', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'S. Brown', ride: 'Bumper Cars' }
+      ]},
+      { time: '15:15', label: '03:15 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'J. Kim', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'M. Lee', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'S. Brown', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'H. Brown', ride: 'Bumper Cars' }
+      ]},
+      { time: '15:30', label: '03:30 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'M. Lee', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'S. Brown', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'H. Brown', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'J. Kim', ride: 'Bumper Cars' }
+      ]},
+      { time: '15:45', label: '03:45 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'S. Brown', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'H. Brown', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'J. Kim', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'M. Lee', ride: 'Bumper Cars' }
+      ]},
+      { time: '16:00', label: '04:00 PM', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'H. Brown', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'J. Kim', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'M. Lee', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'S. Brown', ride: 'Bumper Cars' }
+      ]},
+      { time: '16:15', label: '04:15 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'J. Kim', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'M. Lee', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'S. Brown', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'H. Brown', ride: 'Bumper Cars' }
+      ]},
+      { time: '16:30', label: '04:30 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'M. Lee', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'S. Brown', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'H. Brown', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'J. Kim', ride: 'Bumper Cars' }
+      ]},
+      { time: '16:45', label: '04:45 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'S. Brown', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'H. Brown', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'J. Kim', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'M. Lee', ride: 'Bumper Cars' }
+      ]},
+      { time: '17:00', label: '05:00 PM', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'H. Brown', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'J. Kim', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'M. Lee', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'S. Brown', ride: 'Bumper Cars' }
+      ]},
+      { time: '17:15', label: '05:15 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'J. Kim', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'M. Lee', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'S. Brown', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'H. Brown', ride: 'Bumper Cars' }
+      ]},
+      { time: '17:30', label: '05:30 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'M. Lee', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'S. Brown', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'H. Brown', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'J. Kim', ride: 'Bumper Cars' }
+      ]},
+      { time: '17:45', label: '05:45 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'S. Brown', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'H. Brown', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'J. Kim', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'M. Lee', ride: 'Bumper Cars' }
+      ]},
+      { time: '18:00', label: '06:00 PM', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'H. Brown', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'J. Kim', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'M. Lee', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'S. Brown', ride: 'Bumper Cars' }
+      ]},
+      { time: '18:15', label: '06:15 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'J. Kim', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'M. Lee', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'S. Brown', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'H. Brown', ride: 'Bumper Cars' }
+      ]},
+      { time: '18:30', label: '06:30 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'M. Lee', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'S. Brown', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'H. Brown', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'J. Kim', ride: 'Bumper Cars' }
+      ]},
+      { time: '18:45', label: '06:45 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'S. Brown', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'H. Brown', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'J. Kim', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'M. Lee', ride: 'Bumper Cars' }
+      ]},
+      { time: '19:00', label: '07:00 PM', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'H. Brown', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'J. Kim', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'M. Lee', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'S. Brown', ride: 'Bumper Cars' }
+      ]},
+      { time: '19:15', label: '07:15 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'J. Kim', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'M. Lee', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'S. Brown', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'H. Brown', ride: 'Bumper Cars' }
+      ]},
+      { time: '19:30', label: '07:30 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'M. Lee', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'S. Brown', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'H. Brown', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'J. Kim', ride: 'Bumper Cars' }
+      ]},
+      { time: '19:45', label: '07:45 PM', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'S. Brown', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'H. Brown', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'J. Kim', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'M. Lee', ride: 'Bumper Cars' }
+      ]},
+      { time: '20:00', label: '08:00 PM', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'H. Brown', ride: 'Pirate Ship' },
+        { position: 'Station 2', operator: 'J. Kim', ride: 'Thunder Mountain' },
+        { position: 'Station 3', operator: 'M. Lee', ride: 'Space Coaster' },
+        { position: 'Station 4', operator: 'S. Brown', ride: 'Bumper Cars' }
+      ]}
+    ]
+  };
+
+  // Generate schedule HTML from rotation data
+  function generateScheduleHTML() {
+    const scheduleList = document.getElementById('scheduleList');
+    if (!scheduleList) return;
+    
+    let html = '';
+    
+    // Combine morning and afternoon rotations
+    const allRotations = [...rotationSchedule.morning, ...rotationSchedule.afternoon];
+    
+    allRotations.forEach(rotation => {
+      const assignmentBoxes = rotation.assignments
+        .map(a => `
+          <div style="border: 2px solid #333; border-radius: 3px; overflow: visible; display: flex; gap: 2px; margin-bottom: 4px;">
+            <div style="flex: 1; background: transparent; border: 1px solid #999; border-radius: 2px; padding: 2px 4px; text-align: center;">
+              <div style="font-size: 8px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.2px;">${a.position}</div>
+            </div>
+            <div style="flex: 1.2; background: var(--teal-glow); border: 1px solid var(--teal); border-radius: 2px; padding: 2px 4px; text-align: center;">
+              <div style="font-size: 8px; font-weight: 600; color: var(--teal);">${a.operator}</div>
+            </div>
+            <div style="flex: 0.9; background: rgba(26, 143, 122, 0.08); border: 1px solid rgba(26, 143, 122, 0.3); border-radius: 2px; padding: 2px 4px; text-align: center;">
+              <div style="font-size: 7px; color: var(--teal); font-weight: 600;">${a.ride}</div>
+            </div>
+          </div>
+        `)
+        .join('');
+      
+      const rotationType = rotation.isMini ? 'mini' : 'hard';
+      const badgeClass = rotation.isMini ? 'mini-rotation' : 'hard-rotation';
+      
+      html += `
+        <div class="sched-item ${rotationType}-rotation" data-time="${rotation.time}">
+          <div class="sched-item-time">${rotation.label}</div>
+          <div class="rotation-assignments">
+            ${assignmentBoxes}
+          </div>
+          <div class="sched-item-badge ${badgeClass}">${rotation.isMini ? 'Mini' : 'Hard'}</div>
+        </div>
+      `;
+    });
+    
+    scheduleList.innerHTML = html;
+  }
+
+  // Call this when page loads
+  function initSchedule() {
+    generateScheduleHTML();
+    setupScheduleEventListeners();
+    // Initialize with current time
+    updateRotationIndicators();
+  }
+
+  // Setup event listeners for schedule items
+  function setupScheduleEventListeners() {
+    console.log('[Dashboard] Setting up schedule item event listeners');
+    const items = document.querySelectorAll('.sched-item');
+    console.log('[Dashboard] Found ' + items.length + ' schedule items');
+    
+    items.forEach(item => {
+      item.addEventListener('click', () => {
+        // Extract time from the item
+        const timeStr = item.getAttribute('data-time');
+        const [hours, mins] = timeStr.split(':').map(Number);
+        const itemMins = hours * 60 + mins;
+        
+        // Set preview mode to this time
+        isPreview = true;
+        previewMinutes = itemMins;
+        updateDisplay(itemMins);
+        setScrubberPct((itemMins - DAY_START) / DAY_SPAN);
+        
+        // Remove active from all and add to clicked
+        document.querySelectorAll('.sched-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        
+        // Update rotation indicators
+        updateRotationIndicators();
+        console.log('[Dashboard] Clicked rotation at ' + timeStr);
+      });
+    });
+    
+    // Update indicators immediately after setting up
+    updateRotationIndicators();
+    console.log('[Dashboard] Schedule event listeners setup complete');
+  }
   // Zone configuration
   const ZONE_ID = 1; // Default to Rides 1
   let zoneData = null;
@@ -496,14 +737,17 @@
         const borderColor = pos.operator ? 'var(--teal)' : 'rgba(192, 57, 43, 0.3)';
         const operatorText = pos.operator ? pos.operator : 'EMPTY';
         return `
-          <div style="background: ${bgColor}; border: 1px solid ${borderColor}; border-radius: 2px; padding: 3px 5px; text-align: center;">
-            <div style="font-size: 7px; font-weight: 700; color: ${textColor}; text-transform: uppercase; letter-spacing: 0.2px;">${pos.name}</div>
-          </div>
-          <div style="background: ${bgColor}; border: 1px solid ${borderColor}; border-radius: 2px; padding: 3px 5px; text-align: center;">
-            <div style="font-size: 7px; font-weight: 600; color: ${textColor};">${operatorText}</div>
+          <div style="border: 2px solid #333; border-radius: 2px; overflow: visible; display: flex; gap: 2px; width: 100%;">
+            <div style="flex: 1; background: transparent; border: 1px solid #999; border-radius: 2px; padding: 3px 5px; text-align: center;">
+              <div style="font-size: 7px; font-weight: 700; color: ${textColor}; text-transform: uppercase; letter-spacing: 0.2px;">${pos.name}</div>
+            </div>
+            <div style="flex: 1; background: ${bgColor}; border: 1px solid ${borderColor}; border-radius: 2px; padding: 3px 5px; text-align: center;">
+              <div style="font-size: 7px; font-weight: 600; color: ${textColor};">${operatorText}</div>
+            </div>
           </div>
         `;
       }).join('');
+      const positionsContainerHTML = `<div style="display: flex; flex-direction: column; gap: 6px; width: 100%;">${positionsHTML}</div>`;
 
       const leadOperator = attraction.positions.find(p => p.name.toLowerCase().includes('control') || p.name.toLowerCase().includes('lead'));
       const leadName = leadOperator?.operator || '—';
@@ -518,9 +762,7 @@
         <div class="card-body">
           <div class="card-name">${attraction.name}</div>
           <div class="card-meta"><span>${posCount} positions</span><span>Tier 1</span></div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 8px 0;">
-            ${positionsHTML}
-          </div>
+          ${positionsContainerHTML}
           <div class="card-operator">Lead: ${leadName}</div>
           <div class="rotation-change-preview">
             <div class="rotation-label">
@@ -539,10 +781,15 @@
   }
 
   // Load data when page loads
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadZoneData);
-  } else {
+  function initDashboard() {
     loadZoneData();
+    initSchedule();
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDashboard);
+  } else {
+    initDashboard();
   }
 
   // Live clock
@@ -601,9 +848,37 @@
     const offset = pct * (trackH - dotH);
     scrubDot.style.top = offset + 'px';
     scrubLine.style.top = (offset + dotH / 2) + 'px';
-    // Sync schedule list scroll
+    
+    // Sync schedule list scroll - center the current rotation in view
     const list = document.getElementById('scheduleList');
-    list.scrollTop = pct * (list.scrollHeight - list.clientHeight);
+    if (list) {
+      const items = list.querySelectorAll('.sched-item');
+      const currentMins = isPreview ? previewMinutes : minutesFromMidnight(new Date());
+      const allRotations = [...rotationSchedule.morning, ...rotationSchedule.afternoon];
+      
+      let closestIndex = -1;
+      let closestDiff = Infinity;
+      
+      allRotations.forEach((rot, idx) => {
+        const [h, m] = rot.time.split(':').map(Number);
+        const rotMins = h * 60 + m;
+        const diff = Math.abs(currentMins - rotMins);
+        if (diff < closestDiff) {
+          closestDiff = diff;
+          closestIndex = idx;
+        }
+      });
+      
+      if (closestIndex >= 0 && items[closestIndex]) {
+        // Get the item's position and scroll to center it
+        const item = items[closestIndex];
+        const itemTop = item.offsetTop;
+        const itemHeight = item.offsetHeight;
+        const containerHeight = list.clientHeight;
+        const targetScroll = itemTop + (itemHeight / 2) - (containerHeight / 2);
+        list.scrollTop = Math.max(0, targetScroll);
+      }
+    }
   }
 
   function tick() {
@@ -615,10 +890,17 @@
       const pct = Math.max(0, Math.min(1, (mins - DAY_START) / DAY_SPAN));
       setScrubberPct(pct);
     }
+    // Always update rotation indicators
+    updateRotationIndicators();
   }
 
   setInterval(tick, 10000);
   tick();
+
+  // More frequent rotation indicator updates
+  setInterval(() => {
+    updateRotationIndicators();
+  }, 1000);
 
   // Rotation countdown
   let countdownSecs = 764;
@@ -654,10 +936,13 @@
       if (!dragging) return;
       const pct = pctFromEvent(e);
       isPreview = true;
-      const mins = DAY_START + pct * DAY_SPAN;
+      let mins = DAY_START + pct * DAY_SPAN;
+      // Round to nearest minute
+      mins = Math.round(mins);
       previewMinutes = mins;
       updateDisplay(mins);
-      setScrubberPct(pct);
+      setScrubberPct((mins - DAY_START) / DAY_SPAN);
+      updateRotationIndicators();
     });
     document.addEventListener('mouseup', () => { dragging = false; });
 
@@ -666,22 +951,55 @@
       if (!dragging) return;
       const pct = pctFromEvent(e);
       isPreview = true;
-      const mins = DAY_START + pct * DAY_SPAN;
+      let mins = DAY_START + pct * DAY_SPAN;
+      // Round to nearest minute
+      mins = Math.round(mins);
       updateDisplay(mins);
-      setScrubberPct(pct);
+      setScrubberPct((mins - DAY_START) / DAY_SPAN);
+      updateRotationIndicators();
     }, { passive: true });
     document.addEventListener('touchend', () => { dragging = false; });
   }
 
-  // Click on schedule items
-  console.log('[Dashboard] About to set up schedule item clicks');
-  document.querySelectorAll('.sched-item').forEach(item => {
-    item.addEventListener('click', () => {
-      document.querySelectorAll('.sched-item').forEach(i => i.classList.remove('active'));
-      item.classList.add('active');
+  // Function to update active rotation indicators based on current time
+  function updateRotationIndicators() {
+    const currentMins = isPreview ? previewMinutes : minutesFromMidnight(new Date());
+    
+    // Clamp currentMins to day range to ensure valid highlighting
+    const clampedCurrentMins = Math.max(DAY_START, Math.min(DAY_END, currentMins));
+    
+    document.querySelectorAll('.sched-item').forEach(item => {
+      // Clear all highlights first
+      item.classList.remove('current-hard', 'close-to-mini');
+      
+      const timeStr = item.getAttribute('data-time');
+      if (!timeStr) return; // Skip if no time data
+      
+      const timeParts = timeStr.split(':');
+      if (timeParts.length !== 2) return; // Skip if invalid format
+      
+      const hours = parseInt(timeParts[0], 10);
+      const mins = parseInt(timeParts[1], 10);
+      
+      if (isNaN(hours) || isNaN(mins)) return; // Skip if not valid numbers
+      
+      const itemMins = hours * 60 + mins;
+      
+      // Calculate time difference - only highlight if future rotation is within window
+      const timeDiff = itemMins - clampedCurrentMins; // Positive means rotation is in future
+      
+      // Only add highlights if the rotation is in the future and within the time window
+      if (timeDiff > 0) { // Must be in the future
+        if (item.classList.contains('hard-rotation') && timeDiff <= 5) {
+          item.classList.add('current-hard');
+        } else if (item.classList.contains('mini-rotation') && timeDiff <= 3) {
+          item.classList.add('close-to-mini');
+        }
+      }
     });
-  });
-  console.log('[Dashboard] Schedule clicks done - NOW STARTING RESIZE SETUP');
+  }
+  
+  console.log('[Dashboard] Schedule event listeners setup - NOW STARTING RESIZE SETUP');
   // ===== RESIZE HANDLE SETUP (Horizontal - Schedule Bar) =====
   // Wrap in try-catch to ensure it runs even if other code has errors
   try {
