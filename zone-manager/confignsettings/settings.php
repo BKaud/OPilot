@@ -155,8 +155,8 @@
                 <!-- Attraction tiles loaded dynamically from DB -->
 
                 <div class="attraction-thumb" data-id="add" onclick="addAttraction()">
-                  <div class="thumb-bg" style="background: linear-gradient(135deg, #b0b0b0, #a0a0a0);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  <div class="thumb-bg">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8bGluZSB4MT0iMTIiIHkxPSI1IiB4Mj0iMTIiIHkyPSIxOSIvPgogIDxsaW5lIHgxPSI1IiB5MT0iMTIiIHgyPSIxOSIgeTI9IjEyIi8+Cjwvc3ZnPg==" style="width:100%;height:100%;object-fit:cover;" />
                   </div>
                   <div class="attraction-label">Add New</div>
                 </div>
@@ -324,6 +324,7 @@
 
   // Attraction selector — fetch ride data from DB and populate right panel
   let currentRideId = null;
+  let selectedImageFile = null;
   let savedSnapshot = null; // stores last-loaded ride data for discard
 
   function selectAttraction(el, name, rideId) {
@@ -421,19 +422,19 @@
           newTile.className = "attraction-thumb";
           newTile.setAttribute("data-id", "ride" + data.ride_id);
 
-          newTile.innerHTML = `
-            <div class="thumb-bg">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <circle cx="12" cy="12" r="10"/>
-              </svg>
-            </div>
-            <div class="thumb-check">
-              <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2">
-                <polyline points="1.5,5 4,7.5 8.5,2.5"/>
-              </svg>
-            </div>
-            <div class="attraction-label">${data.ride_name}</div>
-          `;
+        newTile.innerHTML = `
+          <div class="thumb-bg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+            </svg>
+          </div>
+          <div class="thumb-check">
+            <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2">
+              <polyline points="1.5,5 4,7.5 8.5,2.5"/>
+            </svg>
+          </div>
+          <div class="attraction-label">${data.ride_name}</div>
+        `;
 
           newTile.onclick = function () {
             selectAttraction(this, data.ride_name, data.ride_id);
@@ -526,9 +527,7 @@
 
           tile.innerHTML = `
             <div class="thumb-bg">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <circle cx="12" cy="12" r="10"/>
-              </svg>
+              <img src="${ride.ride_image || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMCIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjwvc3ZnPg=='}" style="width:100%;height:100%;object-fit:cover;" />
             </div>
             <div class="thumb-check">
               <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2">
@@ -559,6 +558,7 @@
     if (input.files && input.files[0]) {
       const file = input.files[0];
       if (!file.type.startsWith('image/')) return;
+      selectedImageFile = file;
       const reader = new FileReader();
       reader.onload = function(e) {
         const preview = document.getElementById('attractionImagePreview');
@@ -691,7 +691,29 @@
         const sel = document.querySelector('.attraction-thumb.selected .attraction-label');
         if (sel) sel.textContent = name || data.ride_name || sel.textContent;
 
-        showToast('Settings saved', 'success');
+        // If image selected, upload it now
+        if (selectedImageFile) {
+          const imageFormData = new FormData();
+          imageFormData.append('action', 'uploadAttractionImage');
+          imageFormData.append('ride_id', currentRideId);
+          imageFormData.append('image', selectedImageFile);
+
+          fetch('api.php', { method: 'POST', body: imageFormData })
+            .then(res => res.json())
+            .then(data => {
+              if (data.success) {
+                // Update the tile with the new image
+                const selectedTile = document.querySelector('.attraction-thumb.selected .thumb-bg img');
+                if (selectedTile) {
+                  selectedTile.src = data.image_path;
+                }
+                selectedImageFile = null; // Reset
+              } else {
+                alert('Settings saved, but failed to upload image: ' + data.error);
+              }
+            })
+            .catch(err => alert('Settings saved, but upload failed: ' + err.message));
+        }
       })
       .catch(err => {
         console.error('Save error:', err);
