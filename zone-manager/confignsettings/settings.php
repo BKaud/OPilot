@@ -417,10 +417,11 @@
           newTile.className = "attraction-thumb";
           newTile.setAttribute("data-id", "ride" + data.ride_id);
 
-<<<<<<< HEAD
         newTile.innerHTML = `
           <div class="thumb-bg">
-            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMCIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjwvc3ZnPg==" style="width:100%;height:100%;object-fit:cover;" />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+            </svg>
           </div>
           <div class="thumb-check">
             <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2">
@@ -429,21 +430,6 @@
           </div>
           <div class="attraction-label">${data.ride_name}</div>
         `;
-=======
-          newTile.innerHTML = `
-            <div class="thumb-bg">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <circle cx="12" cy="12" r="10"/>
-              </svg>
-            </div>
-            <div class="thumb-check">
-              <svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2">
-                <polyline points="1.5,5 4,7.5 8.5,2.5"/>
-              </svg>
-            </div>
-            <div class="attraction-label">${data.ride_name}</div>
-          `;
->>>>>>> 24231b10dc06e96b45269f49ab5944a1ef1ce041
 
           newTile.onclick = function () {
             selectAttraction(this, data.ride_name, data.ride_id);

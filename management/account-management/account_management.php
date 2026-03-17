@@ -18,7 +18,56 @@
   <aside class="sidebar">
     <div class="nav-section">
       <div class="nav-upper">
-        <div class="nav-item"><a href="management.html" class="nav-link"><div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/></svg></div><span class="nav-text">Back</span></a></div>
+        <div class="nav-item">
+          <a href="#" class="nav-link">
+            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12L12 3l9 9"/><path d="M9 21V12h6v9"/></svg></div>
+            <span class="nav-text">Homepage</span>
+          </a>
+        </div>
+        <div class="nav-item expandable" id="zones">
+          <a href="#" class="nav-link" id="zones-toggle">
+            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+            <span class="nav-text">Zones</span>
+          </a>
+          <div class="sub-nav" id="zones-sub">
+            <div class="zone-item expandable" id="rides1-zone">
+              <a href="#" class="sub-nav-link expandable">Rides 1</a>
+              <div class="zone-sub-nav" id="rides1-sub">
+                <a href="../../zone-manager/dashboard/dashboard.php" class="zone-sub-link">Dashboard</a>
+                <a href="../../zone-manager/EditMode/editmode.php" class="zone-sub-link">Edit Mode</a>
+                <a href="../../zone-manager/confignsettings/settings.php" class="zone-sub-link">Settings & Config</a>
+              </div>
+            </div>
+            <div class="zone-item expandable" id="rides2-zone">
+              <a href="#" class="sub-nav-link expandable">Rides 2</a>
+              <div class="zone-sub-nav" id="rides2-sub">
+                <a href="#" class="zone-sub-link">Dashboard</a>
+                <a href="#" class="zone-sub-link">Edit Mode</a>
+                <a href="#" class="zone-sub-link">Settings & Config</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a href="../management-dashboard/management-dashboard.php" class="nav-link active">
+            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+            <span class="nav-text">Management</span>
+          </a>
+        </div>
+      </div>
+      <div class="nav-lower">
+        <div class="nav-item">
+          <a href="#" class="nav-link">
+            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+            <span class="nav-text">Account Settings</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="#" class="nav-link">
+            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            <span class="nav-text">Changelog</span>
+          </a>
+        </div>
       </div>
     </div>
   </aside>
@@ -56,5 +105,28 @@
     </div>
   </div>
 </div>
+<script>
+// Sidebar expand/collapse for ride zones
+document.addEventListener('DOMContentLoaded', function() {
+  var zonesToggle = document.getElementById('zones-toggle');
+  if (zonesToggle) {
+    zonesToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      var zonesSub = document.getElementById('zones-sub');
+      if (zonesSub) zonesSub.classList.toggle('expanded');
+    });
+  }
+  document.querySelectorAll('.zone-item').forEach(function(item) {
+    var subNavLink = item.querySelector('.sub-nav-link');
+    var zoneSubNav = item.querySelector('.zone-sub-nav');
+    if (subNavLink && zoneSubNav) {
+      subNavLink.addEventListener('click', function(e) {
+        e.preventDefault(); e.stopPropagation();
+        zoneSubNav.classList.toggle('expanded');
+      });
+    }
+  });
+});
+</script>
 </body>
 </html>
