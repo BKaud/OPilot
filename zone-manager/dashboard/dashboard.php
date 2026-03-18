@@ -234,8 +234,8 @@
                 <!-- Position/Station Boxes - Full Width Stacked -->
                 <div style="display: flex; flex-direction: column; gap: 6px; margin: 8px 0;">
                   <!-- Station 1 -->
-                  <div style="border: 2px solid #333; border-radius: 2px; overflow: visible; display: flex; gap: 2px;">
-                    <div style="flex: 1; background: transparent; border: 1px solid #999; border-radius: 2px; padding: 3px 5px; text-align: center;">
+                  <div style="border: 2px solid #999; border-radius: 2px; overflow: visible; display: flex; gap: 2px;">
+                    <div style="flex: 1; background: transparent; border: 1px solid #bbb; border-radius: 2px; padding: 3px 5px; text-align: center;">
                       <div style="font-size: 7px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.2px;">Station 1</div>
                     </div>
                     <div style="flex: 1; background: var(--teal-glow); border: 1px solid var(--teal); border-radius: 2px; padding: 3px 5px; text-align: center;">
@@ -244,8 +244,8 @@
                   </div>
 
                   <!-- Station 2 -->
-                  <div style="border: 2px solid #333; border-radius: 2px; overflow: visible; display: flex; gap: 2px;">
-                    <div style="flex: 1; background: transparent; border: 1px solid #999; border-radius: 2px; padding: 3px 5px; text-align: center;">
+                  <div style="border: 2px solid #999; border-radius: 2px; overflow: visible; display: flex; gap: 2px;">
+                    <div style="flex: 1; background: transparent; border: 1px solid #bbb; border-radius: 2px; padding: 3px 5px; text-align: center;">
                       <div style="font-size: 7px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.2px;">Station 2</div>
                     </div>
                     <div style="flex: 1; background: var(--teal-glow); border: 1px solid var(--teal); border-radius: 2px; padding: 3px 5px; text-align: center;">
@@ -254,8 +254,8 @@
                   </div>
 
                   <!-- Station 3 -->
-                  <div style="border: 2px solid #333; border-radius: 2px; overflow: visible; display: flex; gap: 2px;">
-                    <div style="flex: 1; background: transparent; border: 1px solid #999; border-radius: 2px; padding: 3px 5px; text-align: center;">
+                  <div style="border: 2px solid #999; border-radius: 2px; overflow: visible; display: flex; gap: 2px;">
+                    <div style="flex: 1; background: transparent; border: 1px solid #bbb; border-radius: 2px; padding: 3px 5px; text-align: center;">
                       <div style="font-size: 7px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.2px;">Station 3</div>
                     </div>
                     <div style="flex: 1; background: var(--teal-glow); border: 1px solid var(--teal); border-radius: 2px; padding: 3px 5px; text-align: center;">
@@ -264,8 +264,8 @@
                   </div>
 
                   <!-- Station 4 (Empty) -->
-                  <div style="border: 2px solid #333; border-radius: 2px; overflow: visible; display: flex; gap: 2px;">
-                    <div style="flex: 1; background: transparent; border: 1px solid #999; border-radius: 2px; padding: 3px 5px; text-align: center;">
+                  <div style="border: 2px solid #999; border-radius: 2px; overflow: visible; display: flex; gap: 2px;">
+                    <div style="flex: 1; background: transparent; border: 1px solid #bbb; border-radius: 2px; padding: 3px 5px; text-align: center;">
                       <div style="font-size: 7px; font-weight: 700; color: var(--accent-red); text-transform: uppercase; letter-spacing: 0.2px;">Station 4</div>
                     </div>
                     <div style="flex: 1; background: rgba(192, 57, 43, 0.1); border: 1px solid rgba(192, 57, 43, 0.3); border-radius: 2px; padding: 3px 5px; text-align: center;">
@@ -353,230 +353,199 @@
   console.log('[Dashboard] Script loaded - beginning initialization');
   console.log('[Dashboard] About to load zone data');
   
+  // Realistic staff pool from database
+  const staffPool = [
+    'M. Torres', 'D. Reyes', 'A. Kim', 'P. Vega', 'S. Okoro', 'J. Marsh', 
+    'C. Liu', 'H. Brown', 'T. Nair', 'B. Okafor', 'L. Santos', 'R. Patel', 
+    'K. Nguyen', 'F. Jensen', 'W. Diaz', 'N. Abebe', 'O. Ferreira'
+  ];
+
+  // Position types for each ride
+  const ridePositions = {
+    'Tidal Twist': ['Station 1', 'Station 2', 'Load'],
+    'Thunder Mountain': ['Station 1', 'Dispatch', 'Load'],
+    'Space Coaster': ['Station 1', 'Dispatch', 'Control'],
+    'Bumper Cars': ['Floor', 'Control', 'Monitor'],
+    'Pirate Ship': ['Load', 'Dispatch', 'Control'],
+    'Log Flume': ['Platform', 'Station 1', 'Load']
+  };
+
+  // Track staff position preferences for consistency
+  let staffPreferences = {};
+
+  function getAssignmentForRotation(rotIndex, positionIndex) {
+    // Create a seeded random for reproducibility
+    const seed = rotIndex * 1000 + positionIndex * 7;
+    const pseudoRand = Math.sin(seed) * 10000;
+    const normalizedRand = pseudoRand - Math.floor(pseudoRand);
+    
+    // ~70% chance staff stays in same position, 30% they move
+    if (normalizedRand < 0.7 && staffPreferences[`rot${rotIndex}_pos${positionIndex}`]) {
+      return staffPreferences[`rot${rotIndex}_pos${positionIndex}`];
+    }
+    
+    // ~15% chance position is empty
+    if (normalizedRand > 0.85 && rotIndex % 4 !== 0) {
+      return '';
+    }
+    
+    // Otherwise pick a random staff member
+    const staffIndex = Math.floor(Math.sin(seed * 2.5) * staffPool.length * 10) % staffPool.length;
+    const staff = staffPool[staffIndex];
+    
+    // Store preference for next rotation
+    staffPreferences[`rot${rotIndex}_pos${positionIndex}`] = staff;
+    
+    return staff;
+  }
+
   // ============================================================
   // ROTATION SCHEDULE DATA - Easy to modify for EditMode later
   // ============================================================
   const rotationSchedule = {
     // 9am-12pm: 30 min intervals with varied ride assignments
     morning: [
-      { time: '09:00', label: '09:00 AM', isMini: false, assignments: [
-        { position: 'Station 1', operator: 'H. Brown', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'J. Kim', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'M. Lee', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'S. Brown', ride: 'Bumper Cars' }
+      { time: '09:00', label: '09:00 AM', rotation: 'A', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'P. Vega', ride: 'Tidal Twist' },
+        { position: 'Station 2', operator: 'M. Torres', ride: 'Tidal Twist' },
+        { position: 'Load', operator: 'J. Marsh', ride: 'Tidal Twist' },
+        { position: 'Station 1', operator: 'H. Brown', ride: 'Thunder Mountain' }
       ]},
-      { time: '09:30', label: '09:30 AM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'J. Kim', ride: 'Thunder Mountain' },
-        { position: 'Station 2', operator: 'M. Lee', ride: 'Space Coaster' },
-        { position: 'Station 3', operator: 'S. Brown', ride: 'Bumper Cars' },
-        { position: 'Station 4', operator: 'H. Brown', ride: 'Log Flume' }
+      { time: '09:30', label: '09:30 AM', rotation: 'B', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'P. Vega', ride: 'Tidal Twist' },
+        { position: 'Load', operator: 'A. Kim', ride: 'Tidal Twist' }
       ]},
-      { time: '10:00', label: '10:00 AM', isMini: false, assignments: [
-        { position: 'Station 1', operator: 'M. Lee', ride: 'Space Coaster' },
-        { position: 'Station 2', operator: 'S. Brown', ride: 'Bumper Cars' },
-        { position: 'Station 3', operator: 'H. Brown', ride: 'Log Flume' },
-        { position: 'Station 4', operator: 'J. Kim', ride: 'Pirate Ship' }
+      { time: '10:00', label: '10:00 AM', rotation: 'C', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'K. Nguyen', ride: 'Space Coaster' },
+        { position: 'Dispatch', operator: 'R. Patel', ride: 'Space Coaster' },
+        { position: 'Control', operator: 'C. Liu', ride: 'Space Coaster' },
+        { position: 'Floor', operator: 'N. Abebe', ride: 'Bumper Cars' },
+        { position: 'Control', operator: 'W. Diaz', ride: 'Bumper Cars' },
+        { position: 'Monitor', operator: 'T. Nair', ride: 'Bumper Cars' }
       ]},
-      { time: '10:30', label: '10:30 AM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'S. Brown', ride: 'Bumper Cars' },
-        { position: 'Station 2', operator: 'H. Brown', ride: 'Log Flume' },
-        { position: 'Station 3', operator: 'J. Kim', ride: 'Pirate Ship' },
-        { position: 'Station 4', operator: 'M. Lee', ride: 'Thunder Mountain' }
+      { time: '10:30', label: '10:30 AM', rotation: 'D', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'T. Nair', ride: 'Tidal Twist' },
+        { position: 'Dispatch', operator: 'B. Okafor', ride: 'Thunder Mountain' }
       ]},
-      { time: '11:00', label: '11:00 AM', isMini: false, assignments: [
-        { position: 'Station 1', operator: 'H. Brown', ride: 'Log Flume' },
-        { position: 'Station 2', operator: 'J. Kim', ride: 'Pirate Ship' },
-        { position: 'Station 3', operator: 'M. Lee', ride: 'Thunder Mountain' },
-        { position: 'Station 4', operator: 'S. Brown', ride: 'Space Coaster' }
+      { time: '11:00', label: '11:00 AM', rotation: 'E', isMini: false, assignments: [
+        { position: 'Load', operator: 'D. Reyes', ride: 'Pirate Ship' },
+        { position: 'Dispatch', operator: 'B. Okafor', ride: 'Pirate Ship' },
+        { position: 'Platform', operator: 'F. Jensen', ride: 'Log Flume' },
+        { position: 'Station 1', operator: 'T. Nair', ride: 'Log Flume' },
+        { position: 'Station 1', operator: 'P. Vega', ride: 'Tidal Twist' },
+        { position: 'Load', operator: 'O. Ferreira', ride: 'Tidal Twist' }
       ]},
-      { time: '11:30', label: '11:30 AM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'J. Kim', ride: 'Log Flume' },
-        { position: 'Station 2', operator: 'M. Lee', ride: 'Pirate Ship' },
-        { position: 'Station 3', operator: 'S. Brown', ride: 'Thunder Mountain' },
-        { position: 'Station 4', operator: 'H. Brown', ride: 'Space Coaster' }
+      { time: '11:30', label: '11:30 AM', rotation: 'F', isMini: true, assignments: [
+        { position: 'Station 2', operator: 'W. Diaz', ride: 'Tidal Twist' },
+        { position: 'Control', operator: 'K. Nguyen', ride: 'Space Coaster' }
       ]},
-      { time: '12:00', label: '12:00 PM', isMini: false, assignments: [
-        { position: 'Station 1', operator: 'M. Lee', ride: 'Log Flume' },
-        { position: 'Station 2', operator: 'S. Brown', ride: 'Pirate Ship' },
-        { position: 'Station 3', operator: 'H. Brown', ride: 'Thunder Mountain' },
-        { position: 'Station 4', operator: 'J. Kim', ride: 'Space Coaster' }
+      { time: '12:00', label: '12:00 PM', rotation: 'G', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'C. Liu', ride: 'Space Coaster' },
+        { position: 'Dispatch', operator: 'K. Nguyen', ride: 'Space Coaster' },
+        { position: 'Control', operator: 'R. Patel', ride: 'Space Coaster' },
+        { position: 'Floor', operator: 'N. Abebe', ride: 'Bumper Cars' },
+        { position: 'Control', operator: 'W. Diaz', ride: 'Bumper Cars' },
+        { position: 'Monitor', operator: 'S. Okoro', ride: 'Bumper Cars' }
+      ]},
+      { time: '12:30', label: '12:30 PM', rotation: 'H', isMini: true, assignments: [
+        { position: 'Floor', operator: 'P. Vega', ride: 'Bumper Cars' },
+        { position: 'Monitor', operator: 'L. Santos', ride: 'Bumper Cars' },
+        { position: 'Main', operator: 'K. Nguyen', ride: 'Carousel' }
       ]}
     ],
-    // 1pm-8pm: 15 min intervals with repeating pattern
+    // 1pm-8pm: 30 min intervals with repeating pattern (same as morning)
     afternoon: [
-      { time: '13:00', label: '01:00 PM', isMini: false, assignments: [
-        { position: 'Station 1', operator: 'H. Brown', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'J. Kim', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'M. Lee', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'S. Brown', ride: 'Bumper Cars' }
+      { time: '13:00', label: '01:00 PM', rotation: 'I', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'H. Brown', ride: 'Tidal Twist' },
+        { position: 'Station 2', operator: 'D. Reyes', ride: 'Tidal Twist' },
+        { position: 'Load', operator: 'J. Marsh', ride: 'Tidal Twist' },
+        { position: 'Station 1', operator: 'M. Torres', ride: 'Thunder Mountain' },
+        { position: 'Dispatch', operator: 'B. Okafor', ride: 'Thunder Mountain' },
+        { position: 'Load', operator: 'L. Santos', ride: 'Thunder Mountain' }
       ]},
-      { time: '13:15', label: '01:15 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'J. Kim', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'M. Lee', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'S. Brown', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'H. Brown', ride: 'Bumper Cars' }
+      { time: '13:30', label: '01:30 PM', rotation: 'J', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'A. Kim', ride: 'Tidal Twist' },
+        { position: 'Dispatch', operator: 'S. Okoro', ride: 'Thunder Mountain' }
       ]},
-      { time: '13:30', label: '01:30 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'M. Lee', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'S. Brown', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'H. Brown', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'J. Kim', ride: 'Bumper Cars' }
+      { time: '14:00', label: '02:00 PM', rotation: 'K', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'H. Brown', ride: 'Thunder Mountain' },
+        { position: 'Dispatch', operator: 'J. Marsh', ride: 'Thunder Mountain' },
+        { position: 'Load', operator: 'D. Reyes', ride: 'Thunder Mountain' },
+        { position: 'Load', operator: 'B. Okafor', ride: 'Pirate Ship' },
+        { position: 'Dispatch', operator: 'L. Santos', ride: 'Pirate Ship' },
+        { position: 'Platform', operator: 'F. Jensen', ride: 'Log Flume' }
       ]},
-      { time: '13:45', label: '01:45 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'S. Brown', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'H. Brown', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'J. Kim', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'M. Lee', ride: 'Bumper Cars' }
+      { time: '14:30', label: '02:30 PM', rotation: 'L', isMini: true, assignments: [
+        { position: 'Station 2', operator: 'W. Diaz', ride: 'Tidal Twist' },
+        { position: 'Dispatch', operator: 'B. Okafor', ride: 'Thunder Mountain' }
       ]},
-      { time: '14:00', label: '02:00 PM', isMini: false, assignments: [
-        { position: 'Station 1', operator: 'H. Brown', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'J. Kim', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'M. Lee', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'S. Brown', ride: 'Bumper Cars' }
+      { time: '15:00', label: '03:00 PM', rotation: 'M', isMini: false, assignments: [
+        { position: 'Floor', operator: 'A. Kim', ride: 'Bumper Cars' },
+        { position: 'Control', operator: 'S. Okoro', ride: 'Bumper Cars' },
+        { position: 'Monitor', operator: 'W. Diaz', ride: 'Bumper Cars' },
+        { position: 'Station 1', operator: 'M. Torres', ride: 'Tidal Twist' },
+        { position: 'Station 2', operator: 'P. Vega', ride: 'Tidal Twist' },
+        { position: 'Load', operator: 'L. Santos', ride: 'Tidal Twist' }
       ]},
-      { time: '14:15', label: '02:15 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'J. Kim', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'M. Lee', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'S. Brown', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'H. Brown', ride: 'Bumper Cars' }
+      { time: '15:30', label: '03:30 PM', rotation: 'N', isMini: true, assignments: [
+        { position: 'Floor', operator: 'A. Kim', ride: 'Bumper Cars' },
+        { position: 'Control', operator: 'S. Okoro', ride: 'Bumper Cars' }
       ]},
-      { time: '14:30', label: '02:30 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'M. Lee', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'S. Brown', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'H. Brown', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'J. Kim', ride: 'Bumper Cars' }
+      { time: '16:00', label: '04:00 PM', rotation: 'O', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'D. Reyes', ride: 'Tidal Twist' },
+        { position: 'Station 2', operator: 'J. Marsh', ride: 'Tidal Twist' },
+        { position: 'Load', operator: 'H. Brown', ride: 'Tidal Twist' },
+        { position: 'Station 1', operator: 'P. Vega', ride: 'Thunder Mountain' },
+        { position: 'Dispatch', operator: 'M. Torres', ride: 'Thunder Mountain' },
+        { position: 'Load', operator: 'L. Santos', ride: 'Thunder Mountain' }
       ]},
-      { time: '14:45', label: '02:45 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'S. Brown', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'H. Brown', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'J. Kim', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'M. Lee', ride: 'Bumper Cars' }
+      { time: '16:30', label: '04:30 PM', rotation: 'P', isMini: true, assignments: [
+        { position: 'Station 2', operator: 'T. Nair', ride: 'Tidal Twist' },
+        { position: 'Control', operator: 'C. Liu', ride: 'Space Coaster' }
       ]},
-      { time: '15:00', label: '03:00 PM', isMini: false, assignments: [
-        { position: 'Station 1', operator: 'H. Brown', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'J. Kim', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'M. Lee', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'S. Brown', ride: 'Bumper Cars' }
+      { time: '17:00', label: '05:00 PM', rotation: 'Q', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'M. Torres', ride: 'Tidal Twist' },
+        { position: 'Station 2', operator: 'P. Vega', ride: 'Tidal Twist' },
+        { position: 'Load', operator: 'L. Santos', ride: 'Tidal Twist' },
+        { position: 'Load', operator: 'S. Okoro', ride: 'Pirate Ship' },
+        { position: 'Dispatch', operator: 'J. Marsh', ride: 'Pirate Ship' },
+        { position: 'Platform', operator: 'O. Ferreira', ride: 'Log Flume' }
       ]},
-      { time: '15:15', label: '03:15 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'J. Kim', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'M. Lee', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'S. Brown', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'H. Brown', ride: 'Bumper Cars' }
+      { time: '17:30', label: '05:30 PM', rotation: 'R', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'H. Brown', ride: 'Tidal Twist' },
+        { position: 'Dispatch', operator: 'S. Okoro', ride: 'Thunder Mountain' }
       ]},
-      { time: '15:30', label: '03:30 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'M. Lee', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'S. Brown', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'H. Brown', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'J. Kim', ride: 'Bumper Cars' }
+      { time: '18:00', label: '06:00 PM', rotation: 'S', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'P. Vega', ride: 'Tidal Twist' },
+        { position: 'Station 2', operator: 'M. Torres', ride: 'Tidal Twist' },
+        { position: 'Load', operator: 'L. Santos', ride: 'Tidal Twist' },
+        { position: 'Floor', operator: 'N. Abebe', ride: 'Bumper Cars' },
+        { position: 'Control', operator: 'W. Diaz', ride: 'Bumper Cars' },
+        { position: 'Monitor', operator: 'S. Okoro', ride: 'Bumper Cars' }
       ]},
-      { time: '15:45', label: '03:45 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'S. Brown', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'H. Brown', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'J. Kim', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'M. Lee', ride: 'Bumper Cars' }
+      { time: '18:30', label: '06:30 PM', rotation: 'T', isMini: true, assignments: [
+        { position: 'Floor', operator: 'C. Liu', ride: 'Bumper Cars' },
+        { position: 'Control', operator: 'K. Nguyen', ride: 'Bumper Cars' }
       ]},
-      { time: '16:00', label: '04:00 PM', isMini: false, assignments: [
-        { position: 'Station 1', operator: 'H. Brown', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'J. Kim', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'M. Lee', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'S. Brown', ride: 'Bumper Cars' }
+      { time: '19:00', label: '07:00 PM', rotation: 'U', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'J. Marsh', ride: 'Tidal Twist' },
+        { position: 'Station 2', operator: 'D. Reyes', ride: 'Tidal Twist' },
+        { position: 'Load', operator: 'T. Nair', ride: 'Tidal Twist' },
+        { position: 'Floor', operator: 'N. Abebe', ride: 'Bumper Cars' },
+        { position: 'Control', operator: 'W. Diaz', ride: 'Bumper Cars' },
+        { position: 'Monitor', operator: 'S. Okoro', ride: 'Bumper Cars' }
       ]},
-      { time: '16:15', label: '04:15 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'J. Kim', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'M. Lee', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'S. Brown', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'H. Brown', ride: 'Bumper Cars' }
+      { time: '19:30', label: '07:30 PM', rotation: 'V', isMini: true, assignments: [
+        { position: 'Station 1', operator: 'A. Kim', ride: 'Tidal Twist' },
+        { position: 'Control', operator: 'R. Patel', ride: 'Space Coaster' }
       ]},
-      { time: '16:30', label: '04:30 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'M. Lee', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'S. Brown', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'H. Brown', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'J. Kim', ride: 'Bumper Cars' }
-      ]},
-      { time: '16:45', label: '04:45 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'S. Brown', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'H. Brown', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'J. Kim', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'M. Lee', ride: 'Bumper Cars' }
-      ]},
-      { time: '17:00', label: '05:00 PM', isMini: false, assignments: [
-        { position: 'Station 1', operator: 'H. Brown', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'J. Kim', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'M. Lee', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'S. Brown', ride: 'Bumper Cars' }
-      ]},
-      { time: '17:15', label: '05:15 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'J. Kim', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'M. Lee', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'S. Brown', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'H. Brown', ride: 'Bumper Cars' }
-      ]},
-      { time: '17:30', label: '05:30 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'M. Lee', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'S. Brown', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'H. Brown', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'J. Kim', ride: 'Bumper Cars' }
-      ]},
-      { time: '17:45', label: '05:45 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'S. Brown', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'H. Brown', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'J. Kim', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'M. Lee', ride: 'Bumper Cars' }
-      ]},
-      { time: '18:00', label: '06:00 PM', isMini: false, assignments: [
-        { position: 'Station 1', operator: 'H. Brown', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'J. Kim', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'M. Lee', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'S. Brown', ride: 'Bumper Cars' }
-      ]},
-      { time: '18:15', label: '06:15 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'J. Kim', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'M. Lee', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'S. Brown', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'H. Brown', ride: 'Bumper Cars' }
-      ]},
-      { time: '18:30', label: '06:30 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'M. Lee', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'S. Brown', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'H. Brown', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'J. Kim', ride: 'Bumper Cars' }
-      ]},
-      { time: '18:45', label: '06:45 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'S. Brown', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'H. Brown', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'J. Kim', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'M. Lee', ride: 'Bumper Cars' }
-      ]},
-      { time: '19:00', label: '07:00 PM', isMini: false, assignments: [
-        { position: 'Station 1', operator: 'H. Brown', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'J. Kim', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'M. Lee', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'S. Brown', ride: 'Bumper Cars' }
-      ]},
-      { time: '19:15', label: '07:15 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'J. Kim', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'M. Lee', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'S. Brown', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'H. Brown', ride: 'Bumper Cars' }
-      ]},
-      { time: '19:30', label: '07:30 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'M. Lee', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'S. Brown', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'H. Brown', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'J. Kim', ride: 'Bumper Cars' }
-      ]},
-      { time: '19:45', label: '07:45 PM', isMini: true, assignments: [
-        { position: 'Station 1', operator: 'S. Brown', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'H. Brown', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'J. Kim', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'M. Lee', ride: 'Bumper Cars' }
-      ]},
-      { time: '20:00', label: '08:00 PM', isMini: false, assignments: [
-        { position: 'Station 1', operator: 'H. Brown', ride: 'Pirate Ship' },
-        { position: 'Station 2', operator: 'J. Kim', ride: 'Thunder Mountain' },
-        { position: 'Station 3', operator: 'M. Lee', ride: 'Space Coaster' },
-        { position: 'Station 4', operator: 'S. Brown', ride: 'Bumper Cars' }
+      { time: '20:00', label: '08:00 PM', rotation: 'W', isMini: false, assignments: [
+        { position: 'Station 1', operator: 'M. Torres', ride: 'Tidal Twist' },
+        { position: 'Station 2', operator: 'P. Vega', ride: 'Tidal Twist' },
+        { position: 'Load', operator: 'L. Santos', ride: 'Tidal Twist' },
+        { position: 'Station 1', operator: 'H. Brown', ride: 'Thunder Mountain' },
+        { position: 'Dispatch', operator: 'F. Jensen', ride: 'Thunder Mountain' },
+        { position: 'Load', operator: 'D. Reyes', ride: 'Thunder Mountain' }
       ]}
     ]
   };
@@ -592,32 +561,43 @@
     const allRotations = [...rotationSchedule.morning, ...rotationSchedule.afternoon];
     
     allRotations.forEach(rotation => {
+      // Check if any position is empty (no operator)
+      const hasEmpty = rotation.assignments.some(a => !a.operator || a.operator.trim() === '');
+      const emptyStyle = hasEmpty ? 'background: rgba(192, 57, 43, 0.15); border: 2px solid rgba(192, 57, 43, 0.4);' : '';
+      
       const assignmentBoxes = rotation.assignments
-        .map(a => `
-          <div style="border: 2px solid #333; border-radius: 3px; overflow: visible; display: flex; gap: 2px; margin-bottom: 4px;">
-            <div style="flex: 1; background: transparent; border: 1px solid #999; border-radius: 2px; padding: 2px 4px; text-align: center;">
+        .map(a => {
+          const isEmpty = !a.operator || a.operator.trim() === '';
+          const opBgColor = isEmpty ? 'rgba(192, 57, 43, 0.15)' : 'var(--teal-glow)';
+          const opBorderColor = isEmpty ? 'rgba(192, 57, 43, 0.4)' : 'var(--teal)';
+          const opTextColor = isEmpty ? 'var(--accent-red)' : 'var(--teal)';
+          const opText = isEmpty ? 'EMPTY' : a.operator;
+          
+          return `
+          <div style="border: 2px solid #999; border-radius: 3px; overflow: visible; display: flex; gap: 2px; margin-bottom: 4px;">
+            <div style="flex: 1; background: transparent; border: 1px solid #bbb; border-radius: 2px; padding: 2px 4px; text-align: center;">
               <div style="font-size: 8px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.2px;">${a.position}</div>
             </div>
-            <div style="flex: 1.2; background: var(--teal-glow); border: 1px solid var(--teal); border-radius: 2px; padding: 2px 4px; text-align: center;">
-              <div style="font-size: 8px; font-weight: 600; color: var(--teal);">${a.operator}</div>
+            <div style="flex: 1.2; background: ${opBgColor}; border: 1px solid ${opBorderColor}; border-radius: 2px; padding: 2px 4px; text-align: center;">
+              <div style="font-size: 8px; font-weight: 600; color: ${opTextColor};">${opText}</div>
             </div>
             <div style="flex: 0.9; background: rgba(26, 143, 122, 0.08); border: 1px solid rgba(26, 143, 122, 0.3); border-radius: 2px; padding: 2px 4px; text-align: center;">
               <div style="font-size: 7px; color: var(--teal); font-weight: 600;">${a.ride}</div>
             </div>
           </div>
-        `)
+        `;
+        })
         .join('');
       
       const rotationType = rotation.isMini ? 'mini' : 'hard';
       const badgeClass = rotation.isMini ? 'mini-rotation' : 'hard-rotation';
       
       html += `
-        <div class="sched-item ${rotationType}-rotation" data-time="${rotation.time}">
-          <div class="sched-item-time">${rotation.label}</div>
+        <div class="sched-item ${rotationType}-rotation" data-time="${rotation.time}" style="${emptyStyle}">
+          <div class="sched-item-time">${rotation.label} • <strong>ROT ${rotation.rotation}</strong></div>
           <div class="rotation-assignments">
             ${assignmentBoxes}
           </div>
-          <div class="sched-item-badge ${badgeClass}">${rotation.isMini ? 'Mini' : 'Hard'}</div>
         </div>
       `;
     });
@@ -656,14 +636,16 @@
         document.querySelectorAll('.sched-item').forEach(i => i.classList.remove('active'));
         item.classList.add('active');
         
-        // Update rotation indicators
+        // Update rotation indicators and previews
         updateRotationIndicators();
+        updateAttractionRotationPreviews();
         console.log('[Dashboard] Clicked rotation at ' + timeStr);
       });
     });
     
     // Update indicators immediately after setting up
     updateRotationIndicators();
+    updateAttractionRotationPreviews();
     console.log('[Dashboard] Schedule event listeners setup complete');
   }
   // Zone configuration
@@ -689,7 +671,18 @@
     console.log('[loadZoneData] Checking for updates...');
     try {
       const response = await fetch(`../EditMode/api.php?action=getZoneData&zone_id=${ZONE_ID}`);
-      const data = await response.json();
+      const text = await response.text();
+      console.log('[loadZoneData] Raw response:', text);
+      
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (parseError) {
+        console.error('[loadZoneData] JSON Parse Error:', parseError);
+        console.error('[loadZoneData] Response text:', text);
+        return;
+      }
+      
       console.log('[loadZoneData] Response received:', data);
       
       if (data.success && data.attractions) {
@@ -737,8 +730,8 @@
         const borderColor = pos.operator ? 'var(--teal)' : 'rgba(192, 57, 43, 0.3)';
         const operatorText = pos.operator ? pos.operator : 'EMPTY';
         return `
-          <div style="border: 2px solid #333; border-radius: 2px; overflow: visible; display: flex; gap: 2px; width: 100%;">
-            <div style="flex: 1; background: transparent; border: 1px solid #999; border-radius: 2px; padding: 3px 5px; text-align: center;">
+          <div style="border: 2px solid #999; border-radius: 2px; overflow: visible; display: flex; gap: 2px; width: 100%;">
+            <div style="flex: 1; background: transparent; border: 1px solid #bbb; border-radius: 2px; padding: 3px 5px; text-align: center;">
               <div style="font-size: 7px; font-weight: 700; color: ${textColor}; text-transform: uppercase; letter-spacing: 0.2px;">${pos.name}</div>
             </div>
             <div style="flex: 1; background: ${bgColor}; border: 1px solid ${borderColor}; border-radius: 2px; padding: 3px 5px; text-align: center;">
@@ -752,6 +745,8 @@
       const leadOperator = attraction.positions.find(p => p.name.toLowerCase().includes('control') || p.name.toLowerCase().includes('lead'));
       const leadName = leadOperator?.operator || '—';
       const posCount = attraction.positions.length;
+      const filledCount = attraction.positions.filter(p => p.operator).length;
+      const positionText = `${filledCount} of ${posCount} Positions`;
 
       card.innerHTML = `
         <div class="card-thumb">
@@ -761,7 +756,7 @@
         </div>
         <div class="card-body">
           <div class="card-name">${attraction.name}</div>
-          <div class="card-meta"><span>${posCount} positions</span><span>Tier 1</span></div>
+          <div class="card-meta"><span>${positionText}</span><span>Tier 1</span></div>
           ${positionsContainerHTML}
           <div class="card-operator">Lead: ${leadName}</div>
           <div class="rotation-change-preview">
@@ -777,6 +772,95 @@
       `;
       
       attractionRow.appendChild(card);
+    });
+    
+    // Update rotation previews after all cards are created
+    updateAttractionRotationPreviews();
+  }
+
+  // Get next rotation info based on current time (in minutes from midnight)
+  function getNextRotation(mins) {
+    const allRotations = [...rotationSchedule.morning, ...rotationSchedule.afternoon];
+    // Find the first rotation after current time
+    const nextRot = allRotations.find(rot => {
+      const [h, m] = rot.time.split(':').map(Number);
+      const rotMins = h * 60 + m;
+      return rotMins > mins;
+    });
+    // If no rotation found, wrap to first (9am)
+    return nextRot || allRotations[0];
+  }
+
+  // Update attraction card rotation preview sections dynamically
+  function updateAttractionRotationPreviews() {
+    const currentMins = isPreview ? previewMinutes : minutesFromMidnight(new Date());
+    const nextRot = getNextRotation(currentMins);
+    
+    // Update all rotation preview sections in attraction cards
+    const cards = document.querySelectorAll('.rotation-change-preview');
+    cards.forEach((card) => {
+      const timeBadge = card.querySelector('.rotation-time-badge');
+      const rotText = card.querySelector('.rotation-text');
+      
+      if (timeBadge) timeBadge.textContent = nextRot.label;
+      
+      // Get the attraction card and extract its actual position names
+      const attractionCard = card.closest('.attraction-card');
+      let attractionPositions = [];
+      
+      if (attractionCard) {
+        // Find all the position boxes (divs with border: 2px solid #999)
+        const cardBody = attractionCard.querySelector('.card-body');
+        if (cardBody) {
+          // Get the positions container (the flex column div before rotation-change-preview)
+          const allDivs = Array.from(cardBody.querySelectorAll('div'));
+          const posBoxes = allDivs.filter(div => {
+            const style = div.getAttribute('style');
+            return style && style.includes('border: 2px solid #999');
+          });
+          
+          // Extract position name from each box
+          posBoxes.forEach(box => {
+            const nameDiv = box.querySelector('div[style*="text-transform: uppercase"]');
+            if (nameDiv) {
+              attractionPositions.push(nameDiv.textContent.trim());
+            }
+          });
+        }
+      }
+      
+      // Count filled positions (those with an operator assigned)
+      let filledCount = 0;
+      const staffHTML = attractionPositions.map((posName, idx) => {
+        const operator = nextRot.assignments[idx]?.operator || '';
+        if (operator && operator.trim()) {
+          filledCount++;
+          return `<div class="staff-item">${posName}: ${operator}</div>`;
+        } else {
+          return `<div class="staff-item" style="opacity: 0.6;">${posName}: <span style="font-style: italic; color: #999;">EMPTY</span></div>`;
+        }
+      }).join('');
+      
+      // Update rotation text with position count
+      if (rotText) {
+        rotText.textContent = `Rotation ${nextRot.rotation} • ${filledCount} of ${attractionPositions.length} Positions`;
+      }
+      
+      // Update staff list
+      const staffDiv = card.querySelector('.rotation-staff');
+      if (staffDiv && nextRot.assignments && attractionPositions.length > 0) {
+        staffDiv.innerHTML = staffHTML;
+      } else if (staffDiv && nextRot.assignments) {
+        // Fallback: show all rotation assignments with EMPTY indicator
+        const fallbackHTML = nextRot.assignments.map(assign => {
+          if (assign.operator && assign.operator.trim()) {
+            return `<div class="staff-item">${assign.position}: ${assign.operator}</div>`;
+          } else {
+            return `<div class="staff-item" style="opacity: 0.6;">${assign.position}: <span style="font-style: italic; color: #999;">EMPTY</span></div>`;
+          }
+        }).join('');
+        staffDiv.innerHTML = fallbackHTML;
+      }
     });
   }
 
@@ -890,8 +974,9 @@
       const pct = Math.max(0, Math.min(1, (mins - DAY_START) / DAY_SPAN));
       setScrubberPct(pct);
     }
-    // Always update rotation indicators
+    // Always update rotation indicators and previews
     updateRotationIndicators();
+    updateAttractionRotationPreviews();
   }
 
   setInterval(tick, 10000);
@@ -943,6 +1028,7 @@
       updateDisplay(mins);
       setScrubberPct((mins - DAY_START) / DAY_SPAN);
       updateRotationIndicators();
+      updateAttractionRotationPreviews();
     });
     document.addEventListener('mouseup', () => { dragging = false; });
 
@@ -954,9 +1040,11 @@
       let mins = DAY_START + pct * DAY_SPAN;
       // Round to nearest minute
       mins = Math.round(mins);
+      previewMinutes = mins;
       updateDisplay(mins);
       setScrubberPct((mins - DAY_START) / DAY_SPAN);
       updateRotationIndicators();
+      updateAttractionRotationPreviews();
     }, { passive: true });
     document.addEventListener('touchend', () => { dragging = false; });
   }
