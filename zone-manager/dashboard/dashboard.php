@@ -372,6 +372,9 @@
 
   // Track staff position preferences for consistency
   let staffPreferences = {};
+  
+  // Store attractions globally for access by update functions
+  let currentAttractions = [];
 
   function getAssignmentForRotation(rotIndex, positionIndex) {
     // Create a seeded random for reproducibility
@@ -711,6 +714,9 @@
 
   // Populate dashboard with real data from database
   function populateDashboard(attractions) {
+    // Store attractions globally for update functions
+    currentAttractions = attractions;
+    
     const attractionRow = document.getElementById('attractionRow');
     
     // Clear ALL existing cards completely
@@ -831,30 +837,17 @@
       const timeBadge = card.querySelector('.rotation-time-badge');
       const rotText = card.querySelector('.rotation-text');
       
-      // Get the attraction card and extract its actual position names
+      // Get the attraction card and find the attraction data
       const attractionCard = card.closest('.attraction-card');
       let attractionPositions = [];
       
       if (attractionCard) {
-        // Find all the position boxes BEFORE the rotation-change-preview
-        const rotationPreview = attractionCard.querySelector('.rotation-change-preview');
-        if (rotationPreview) {
-          // Get siblings of rotation-change-preview that are position boxes
-          const posChildDivs = Array.from(rotationPreview.parentElement.children);
-          const previewIndex = posChildDivs.indexOf(rotationPreview);
-          // Get only the divs BEFORE the rotation-change-preview (these are position boxes)
-          const posBoxesBefore = posChildDivs.slice(0, previewIndex).filter(div => {
-            const style = div.getAttribute('style');
-            return style && style.includes('border: 2px solid #999') && style.includes('display: flex');
-          });
-          
-          // Extract position name from each box
-          posBoxesBefore.forEach(box => {
-            const nameDiv = box.querySelector('div[style*="text-transform: uppercase"]');
-            if (nameDiv) {
-              attractionPositions.push(nameDiv.textContent.trim());
-            }
-          });
+        const attractionName = attractionCard.getAttribute('data-attraction-name');
+        // Find the attraction in the data from currentAttractions
+        const attraction = currentAttractions.find(a => a.name === attractionName);
+        if (attraction) {
+          // Get position names directly from the attraction data
+          attractionPositions = attraction.positions.map(p => p.name);
         }
       }
       
@@ -864,9 +857,14 @@
       if (timeBadge) timeBadge.textContent = nextRot.label;
       
       // Count filled positions (those with an operator assigned)
+      // Filter to ONLY show assignments that match this attraction's positions
+      const matchingAssignments = attractionPositions.map(posName => {
+        return nextRot.assignments?.find(assign => assign.position === posName) || { position: posName, operator: '' };
+      });
+      
       let filledCount = 0;
-      const staffHTML = attractionPositions.map((posName, idx) => {
-        const operator = nextRot.assignments[idx]?.operator || '';
+      const staffHTML = matchingAssignments.map((assignment) => {
+        const operator = assignment.operator || '';
         let bgColor, borderColor, textColor;
         if (operator && operator.trim()) {
           filledCount++;
@@ -882,7 +880,7 @@
         return `
           <div style="border: 2px solid #999; border-radius: 3px; overflow: visible; display: flex; gap: 2px;">
             <div style="flex: 1; background: transparent; border: 1px solid #bbb; border-radius: 2px; padding: 2px 4px; text-align: center;">
-              <div style="font-size: 8px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.2px;">${posName}</div>
+              <div style="font-size: 8px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.2px;">${assignment.position}</div>
             </div>
             <div style="flex: 1; background: ${bgColor}; border: 1px solid ${borderColor}; border-radius: 2px; padding: 2px 4px; text-align: center;">
               <div style="font-size: 8px; font-weight: 600; color: ${textColor};">${displayOperator}</div>
@@ -896,29 +894,10 @@
         rotText.textContent = `Rotation ${nextRot.rotation} • ${filledCount} of ${attractionPositions.length} Positions`;
       }
       
-      // Update staff list
+      // Update staff list - always use matchingAssignments which is filtered for this attraction
       const staffDiv = card.querySelector('.rotation-staff');
-      if (staffDiv && nextRot.assignments && attractionPositions.length > 0) {
+      if (staffDiv) {
         staffDiv.innerHTML = staffHTML;
-      } else if (staffDiv && nextRot.assignments) {
-        // Fallback: show all rotation assignments with EMPTY indicator
-        const fallbackHTML = nextRot.assignments.map(assign => {
-          const bgColor = assign.operator ? 'var(--teal-glow)' : 'rgba(192, 57, 43, 0.1)';
-          const borderColor = assign.operator ? 'var(--teal)' : 'rgba(192, 57, 43, 0.3)';
-          const textColor = assign.operator ? 'var(--teal)' : 'var(--accent-red)';
-          const displayOp = assign.operator && assign.operator.trim() ? assign.operator : 'EMPTY';
-          return `
-            <div style="border: 2px solid #999; border-radius: 3px; overflow: visible; display: flex; gap: 2px;">
-              <div style="flex: 1; background: transparent; border: 1px solid #bbb; border-radius: 2px; padding: 2px 4px; text-align: center;">
-                <div style="font-size: 8px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.2px;">${assign.position}</div>
-              </div>
-              <div style="flex: 1; background: ${bgColor}; border: 1px solid ${borderColor}; border-radius: 2px; padding: 2px 4px; text-align: center;">
-                <div style="font-size: 8px; font-weight: 600; color: ${textColor};">${displayOp}</div>
-              </div>
-            </div>
-          `;
-        }).join('');
-        staffDiv.innerHTML = fallbackHTML;
       }
     });
   }
