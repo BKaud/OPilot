@@ -9,98 +9,64 @@
 <link rel="stylesheet" href="../assets/css/theme.css" />
 </head>
 <body>
-<!-- NAVBAR -->
 <nav class="navbar">
   <div class="navbar-logo">
     <div class="logo-icon"></div>
     <span class="logo-name">O<span>P</span>ilot</span>
   </div>
-  <div class="navbar-login">
-    <input type="text" placeholder="Username" />
-    <input type="password" placeholder="Password" />
-    <button class="login-btn">Login</button>
-  </div>
 </nav>
 
 <div class="main">
-
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="nav-section">
       <div class="nav-upper">
         <div class="nav-item">
-          <a href="../../home/home.php" class="nav-link">
-            <div class="nav-icon">
-              <!-- home.svg inline for color control -->
-              <img class="filter-999" width="22" height="22" src="../../assets/images/icons/home.svg" alt="Home Icon">
-            </div>
+          <a href="#" class="nav-link">
+            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12L12 3l9 9"/><path d="M9 21V12h6v9"/></svg></div>
             <span class="nav-text">Homepage</span>
           </a>
         </div>
-        <div class="nav-item expandable" id="zones">
-          <a href="../../zones-dash/zone-dash.php" class="nav-link" id="zones-toggle">
-            <div class="nav-icon">
-              <!-- zones.svg -->
-              <img class="filter-999" width="22" height="22" src="../../assets/images/icons/zones.svg" alt="Zones Icon">
-            </div>
+        <div class="nav-item">
+          <a href="#" class="nav-link" id="zones-toggle">
+            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
             <span class="nav-text">Zones</span>
           </a>
           <div class="sub-nav expanded" id="zones-sub">
-            <!-- Zone Dashboard section -->
             <div class="zone-item" id="rides1-zone">
-              <a href="../../zones-dash/zone-dash.php" class="sub-nav-link" >Zones Dashboard</a>
-            </div>
-            <div class="zone-item expandable" id="rides1-zone">
-              <a href="#" class="sub-nav-link expandable">Rides 1</a>
-              <div class="zone-sub-nav expanded" id="rides1-sub">
-                <a href="../dashboard/dashboard.php" class="zone-sub-link active">Dashboard</a>
-                <a href="../EditMode/editmode.php" class="zone-sub-link">Edit Mode</a>
+              <a href="#" class="sub-nav-link" id="r1-toggle">Rides 1</a>
+              <div class="zone-sub-nav expanded">
+                <a href="../dashboard/dashboard.php" class="zone-sub-link">Dashboard</a>
+                <a href="editmode.php" class="zone-sub-link active">Edit Mode</a>
                 <a href="../confignsettings/settings.php" class="zone-sub-link">Settings & Config</a>
               </div>
             </div>
-            <div class="zone-item expandable" id="rides2-zone">
-              <a href="#" class="sub-nav-link expandable">Rides 2</a>
-              <div class="zone-sub-nav" id="rides2-sub">
-                <a href="../dashboard/dashboard.php" class="zone-sub-link active">Dashboard</a>
-                <a href="../EditMode/editmode.php" class="zone-sub-link">Edit Mode</a>
-                <a href="../confignsettings/settings.php" class="zone-sub-link">Settings & Config</a>
+            <div class="zone-item" id="rides2-zone">
+              <a href="#" class="sub-nav-link" id="r2-toggle">Rides 2</a>
+              <div class="zone-sub-nav expanded">
+                <a href="#" class="zone-sub-link">Dashboard</a>
+                <a href="#" class="zone-sub-link">Edit Mode</a>
+                <a href="#" class="zone-sub-link">Settings & Config</a>
               </div>
             </div>
           </div>
         </div>
-        <div class="nav-item">
-          <a href="../../management/management-dashboard/management-dashboard.php" class="nav-link">
-            <div class="nav-icon">
-              <!-- manage.svg -->
-              <img class="filter-999" width="22" height="22" src="../../assets/images/icons/manage.svg" alt="Manage Icon">
-            </div>
-            <span class="nav-text">Management</span>
-          </a>
-        </div>
       </div>
       <div class="nav-lower">
         <div class="nav-item">
-          <a href="../../acc-sets/account-settings.php" class="nav-link">
-            <div class="nav-icon">
-              <!-- acc.svg -->
-              <img class="filter-999" width="19" height="19" src="../../assets/images/icons/acc.svg" alt="Account Icon">
-            </div>
+          <a href="#" class="nav-link">
+            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
             <span class="nav-text">Account Settings</span>
           </a>
         </div>
         <div class="nav-item">
-          <a href="../../changelog/changelog.php" class="nav-link">
-            <div class="nav-icon">
-              <!-- changelog.svg -->
-              <img class="filter-999" width="22" height="22" src="../../assets/images/icons/changelog.svg" alt="Changelog Icon">
-            </div>
+          <a href="#" class="nav-link">
+            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
             <span class="nav-text">Changelog</span>
           </a>
         </div>
       </div>
     </div>
   </aside>
-
 
   <div class="content">
     <div class="page-header">
@@ -151,24 +117,31 @@
               Return to Attraction Bar
             </div>
           </div>
-          <div class="tray-section resizable-vertical" id="attractionsTray">
-            <div class="resize-handle-vertical" id="attractionsResize" title="Drag to resize">|||</div>
-            <div class="tray-header">Attractions</div>
-            <div class="tray-scroll">
-              <!-- Attractions will be loaded dynamically from database -->
+            <!-- Single centered handle will control both trays equally -->
+            <div class="middle-resize" id="middleTrayResize" title="Drag to resize">|||</div>
+
+            <div class="tray-section resizable-vertical" id="attractionsTray">
+              <div class="tray-header">Attractions</div>
+              <div class="tray-scroll">
+                <!-- Attractions will be loaded dynamically from database -->
+              </div>
             </div>
-          </div>
-          <div class="tray-section resizable-vertical" id="operatorsTray">
-            <div class="resize-handle-vertical" id="operatorsResize" title="Drag to resize">|||</div>
-            <div class="tray-header">Unassigned Operators</div>
-            <div class="tray-scroll">
-              <!-- Operators will be loaded dynamically from database -->
+            <div class="tray-section resizable-vertical" id="operatorsTray">
+              <div class="tray-header">Unassigned Operators</div>
+              <div class="tray-scroll">
+                <!-- Operators will be loaded dynamically from database -->
+              </div>
             </div>
-          </div>
         </div>
       </div><!-- /canvas-col -->
       <div class="props-panel resizable-horizontal" id="propsPanel">
-        <div class="resize-handle-horizontal" id="propsResize" title="Drag to resize">|||</div>
+        <div class="resize-handle-horizontal" id="propsResize" title="Drag to resize">
+          <span class="handle-lines">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+          </span>
+        </div>
               <div id="resizeTip" role="button" aria-label="Dismiss tip" style="position:absolute;top:48px;right:24px;z-index:10000;background:#fff;color:#1a8f7a;padding:8px 16px;border-radius:8px;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,0.12);font-family:'Rajdhani',sans-serif;cursor:pointer;">
                 <b>Tip:</b> Drag the teal bars to resize panels!
                     </div>
@@ -277,13 +250,13 @@ function renderAttractionBar() {
   container.innerHTML = allAttractions.map((attraction, index) => {
     const isPlaced = rideSlots.some(slot => slot.id === attraction.id);
     const placedClass = isPlaced ? 'placed' : '';
-    
+
     return `
       <div class="attr-thumb ${placedClass}" data-attraction-id="${attraction.id}">
+        <div class="attr-thumb-label">${attraction.name}</div>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
         </svg>
-        <div class="attr-thumb-label">${attraction.name}</div>
       </div>
     `;
   }).join('');
@@ -291,6 +264,17 @@ function renderAttractionBar() {
   console.log('Attraction bar rendered');
   setupDragAndDrop();
 }
+
+  // Map vertical mouse wheel to horizontal scroll so trays move with mouse direction
+  document.querySelectorAll('.tray-scroll').forEach(el => {
+    el.addEventListener('wheel', function(e) {
+      if (this.scrollWidth > this.clientWidth) {
+        // invert mapping so scrolling follows mouse movement direction
+        this.scrollLeft -= e.deltaY;
+        e.preventDefault();
+      }
+    }, { passive: false });
+  });
 
 // Render operators list in sidebar
 function renderOperatorsList() {
@@ -825,9 +809,12 @@ bottomTrayResize.addEventListener('mousedown', function(e) {
 });
 document.addEventListener('mousemove', function(e) {
   if (isResizingTray) {
-    let newHeight = startHeightTray + (startYTray - e.clientY);
+    // Follow mouse: moving mouse down increases height, moving up decreases height
+    let newHeight = startHeightTray + (e.clientY - startYTray);
     newHeight = Math.max(120, Math.min(window.innerHeight * 0.6, newHeight));
     bottomTray.style.height = newHeight + 'px';
+    // update internal scroll areas to match
+    updateTrayScrollHeights(newHeight);
   }
 });
 document.addEventListener('mouseup', function() {
@@ -838,65 +825,98 @@ document.addEventListener('mouseup', function() {
   }
 });
 
-// Vertical resize for Attractions tray
+// Middle handle: supports vertical resize (drag up/down) OR horizontal scroll (drag left/right)
 const attractionsTray = document.getElementById('attractionsTray');
-const attractionsResize = document.getElementById('attractionsResize');
-let isResizingAttractions = false;
-let startYAttractions = 0;
-let startHeightAttractions = 0;
-attractionsResize.addEventListener('mousedown', function(e) {
+const operatorsTray = document.getElementById('operatorsTray');
+const middleResize = document.getElementById('middleTrayResize');
+let middleMode = null; // 'resize' or 'scroll'
+let startYMiddle = 0;
+let startXMiddle = 0;
+let startHeightMiddle = 0;
+let startScrollLeft = 0;
+middleResize.addEventListener('mousedown', function(e) {
   e.preventDefault();
-  isResizingAttractions = true;
-  startYAttractions = e.clientY;
-  startHeightAttractions = attractionsTray.offsetHeight;
-  document.body.style.cursor = 'ns-resize';
+  middleMode = null;
+  startYMiddle = e.clientY;
+  startXMiddle = e.clientX;
+  startHeightMiddle = document.getElementById('bottomTray').offsetHeight;
+  // take first tray's scrollLeft as baseline
+  const aScroll = attractionsTray.querySelector('.tray-scroll');
+  startScrollLeft = aScroll ? aScroll.scrollLeft : 0;
   document.body.style.userSelect = 'none';
+  document.body.style.cursor = 'ns-resize';
 });
+
 document.addEventListener('mousemove', function(e) {
-  if (isResizingAttractions) {
-    // Resize follows mouse direction: dragging down increases height
-    let newHeight = startHeightAttractions + (e.clientY - startYAttractions);
-    newHeight = Math.max(60, Math.min(window.innerHeight * 0.5, newHeight));
-    attractionsTray.style.height = newHeight + 'px';
+  // if user hasn't chosen mode yet, detect based on movement direction
+  if (middleMode === null && (e.buttons & 1)) {
+    const dx = e.clientX - startXMiddle;
+    const dy = e.clientY - startYMiddle;
+    if (Math.abs(dx) > 6 || Math.abs(dy) > 6) {
+      middleMode = Math.abs(dx) > Math.abs(dy) ? 'scroll' : 'resize';
+      // adjust cursor for scroll
+      if (middleMode === 'scroll') document.body.style.cursor = 'grab';
+    }
   }
-});
-document.addEventListener('mouseup', function() {
-  if (isResizingAttractions) {
-    isResizingAttractions = false;
-    document.body.style.cursor = '';
-    document.body.style.userSelect = '';
+
+  if (middleMode === 'resize' && (e.buttons & 1)) {
+    // vertical resize of bottom tray (affects both trays' heights)
+    let delta = e.clientY - startYMiddle;
+    let newHeight = startHeightMiddle + delta;
+    newHeight = Math.max(60, Math.min(window.innerHeight * 0.6, newHeight));
+    // apply to tray sections and bottom container
+    try { document.getElementById('bottomTray').style.height = newHeight + 'px'; } catch (err) {}
+    if (attractionsTray) attractionsTray.style.height = newHeight + 'px';
+    if (operatorsTray) operatorsTray.style.height = newHeight + 'px';
+    updateTrayScrollHeights(newHeight);
+  }
+
+  if (middleMode === 'scroll' && (e.buttons & 1)) {
+    // horizontal scroll of both tray-scroll elements
+    const dx = e.clientX - startXMiddle;
+    const newScroll = startScrollLeft + dx; // drag right -> scroll right
+    const aScroll = attractionsTray.querySelector('.tray-scroll');
+    const oScroll = operatorsTray.querySelector('.tray-scroll');
+    if (aScroll) aScroll.scrollLeft = newScroll;
+    if (oScroll) oScroll.scrollLeft = newScroll;
   }
 });
 
-// Vertical resize for Operators tray
-const operatorsTray = document.getElementById('operatorsTray');
-const operatorsResize = document.getElementById('operatorsResize');
-let isResizingOperators = false;
-let startYOperators = 0;
-let startHeightOperators = 0;
-operatorsResize.addEventListener('mousedown', function(e) {
-  e.preventDefault();
-  isResizingOperators = true;
-  startYOperators = e.clientY;
-  startHeightOperators = operatorsTray.offsetHeight;
-  document.body.style.cursor = 'ns-resize';
-  document.body.style.userSelect = 'none';
-});
-document.addEventListener('mousemove', function(e) {
-  if (isResizingOperators) {
-    // Resize follows mouse direction: dragging down increases height
-    let newHeight = startHeightOperators + (e.clientY - startYOperators);
-    newHeight = Math.max(60, Math.min(window.innerHeight * 0.5, newHeight));
-    operatorsTray.style.height = newHeight + 'px';
-  }
-});
 document.addEventListener('mouseup', function() {
-  if (isResizingOperators) {
-    isResizingOperators = false;
-    document.body.style.cursor = '';
+  if (middleMode !== null) {
+    middleMode = null;
     document.body.style.userSelect = '';
+    document.body.style.cursor = '';
   }
 });
+
+// Keep the internal scroll areas sized to (tray height - header height)
+function updateTrayScrollHeights(newHeight) {
+  try {
+    const bottom = document.getElementById('bottomTray');
+    const aHeader = attractionsTray.querySelector('.tray-header');
+    const oHeader = operatorsTray.querySelector('.tray-header');
+    const aScroll = attractionsTray.querySelector('.tray-scroll');
+    const oScroll = operatorsTray.querySelector('.tray-scroll');
+    const aHeaderH = aHeader ? aHeader.offsetHeight : 0;
+    const oHeaderH = oHeader ? oHeader.offsetHeight : 0;
+    const targetA = Math.max(20, newHeight - aHeaderH);
+    const targetO = Math.max(20, newHeight - oHeaderH);
+    if (aScroll) aScroll.style.height = targetA + 'px';
+    if (oScroll) oScroll.style.height = targetO + 'px';
+    if (bottom) bottom.style.height = newHeight + 'px';
+  } catch (e) { /* ignore */ }
+}
+
+function initTrayHeights() {
+  try {
+    const h = document.getElementById('bottomTray').offsetHeight;
+    updateTrayScrollHeights(h);
+  } catch (e) {}
+}
+
+window.addEventListener('resize', initTrayHeights);
+setTimeout(initTrayHeights, 40);
 
 // Tip: dismissible and auto-hide after 30s
 const resizeTip = document.getElementById('resizeTip');
