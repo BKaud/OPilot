@@ -11,7 +11,13 @@ require_once '../../DBfiles/db_config.php';
 
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
 
+// Log the action for debugging
+error_log('[EditMode API] Action: ' . $action);
+
 switch ($action) {
+    case 'test':
+        echo json_encode(['success' => true, 'message' => 'API is working']);
+        break;
     case 'getZoneData':
         getZoneData();
         break;
@@ -33,11 +39,26 @@ switch ($action) {
  */
 function getZoneData() {
     $conn = getDbConnection();
+    
+    if (!$conn) {
+        echo json_encode(['success' => false, 'error' => 'Database connection failed']);
+        return;
+    }
+    
     $zoneId = $_GET['zone_id'] ?? 1;
+    
+    error_log('[EditMode API] getZoneData called for zone_id: ' . $zoneId);
     
     // First check if zone exists
     $checkZone = $conn->query("SELECT COUNT(*) as count FROM zone WHERE zone_id = $zoneId");
+    if (!$checkZone) {
+        error_log('[EditMode API] Zone check query failed: ' . $conn->error);
+        echo json_encode(['success' => false, 'error' => 'Zone query failed: ' . $conn->error]);
+        return;
+    }
+    
     $zoneExists = $checkZone->fetch_assoc()['count'] > 0;
+    error_log('[EditMode API] Zone exists: ' . ($zoneExists ? 'yes' : 'no'));
     
     if (!$zoneExists) {
         // Return empty data with helpful message
@@ -56,7 +77,6 @@ function getZoneData() {
             r.ride_id,
             r.ride_name,
             COALESCE(r.ride_is_placed_on_canvas, 0) as is_placed_on_canvas,
-            COALESCE(r.ride_canvas_order, 0) as canvas_order,
             p.pos_id,
             p.pos_name,
             COALESCE(p.pos_order, 1) as pos_order,
@@ -83,6 +103,8 @@ function getZoneData() {
     $stmt->execute();
     $result = $stmt->get_result();
     
+    error_log('[EditMode API] Query executed, result rows: ' . $result->num_rows);
+    
     // Organize data into attractions array
     $attractions = [];
     while ($row = $result->fetch_assoc()) {
@@ -92,7 +114,6 @@ function getZoneData() {
             $attractions[$rideId] = [
                 'id' => 'ride' . $rideId,
                 'name' => $row['ride_name'],
-
                 'isPlaced' => (bool)$row['is_placed_on_canvas'],
                 'positions' => []
             ];
@@ -131,6 +152,8 @@ function getZoneData() {
     
     $stmt->close();
     $conn->close();
+    
+    error_log('[EditMode API] Returning ' . count($attractions) . ' attractions');
     
     echo json_encode([
         'success' => true,

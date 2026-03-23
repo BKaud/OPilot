@@ -6,7 +6,7 @@
 <title>OPilot – Edit Mode</title>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="style.css" />
-<link rel="stylesheet" href="../assets/css/theme.css" />
+<link rel="stylesheet" href="../../assets/css/theme.css" />
 </head>
 <body>
 <!-- NAVBAR -->
@@ -195,10 +195,14 @@
 
 <script>
 // Sidebar toggles
-document.getElementById('zones-toggle').addEventListener('click', e => { e.preventDefault(); document.getElementById('zones-sub').classList.toggle('expanded'); });
-['r1-toggle','r2-toggle'].forEach(id => {
-  document.getElementById(id).addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); e.currentTarget.nextElementSibling.classList.toggle('expanded'); });
-});
+const zonesToggle = document.getElementById('zones-toggle');
+if (zonesToggle) {
+  zonesToggle.addEventListener('click', e => { 
+    e.preventDefault(); 
+    const zonesSub = document.getElementById('zones-sub');
+    if (zonesSub) zonesSub.classList.toggle('expanded'); 
+  });
+}
 
 // Global data structures
 let rideSlots = [];
@@ -211,31 +215,41 @@ const ZONE_ID = 1; // Current zone (Rides 1)
 // Load data from database on page load
 async function loadZoneData() {
   try {
+    console.log('[EditMode] Loading zone data...');
     const response = await fetch(`api.php?action=getZoneData&zone_id=${ZONE_ID}`);
     const data = await response.json();
     
-    console.log('API Response:', data);
+    console.log('[EditMode] API Response:', data);
+    console.log('[EditMode] Response status:', response.status);
+    
+    if (!response.ok) {
+      console.error('[EditMode] HTTP Error:', response.status, response.statusText);
+      alert('Failed to load zone data - HTTP Error ' + response.status);
+      return;
+    }
     
     if (data.success) {
       allAttractions = data.attractions || [];
       
-      console.log('Loaded attractions:', allAttractions);
+      console.log('[EditMode] Loaded attractions:', allAttractions);
       
       // Show helpful message if no data
       if (allAttractions.length === 0 && data.message) {
+        console.log('[EditMode] Message:', data.message);
         alert(data.message);
       }
       
       // Separate placed and unplaced attractions
       rideSlots = allAttractions.filter(a => a.isPlaced);
       
-      console.log('Rides on canvas:', rideSlots.length);
+      console.log('[EditMode] Rides on canvas:', rideSlots.length);
       
       // Build available operators list (all operators)
       const operatorsResponse = await fetch(`api.php?action=getAvailableOperators&zone_id=${ZONE_ID}`);
       const operatorsData = await operatorsResponse.json();
       if (operatorsData.success) {
         availableOperators = operatorsData.operators || [];
+        console.log('[EditMode] Loaded operators:', availableOperators.length);
         renderOperatorsList();
       }
       
@@ -245,8 +259,8 @@ async function loadZoneData() {
       renderGrid();
       renderAttractionBar();
     } else {
-      console.error('Failed to load zone data:', data.error);
-      alert('Failed to load zone data. Please check database connection.');
+      console.error('[EditMode] API Error:', data.error);
+      alert('Failed to load zone data: ' + data.error);
     }
   } catch (error) {
     console.error('Error loading zone data:', error);
