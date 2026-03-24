@@ -209,6 +209,8 @@
 
   // Position types for each ride
   const ridePositions = {
+    'Carousel': ['Main'],
+    'Drop Tower': ['Platform', 'Control'],
     'Tidal Twist': ['Station 1', 'Station 2', 'Load'],
     'Thunder Mountain': ['Station 1', 'Dispatch', 'Load'],
     'Space Coaster': ['Station 1', 'Dispatch', 'Control'],
@@ -222,6 +224,9 @@
   
   // Store attractions globally for access by update functions
   let currentAttractions = [];
+  
+  // Store all available positions from database
+  let allAvailablePositions = [];
 
   function getAssignmentForRotation(rotIndex, positionIndex) {
     // Create a seeded random for reproducibility
@@ -536,6 +541,11 @@
       console.log('[loadZoneData] Response received:', data);
       
       if (data.success && data.attractions) {
+        // Store all available positions from database
+        if (data.allPositions) {
+          allAvailablePositions = data.allPositions;
+        }
+        
         // Check if data has changed
         const newDataString = JSON.stringify(data.attractions);
         const oldDataString = JSON.stringify(zoneData);
@@ -584,14 +594,14 @@
           <div style="position:relative;width:100%;height:100%;">
             <img src="${attraction.imageUrl}" alt="${attraction.name}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" />
             <div class="card-status-dot" style="position:absolute;top:8px;right:8px;"></div>
-            <div class="card-num" style="position:absolute;bottom:8px;left:8px;">${index + 1}</div>
+            <div class="card-menu-btn" style="position:absolute;bottom:8px;left:8px;cursor:pointer;font-size:16px;font-weight:bold;color:#fff;user-select:none;" onclick="togglePositionsMenu(event, '${attraction.name}')">•••</div>
           </div>
         `;
       } else {
         thumbContent = `
           <div class="card-status-dot"></div>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/><path d="M12 8v8M8 12h8"/></svg>
-          <div class="card-num">${index + 1}</div>
+          <div class="card-menu-btn" style="cursor:pointer;font-size:16px;font-weight:bold;color:#fff;user-select:none;position:absolute;bottom:8px;left:8px;" onclick="togglePositionsMenu(event, '${attraction.name}')">•••</div>
         `;
       }
       
@@ -651,6 +661,20 @@
                   </div>
                 `;
               }).join('')}
+            </div>
+          </div>
+          <div class="positions-menu-container" data-attraction="${attraction.name}" style="display:none;">
+            <div class="positions-menu-backdrop" onclick="togglePositionsMenu(event, '${attraction.name}')"></div>
+            <div class="positions-menu" id="menu-${attraction.name}">
+              <div style="border: 2px solid #999; border-radius: 2px; display: flex; gap: 2px; width: 100%; margin-bottom: 8px;">
+                <div style="flex: 1; background: transparent; border: 1px solid #bbb; border-radius: 2px; padding: 8px 6px; text-align: center;">
+                  <div style="font-size: 10px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.2px;">Available</div>
+                </div>
+                <div style="flex: 1; background: transparent; border: 1px solid #bbb; border-radius: 2px; padding: 8px 6px; text-align: center;">
+                  <div style="font-size: 10px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.2px;">Positions</div>
+                </div>
+              </div>
+              <div class="menu-items" id="menu-items-${attraction.name}"></div>
             </div>
           </div>
         </div>
@@ -1042,6 +1066,99 @@
     console.error('[Resize] Error during setup:', err);
   }
 
+  // ============================================================
+  // POSITIONS MENU FUNCTIONS
+  // ============================================================
+  
+  /**
+   * Toggle the positions menu for an attraction
+   */
+  function togglePositionsMenu(event, attractionName) {
+    event.stopPropagation();
+    
+    // Close all other menus
+    document.querySelectorAll('.positions-menu-container').forEach(container => {
+      if (container.getAttribute('data-attraction') !== attractionName) {
+        container.style.display = 'none';
+      }
+    });
+    
+    // Toggle current menu
+    const menuContainer = document.querySelector(`[data-attraction="${attractionName}"]`);
+    if (!menuContainer) return;
+    
+    const isVisible = menuContainer.style.display !== 'none';
+    menuContainer.style.display = isVisible ? 'none' : 'block';
+    
+    if (!isVisible) {
+      populatePositionsMenu(attractionName);
+      
+      // Close menu when clicking outside
+      const backdrop = menuContainer.querySelector('.positions-menu-backdrop');
+      if (backdrop) {
+        backdrop.addEventListener('click', () => {
+          menuContainer.style.display = 'none';
+        }, { once: true });
+      }
+    }
+  }
+  
+  /**
+   * Populate the positions menu with only AVAILABLE (unused) positions
+   */
+  function populatePositionsMenu(attractionName) {
+    const attraction = currentAttractions.find(a => a.name === attractionName);
+    if (!attraction) return;
+    
+    // Get currently used positions
+    const usedPositionNames = attraction.positions.map(p => p.name);
+    
+    // Build the menu items HTML
+    const menuItemsContainer = document.getElementById(`menu-items-${attractionName}`);
+    if (!menuItemsContainer) return;
+    
+    let html = '';
+    
+    // Add ONLY available positions (not already used) from database
+    const availablePositions = allAvailablePositions.filter(pos => !usedPositionNames.includes(pos.name));
+    
+    availablePositions.forEach(pos => {
+      const posName = pos.name;
+      
+      // Available position - red
+      const bgColor = 'rgba(192, 57, 43, 0.1)';
+      const borderColor = 'rgba(192, 57, 43, 0.3)';
+      const textColor = 'var(--accent-red)';
+      
+      html += `
+        <div style="border: 2px solid #999; border-radius: 2px; overflow: visible; display: flex; gap: 2px; width: 100%; margin-bottom: 4px;">
+          <div style="flex: 1; background: transparent; border: 1px solid #bbb; border-radius: 2px; padding: 4px 6px; text-align: center;">
+            <div style="font-size: 9px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.2px;">${posName}</div>
+          </div>
+          <div style="flex: 1; background: ${bgColor}; border: 1px solid ${borderColor}; border-radius: 2px; padding: 4px 6px; text-align: center;">
+            <div style="font-size: 9px; font-weight: 600; color: ${textColor};">EMPTY</div>
+          </div>
+        </div>
+      `;
+    });
+    
+    // If no available positions, show message
+    if (availablePositions.length === 0) {
+      html = '<div style="padding: 8px; color: var(--text-muted); font-style: italic; text-align: center;">No additional positions available</div>';
+    }
+    
+    menuItemsContainer.innerHTML = html;
+  }
+  
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.card-menu-btn') && !e.target.closest('.positions-menu')) {
+      document.querySelectorAll('.positions-menu-container').forEach(container => {
+        container.style.display = 'none';
+      });
+    }
+  });
+
 </script>
 
 <!-- Resize handler in separate script for reliability -->
@@ -1091,7 +1208,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
-
 
 </body>
 </html>
