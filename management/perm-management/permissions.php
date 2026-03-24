@@ -163,14 +163,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Sidebar icon color logic
+  // Highlight current page in sidebar based on URL
+  var currentPath = window.location.pathname.replace(/\\/g, '/');
   document.querySelectorAll('.nav-link').forEach(function(link) {
-    link.addEventListener('click', function(e) {
-      document.querySelectorAll('.nav-link').forEach(function(n) {
-        n.classList.remove('active');
-      });
+    var href = link.getAttribute('href');
+    if (!href || href === '#') return;
+    // Normalize relative paths
+    var linkPath = document.createElement('a');
+    linkPath.href = href;
+    var linkFullPath = linkPath.pathname.replace(/\\/g, '/');
+    if (currentPath.endsWith(linkFullPath)) {
       link.classList.add('active');
-    });
+    }
   });
 });
 </script>

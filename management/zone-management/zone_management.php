@@ -1,3 +1,20 @@
+<script>
+// Highlight current page in sidebar based on URL
+document.addEventListener('DOMContentLoaded', function() {
+  var currentPath = window.location.pathname.replace(/\\/g, '/');
+  document.querySelectorAll('.nav-link').forEach(function(link) {
+    var href = link.getAttribute('href');
+    if (!href || href === '#') return;
+    // Normalize relative paths
+    var linkPath = document.createElement('a');
+    linkPath.href = href;
+    var linkFullPath = linkPath.pathname.replace(/\\/g, '/');
+    if (currentPath.endsWith(linkFullPath)) {
+      link.classList.add('active');
+    }
+  });
+});
+</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>

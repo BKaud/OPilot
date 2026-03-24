@@ -76,7 +76,7 @@
               <!-- manage.svg -->
               <img class="filter-999" width="22" height="22" src="../../assets/images/icons/manage.svg" alt="Manage Icon">
             </div>
-            <span class="nav-text">Management</span>
+            <span class="nav-text nav-link.active">Management</span>
           </a>
         </div>
       </div>
@@ -216,13 +216,21 @@
 </div>
 
 <script>
-  // Sidebar hover/active handled with CSS; keep small behavior for accessibility
-  document.querySelectorAll('.nav-link').forEach(a => {
-    a.addEventListener('click', (e) => {
-      document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
-      a.classList.add('active');
-    });
+// Highlight current page in sidebar based on URL
+document.addEventListener('DOMContentLoaded', function() {
+  var currentPath = window.location.pathname.replace(/\\/g, '/');
+  document.querySelectorAll('.nav-link').forEach(function(link) {
+    var href = link.getAttribute('href');
+    if (!href || href === '#') return;
+    // Normalize relative paths
+    var linkPath = document.createElement('a');
+    linkPath.href = href;
+    var linkFullPath = linkPath.pathname.replace(/\\/g, '/');
+    if (currentPath.endsWith(linkFullPath)) {
+      link.classList.add('active');
+    }
   });
+});
 </script>
 <script>
 // Sidebar expand/collapse for ride zones
