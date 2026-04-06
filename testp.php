@@ -9,7 +9,8 @@
     hiiiiiiiiiiiiiiiiiii jiii
 
     <?php
-    echo APP_ROOT;
+    echo $_SERVER['DOCUMENT_ROOT'] . '<br>';
+    echo __DIR__;
     ?>
 </body>
 </html>
