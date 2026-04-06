@@ -1,3 +1,54 @@
+<?php
+// Temporary debugging helpers (remove/disable in production)
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
+// Robustly locate bootstrap.php (works if this file is inside e.g. /path/to/app/public/whatever)
+$bootstrapCandidates = [
+    // three levels up from this file
+    dirname(__FILE__, 3) . '/bootstrap.php',
+    // the original relative form (in case of different layout)
+    __DIR__ . '/../../../bootstrap.php',
+    // fallback: one level up (adjust as needed)
+    dirname(__FILE__, 1) . '/bootstrap.php',
+];
+
+$bootstrapPath = null;
+foreach ($bootstrapCandidates as $candidate) {
+    if (file_exists($candidate)) {
+        $bootstrapPath = $candidate;
+        break;
+    }
+}
+
+if (!$bootstrapPath) {
+    // Give a friendly error and stop so you can see what's wrong on the server
+    header('HTTP/1.1 500 Internal Server Error');
+    echo '<h1>500 Internal Server Error</h1>';
+    echo '<p><strong>bootstrap.php not found</strong>. Checked the following paths:</p><pre>';
+    echo implode("\n", array_map('htmlspecialchars', $bootstrapCandidates));
+    echo '</pre>';
+    exit;
+}
+
+// Include bootstrap (defines APP_ROOT and other app constants)
+require_once $bootstrapPath;
+
+// Ensure APP_ROOT is defined and sidebar exists before including
+if (defined('APP_ROOT') && file_exists(APP_ROOT . '/partials/sidebar.php')) {
+    require_once APP_ROOT . '/partials/sidebar.php';
+} else {
+    // If APP_ROOT isn't set, fail early with a helpful message
+    if (!defined('APP_ROOT')) {
+        echo '<!-- Warning: APP_ROOT not defined by bootstrap.php -->';
+    } else {
+        echo '<!-- Warning: sidebar partial not found at ' . htmlspecialchars(APP_ROOT . "/partials/sidebar.php") . ' -->';
+    }
+}
+
+// Continue with the rest of your HTML (unchanged)
+?>
 <!DOCTYPE html>
 <html lang="en">
 
