@@ -64,10 +64,7 @@ if (defined('APP_ROOT') && file_exists(APP_ROOT . '/partials/sidebar.php')) {
 </head>
 
 <body>
-    <?php
-    require_once __DIR__ . '../../../bootstrap.php';
-require_once APP_ROOT . '/partials/sidebar.php';
-?>
+
 
     <!-- CONTENT -->
     <div class="content">
