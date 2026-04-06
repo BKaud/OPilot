@@ -13,9 +13,9 @@
 </head>
 
 <body>
-    <?php
-        require_once __DIR__ . '../../bootstrap.php';
-require_once __DIR__ . '../../partials/sidebar.php';
+<?php
+require_once __DIR__ . '/../../bootstrap.php';
+require_once __DIR__ . '/../../partials/sidebar.php';
 ?>
 
     <!-- CONTENT -->
