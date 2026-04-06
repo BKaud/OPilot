@@ -17,9 +17,8 @@ error_reporting(E_ALL);
 
 <body>
 <?php
-$root = dirname($_SERVER['DOCUMENT_ROOT']);
-require_once $root . '../../bootstrap.php';
-require_once $root . '../../partials/sidebar.php';
+require_once __DIR__ . '/../../bootstrap.php';
+require_once __DIR__ . '/../../partials/sidebar.php';
 ?>
     <!-- CONTENT -->
     <div class="content">
