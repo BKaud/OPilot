@@ -140,8 +140,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['final_submit'])) {
   <link rel="stylesheet" href="../assets/css/theme.css" />
   <link rel="stylesheet" href="login.css" />
   <style>
-    /* Override theme.css overflow:hidden so the wizard page can scroll */
-    html, body { overflow: auto !important; height: auto !important; }
+    /* Override theme.css overflow:hidden so the wizard page can scroll on small screens */
+    html, body { overflow: auto !important; height: auto !important; min-height: 100vh; }
   </style>
 </head>
 <body class="wizard-page">
@@ -171,13 +171,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['final_submit'])) {
 
       <!-- ════ STEP 1: Welcome ════ -->
       <div class="wizard-step active" id="step-1">
-        <div class="welcome-icon">🏢</div>
+        <div class="welcome-icon">
+          <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="19" cy="13" r="10" stroke="currentColor" stroke-width="2.4" fill="none"/>
+            <path d="M5 31 Q11 23 19 26 Q27 23 33 31" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+            <circle cx="7" cy="31" r="2.6" fill="currentColor"/>
+            <circle cx="31" cy="31" r="2.6" fill="currentColor"/>
+            <path d="M16 10 L19 7 L22 10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
         <h2 class="step-title">Welcome to OPilot</h2>
         <p class="step-sub">Let's get your organization set up in just a few steps.</p>
         <ul class="welcome-checklist">
-          <li><span class="check-num">1</span>Create your organization profile</li>
-          <li><span class="check-num">2</span>Set up the owner account</li>
-          <li><span class="check-num">3</span>Invite your team <em style="color:var(--text-label);font-size:0.85em">(optional)</em></li>
+          <li>
+            <span class="check-num">1</span>
+            <div>
+              <div style="font-weight:700;font-size:1rem;margin-bottom:0.25rem;">Create your organization</div>
+              <div style="font-size:0.82rem;color:#888;">Name, description, and color scheme</div>
+            </div>
+          </li>
+          <li>
+            <span class="check-num">2</span>
+            <div>
+              <div style="font-weight:700;font-size:1rem;margin-bottom:0.25rem;">Set up the owner account</div>
+              <div style="font-size:0.82rem;color:#888;">Your login credentials as administrator</div>
+            </div>
+          </li>
+          <li>
+            <span class="check-num">3</span>
+            <div>
+              <div style="font-weight:700;font-size:1rem;margin-bottom:0.25rem;">Invite your team <em style="color:#555;font-size:0.85em;font-style:normal;">(optional)</em></div>
+              <div style="font-size:0.82rem;color:#888;">Add staff accounts or do it later</div>
+            </div>
+          </li>
         </ul>
         <div class="wizard-nav">
           <div></div>
@@ -262,10 +288,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['final_submit'])) {
         <p class="step-sub">Create accounts for your staff, or skip this and do it later in Account Management.</p>
 
         <div class="worker-list" id="worker-list"><!-- rows added by JS --></div>
-
         <button class="btn-add-worker" type="button" onclick="addWorkerRow()">
           <span style="font-size:1.1rem;line-height:1">+</span> Add Member
         </button>
+        <div style="flex:1"></div>
 
         <div class="wizard-nav">
           <button class="btn-back" onclick="goTo(3)">← Back</button>
@@ -383,12 +409,22 @@ function buildProgress() {
     const g = document.createElement('div');
     g.className = 'prog-step';
 
+    const dotWrap = document.createElement('div');
+    dotWrap.className = 'prog-dot-wrap';
+
     const dot = document.createElement('div');
     dot.className = 'prog-dot';
     dot.id        = 'prog-' + stepNum;
     dot.textContent = i + 1;
-    dot.title = lbl;
-    g.appendChild(dot);
+    dotWrap.appendChild(dot);
+
+    const lblEl = document.createElement('div');
+    lblEl.className = 'prog-label';
+    lblEl.id        = 'prog-lbl-' + stepNum;
+    lblEl.textContent = lbl;
+    dotWrap.appendChild(lblEl);
+
+    g.appendChild(dotWrap);
 
     if (i < labels.length - 1) {
       const line = document.createElement('div');
@@ -405,11 +441,13 @@ function updateProgress() {
   for (let s = 2; s <= 4; s++) {
     const dot  = document.getElementById('prog-' + s);
     const line = document.getElementById('prog-line-' + s);
+    const lbl  = document.getElementById('prog-lbl-' + s);
     if (!dot) continue;
     dot.classList.remove('active', 'done');
     if      (s < currentStep)  dot.classList.add('done');
     else if (s === currentStep) dot.classList.add('active');
     if (line) line.classList.toggle('done', s < currentStep);
+    if (lbl)  lbl.style.color = s <= currentStep ? 'var(--teal)' : '#555';
   }
 }
 
