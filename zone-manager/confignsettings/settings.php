@@ -180,17 +180,27 @@ require_once __DIR__ . '/../../partials/sidebar.php';
                             <hr class="section-sep" />
                             <div class="field-label">Tier Groups</div>
                             <div class="perm-dropdown" style="position:relative;">
-                                <select id="permTierSelect" multiple style="width:100%;padding-right:34px;">
+                                <select id="permTierSelect" multiple hidden>
                                     <option value="tier1" selected>Tier 1</option>
                                     <option value="tier2">Tier 2</option>
                                     <option value="tier3">Tier 3</option>
                                     <option value="lead">Lead</option>
                                     <option value="supervisor">Supervisor</option>
                                 </select>
-                                <button type="button" class="perm-arrow" title="Open tiers" aria-label="Open tiers" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:6px;border:1px solid #ddd;background:#fff;cursor:pointer;">
-                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                                </button>
-                                <div style="font-size:12px;color:#666;margin-top:6px;">Click the arrow to open — hold Ctrl/Cmd to select multiple</div>
+
+                                <div class="perm-control" tabindex="0" role="button" aria-haspopup="listbox">
+                                    <div class="perm-tags" aria-hidden="false"></div>
+                                    <div class="perm-placeholder">Select tier groups</div>
+                                    <button type="button" class="perm-arrow" title="Open tiers" aria-label="Open tiers">
+                                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                                    </button>
+                                </div>
+
+                                <div class="perm-menu" role="listbox" aria-multiselectable="true" hidden>
+                                    <!-- items populated by JS -->
+                                </div>
+
+                                <div style="font-size:12px;color:#666;margin-top:6px;">Click the arrow to open — use checkboxes to select multiple</div>
                             </div>
                             <hr class="section-sep" />
                             <div class="field-label">Main Position</div>
@@ -629,24 +639,18 @@ require_once __DIR__ . '/../../partials/sidebar.php';
                 preview.src = dataUrl;
                 preview.style.display = 'block';
                 if (placeholder) placeholder.style.display = 'none';
-
-                // Update corresponding tile background (selected tile or tile for currentRideId)
+                // Do NOT set the tile background to the local data URL — this is a local preview only
+                // Mark the selected tile as having a pending (unsaved) image so the UI can indicate this.
                 try {
                     const tile = document.querySelector('.attraction-thumb.selected') || document.querySelector(
                         '[data-id="ride' + currentRideId + '"]');
                     if (tile) {
-                        const thumb = tile.querySelector('.thumb-bg');
-                        if (thumb) {
-                            thumb.style.backgroundImage = 'url("' + dataUrl + '")';
-                            thumb.style.backgroundSize = 'cover';
-                            thumb.style.backgroundPosition = 'center';
-                            thumb.style.backgroundRepeat = 'no-repeat';
-                            const sv = thumb.querySelector('svg');
-                            if (sv) sv.style.display = 'none';
-                        }
+                        tile.classList.add('pending-image');
+                        // store a lightweight flag (not the data URL) so it does not get serialized
+                        tile.dataset.pendingImage = '1';
                     }
                 } catch (err) {
-                    console.warn('Failed to update tile background:', err);
+                    console.warn('Failed to mark tile pending image:', err);
                 }
             };
             reader.readAsDataURL(file);
@@ -786,51 +790,116 @@ require_once __DIR__ . '/../../partials/sidebar.php';
             input.focus();
         });
     }
-    // Controlled Tier dropdown: only open when arrow clicked
+    // Custom Tier multi-select dropdown (checkbox menu) — builds from hidden select and keeps it in sync
     (function() {
         try {
-            const permWrap = document.querySelector('.perm-dropdown');
-            if (!permWrap) return;
-            const select = permWrap.querySelector('#permTierSelect');
-            const arrow = permWrap.querySelector('.perm-arrow');
-            if (!select || !arrow) return;
+            const wrap = document.querySelector('.perm-dropdown');
+            if (!wrap) return;
+            const select = wrap.querySelector('#permTierSelect');
+            const control = wrap.querySelector('.perm-control');
+            const arrow = wrap.querySelector('.perm-arrow');
+            const menu = wrap.querySelector('.perm-menu');
+            const tags = wrap.querySelector('.perm-tags');
+            const placeholder = wrap.querySelector('.perm-placeholder');
+            if (!select || !control || !menu || !tags) return;
 
-            // Prevent the native dropdown from opening when clicking the main select area
-            select.addEventListener('mousedown', function(e) {
-                // Allow keyboard interactions (Tab/Arrow) — only block mouse open
-                e.preventDefault();
-            });
+            // Build menu items from the select options
+            function buildMenu() {
+                menu.innerHTML = '';
+                Array.from(select.options).forEach(opt => {
+                    const id = 'perm-item-' + Math.random().toString(36).slice(2, 9);
+                    const label = document.createElement('label');
+                    label.className = 'perm-item';
+                    label.setAttribute('role', 'option');
+                    label.innerHTML = `<input type="checkbox" class="perm-checkbox" data-val="${opt.value}" ${opt.selected ? 'checked' : ''} aria-checked="${opt.selected ? 'true' : 'false'}" id="${id}"/><span class="perm-item-text">${opt.text}</span>`;
+                    menu.appendChild(label);
+                });
+            }
 
-            // When arrow clicked, toggle a temporary size to show options (works cross-browser)
-            arrow.addEventListener('click', function(e) {
-                e.preventDefault();
-                // If already open via arrow, close
-                if (select._openViaArrow) {
-                    select.size = select.__oldSize || 0;
-                    select._openViaArrow = false;
-                    select.focus();
-                    return;
+            function updateTags() {
+                tags.innerHTML = '';
+                const selected = Array.from(select.options).filter(o => o.selected);
+                if (selected.length === 0) {
+                    placeholder.style.display = '';
+                } else {
+                    placeholder.style.display = 'none';
                 }
-                select._openViaArrow = true;
-                select.__oldSize = select.size || 0;
-                // show a dropdown-like list (limit height)
-                select.size = Math.min(6, select.options.length || 4);
-                select.focus();
+                selected.forEach(o => {
+                    const t = document.createElement('span');
+                    t.className = 'perm-tag';
+                    t.textContent = o.text;
+                    const rem = document.createElement('button');
+                    rem.type = 'button';
+                    rem.className = 'perm-tag-remove';
+                    rem.title = 'Remove';
+                    rem.innerHTML = '×';
+                    rem.addEventListener('click', (ev) => {
+                        ev.stopPropagation();
+                        o.selected = false;
+                        const chk = menu.querySelector('.perm-checkbox[data-val="' + o.value + '"]');
+                        if (chk) chk.checked = false;
+                        updateTags();
+                    });
+                    t.appendChild(rem);
+                    tags.appendChild(t);
+                });
+            }
 
-                // close on blur or outside click
-                const close = function() {
-                    try { select.size = select.__oldSize || 0; } catch (e) {}
-                    select._openViaArrow = false;
-                    select.removeEventListener('blur', close);
-                    document.removeEventListener('click', outside);
-                };
-                const outside = function(ev) {
-                    if (!permWrap.contains(ev.target)) close();
-                };
-                select.addEventListener('blur', close);
-                setTimeout(() => document.addEventListener('click', outside), 0);
+            function openMenu() {
+                menu.hidden = false;
+                wrap.classList.add('open');
+                const first = menu.querySelector('.perm-checkbox');
+                if (first) first.focus();
+            }
+
+            function closeMenu(keepFocusOnControl = false) {
+                menu.hidden = true;
+                wrap.classList.remove('open');
+                if (keepFocusOnControl) try { control.focus(); } catch (e) {}
+            }
+
+            buildMenu();
+            updateTags();
+
+            // When a checkbox changes, update the underlying select and tags
+            menu.addEventListener('change', function(e) {
+                if (e.target && e.target.classList.contains('perm-checkbox')) {
+                    const val = e.target.getAttribute('data-val');
+                    const opt = Array.from(select.options).find(o => o.value === val);
+                    if (opt) opt.selected = e.target.checked;
+                    e.target.setAttribute('aria-checked', e.target.checked ? 'true' : 'false');
+                    updateTags();
+                }
             });
-        } catch (e) { console.warn('Perm dropdown init failed', e); }
+
+            control.addEventListener('click', function(e) {
+                if (menu.hidden) openMenu(); else closeMenu(true);
+            });
+            arrow.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (menu.hidden) openMenu(); else closeMenu(true);
+            });
+
+            // Close on outside click
+            document.addEventListener('click', function(e) {
+                if (!wrap.contains(e.target)) closeMenu(false);
+            });
+
+            // If the hidden select is mutated externally, rebuild/sync
+            const observer = new MutationObserver(function() {
+                buildMenu();
+                updateTags();
+            });
+            observer.observe(select, { attributes: true, childList: true, subtree: true });
+
+            // helper to return selected tiers
+            select.getSelectedTiers = function() {
+                return Array.from(select.options).filter(o => o.selected).map(o => o.value);
+            };
+            // allow external code to request a rebuild/sync of the menu (e.g., after server-side changes)
+            select.rebuildPermMenu = function() { buildMenu(); updateTags(); };
+
+        } catch (e) { console.warn('Custom perm dropdown init failed', e); }
     })();
 
     // Save settings handler
@@ -873,6 +942,12 @@ require_once __DIR__ . '/../../partials/sidebar.php';
         formData.append('main_position', mainPosition);
         formData.append('required_certs', requiredCerts);
         formData.append('ride_link', rideLink);
+        // Include selected permission tiers
+        try {
+            const tierSelect = document.getElementById('permTierSelect');
+            const selectedTiers = tierSelect ? Array.from(tierSelect.options).filter(o => o.selected).map(o => o.value) : [];
+            formData.append('perm_tiers', JSON.stringify(selectedTiers));
+        } catch (e) { console.warn('Failed to append perm tiers', e); }
         // Append image file if present so server can persist it
         try {
             const imgInput = document.getElementById('attractionImageInput');
@@ -909,6 +984,9 @@ require_once __DIR__ . '/../../partials/sidebar.php';
                             const sv = thumb.querySelector('svg');
                             if (sv) sv.style.display = 'none';
                         }
+                        // remove pending preview marker when image is persisted on server
+                        tile.classList.remove('pending-image');
+                        try { delete tile.dataset.pendingImage; } catch (e) {}
                     }
                     // update tile attributes for status/link and refresh lock state
                     try {
@@ -1312,32 +1390,47 @@ require_once __DIR__ . '/../../partials/sidebar.php';
         background: linear-gradient(90deg, #ff6b6b, #d64545);
         color: #fff;
     }
-    /* Permission dropdown styling */
-    .perm-dropdown select {
+    /* Permission dropdown styling (custom control + hidden select) */
+    .perm-dropdown select { display: none; }
+    .perm-dropdown .perm-control {
+        display: flex;
+        align-items: center;
+        gap: 8px;
         padding: 8px 10px;
         border-radius: 6px;
-        border: 1px solid #ddd;
-        font-size: 14px;
-        color: #000;
-        background: #fff;
-    }
-    /* Prefer closed dropdown appearance for multi-select where supported */
-    .perm-dropdown select {
-        height: auto;
-        max-height: 240px;
-        -webkit-appearance: menulist-button;
-        appearance: menulist-button;
+        border: 1px solid var(--border-panel);
+        background: var(--bg-card);
         cursor: pointer;
+        min-height: 40px;
+        color: var(--text-dark);
     }
-    /* Arrow button for controlled open */
-    .perm-dropdown .perm-arrow {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        line-height: 0;
+    .perm-dropdown .perm-control:focus { outline: 2px solid var(--teal-glow); }
+    .perm-dropdown .perm-tags { display:flex; gap:6px; align-items:center; flex-wrap:wrap; max-width:100%; }
+    .perm-dropdown .perm-placeholder { color: var(--text-label); font-size:13px; flex:1; }
+    .perm-dropdown .perm-tag { background: var(--teal-glow); color: var(--teal); padding:4px 8px; border-radius:999px; display:inline-flex; align-items:center; gap:6px; font-size:13px; }
+    .perm-dropdown .perm-tag-remove { border:0; background:transparent; color:inherit; font-weight:700; cursor:pointer; padding:0 4px; }
+    .perm-dropdown .perm-arrow { margin-left:auto; display:inline-flex; align-items:center; justify-content:center; padding:4px; border-radius:6px; border:1px solid var(--border-panel); background:var(--bg-card); width:28px; height:28px; }
+
+    .perm-dropdown .perm-menu { position:absolute; left:0; right:0; top:calc(100% + 8px); background:var(--bg-card); border:1px solid var(--border-panel); border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.08); z-index:50; max-height:240px; overflow:auto; padding:8px; }
+    .perm-dropdown .perm-item { display:flex; align-items:center; gap:8px; padding:6px 8px; border-radius:6px; cursor:pointer; }
+    .perm-dropdown .perm-item:hover { background: var(--teal-dim); }
+    .perm-dropdown .perm-checkbox { width:16px; height:16px; }
+    .perm-dropdown.open .perm-control { box-shadow:0 0 0 3px var(--teal-glow); }
+    .perm-dropdown .perm-item-text { font-size:14px; color: var(--text-dark); }
+    /* Pending image indicator for previewed-but-unsaved attraction images */
+    .attraction-thumb.pending-image { position: relative; }
+    .attraction-thumb.pending-image .thumb-bg::after {
+        content: "Unsaved";
+        position: absolute;
+        right: 6px;
+        bottom: 6px;
+        background: var(--teal);
+        color: #fff;
+        font-size: 11px;
+        padding: 2px 6px;
+        border-radius: 6px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.12);
     }
-    .perm-dropdown .perm-arrow:focus { outline: 2px solid rgba(43,140,255,0.25); }
     </style>
 </body>
 
