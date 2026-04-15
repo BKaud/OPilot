@@ -31,7 +31,7 @@ if (!function_exists('nav_active')) {
 <!-- NAVBAR -->
 <nav class="navbar">
   <div class="navbar-logo">
-    <div class="logo-icon"></div>
+    <img style="height: 40px;" src="../assets/images/icons/StaticOpPilotLogo.svg" alt="OPilot Logo" />
     <span class="logo-name">O<span>P</span>ilot</span>
   </div>
 </nav>
