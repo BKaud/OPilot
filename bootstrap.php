@@ -18,8 +18,8 @@ if (file_exists($appConfig)) {
 
 // Fallback defaults (safe for local dev)
 if (!defined('BASE_PATH')) {
-    // If your local dev serves at http://localhost/OPilot set '/OPilot', or '' if root.
-    define('BASE_PATH', '/OPilot');
+    // If your local dev serves at http://localhost/OpPilot set '/OpPilot', or '' if root.
+    define('BASE_PATH', '/OpPilot');
 }
 if (!defined('DB_HOST')) define('DB_HOST', '127.0.0.1');
 if (!defined('DB_PORT')) define('DB_PORT', 3306);
