@@ -18,7 +18,7 @@ jobs:
           script: |
             set -e
 
-            DEPLOY_DIR="/opt/bitnami/apache/htdocs"
+            DEPLOY_DIR="/opt/bitnami/apache/htdocs/OpPilot"
             REPO_URL="https://github.com/BKaud/OPilot.git"
 
             if [ -d "$DEPLOY_DIR/.git" ]; then
