@@ -15,7 +15,7 @@ if (file_exists($appConfig)) {
 
 // Fallback defaults for local development.
 if (!defined('BASE_PATH')) define('BASE_PATH', '');
-if (!defined('DB_HOST')) define('DB_HOST', '127.0.0.1');
+if (!defined('DB_HOST')) define('DB_HOST', '127.0.0.2');
 if (!defined('DB_PORT')) define('DB_PORT', 3306);
 if (!defined('DB_USER')) define('DB_USER', 'root');
 if (!defined('DB_PASS')) define('DB_PASS', 'password');
