@@ -32,10 +32,10 @@ if (!defined('DB_HOST') && file_exists($appConfig)) {
 
 // Fallback defaults for local development.
 if (!defined('BASE_PATH')) define('BASE_PATH', '');
-if (!defined('DB_HOST')) define('DB_HOST', '127.0.0.1');
+if (!defined('DB_HOST')) define('DB_HOST', '3.142.11.187');
 if (!defined('DB_PORT')) define('DB_PORT', 3306);
 if (!defined('DB_USER')) define('DB_USER', 'root');
-if (!defined('DB_PASS')) define('DB_PASS', 'password');
+if (!defined('DB_PASS')) define('DB_PASS', 'twlbiVY=cUn4');
 if (!defined('DB_NAME')) define('DB_NAME', 'oppilot');
 
 if ($dbConfigSource === 'unset') {
@@ -49,15 +49,20 @@ if (!defined('DB_CONFIG_SOURCE')) define('DB_CONFIG_SOURCE', $dbConfigSource);
 function getDbConnection($exitOnError = true) {
     $conn = null;
     $exceptionMessage = '';
+    $hostPort = DB_HOST . ':' . (int)DB_PORT;
 
     try {
-        $conn = @new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME, (int)DB_PORT);
+        $conn = mysqli_init();
+        if ($conn) {
+            $conn->options(MYSQLI_OPT_CONNECT_TIMEOUT, 5);
+            $conn->real_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, (int)DB_PORT);
+        }
     } catch (Throwable $e) {
         $exceptionMessage = $e->getMessage();
     }
 
     if (!$conn || $conn->connect_error) {
-        $msg = 'Database connection failed';
+        $msg = 'Database connection failed (' . $hostPort . ')';
         if ($exceptionMessage !== '') {
             $msg .= ': ' . $exceptionMessage;
         } elseif ($conn && $conn->connect_error) {

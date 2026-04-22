@@ -2,6 +2,7 @@
 // DBfiles/db_config_debug.php
 // Small local-only debug endpoint to verify DB config source and connectivity.
 
+@set_time_limit(10);
 header('Content-Type: application/json; charset=utf-8');
 
 $remoteAddr = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
@@ -26,11 +27,38 @@ $response = [
     'timestamp' => date('c')
 ];
 
-// Optional connection check: /DBfiles/db_config_debug.php?test=1
-if (isset($_GET['test']) && $_GET['test'] === '1') {
-    $conn = getDbConnection(false);
-    $response['connection_ok'] = $conn instanceof mysqli && !$conn->connect_error;
-    if ($response['connection_ok']) {
+// Connection test runs by default. Use ?test=0 to skip.
+$runTest = !isset($_GET['test']) || $_GET['test'] !== '0';
+if ($runTest) {
+    $connectTimeout = 10;
+    $start = microtime(true);
+    $conn = null;
+    $connectError = null;
+
+    try {
+        $conn = mysqli_init();
+        if ($conn) {
+            $conn->options(MYSQLI_OPT_CONNECT_TIMEOUT, $connectTimeout);
+            $conn->real_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, (int)DB_PORT);
+        }
+    } catch (Throwable $e) {
+        $connectError = $e->getMessage();
+    }
+
+    $connected = $conn instanceof mysqli && !$conn->connect_error;
+    $elapsedMs = (int)round((microtime(true) - $start) * 1000);
+
+    $response['connection_test'] = [
+        'attempted' => true,
+        'timeout_seconds' => $connectTimeout,
+        'connected' => $connected,
+        'elapsed_ms' => $elapsedMs,
+        'error' => $connected
+            ? null
+            : ($connectError !== null ? $connectError : (($conn && $conn->connect_error) ? $conn->connect_error : 'Unknown connection error'))
+    ];
+
+    if ($conn instanceof mysqli) {
         $conn->close();
     }
 }
