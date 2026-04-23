@@ -20,8 +20,8 @@ require_once __DIR__ . '/../../partials/sidebar.php';
 
 $username = $_SESSION['user'] ?? 'Guest';
 
-// Get organization from query parameter (or we could get it from user's primary org)
-$org_id = $_GET['org_id'] ?? null;
+// Get organization from query parameter or session
+$org_id = $_GET['org_id'] ?? $_SESSION['org_id'] ?? null;
 
 // For now, if no org_id is provided, show a message
 if (!$org_id) {
