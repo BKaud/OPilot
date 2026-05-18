@@ -25,6 +25,7 @@ $response = [
     'db_host' => defined('DB_HOST') ? DB_HOST : null,
     'db_port' => defined('DB_PORT') ? (int)DB_PORT : null,
     'db_name' => defined('DB_NAME') ? DB_NAME : null,
+    'db_pass' => defined('DB_PASS') ? (DB_PASS : null,
     'server_addr' => $_SERVER['SERVER_ADDR'] ?? $_SERVER['LOCAL_ADDR'] ?? 'unknown',
     'http_host' => $_SERVER['HTTP_HOST'] ?? 'unknown',
     'timestamp' => date('c')
