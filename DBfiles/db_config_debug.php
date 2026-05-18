@@ -6,15 +6,15 @@
 header('Content-Type: application/json; charset=utf-8');
 
 $remoteAddr = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
-$isLocal = in_array($remoteAddr, ['127.0.0.1', '::1'], true);
-if (!$isLocal) {
-    http_response_code(403);
-    echo json_encode([
-        'success' => false,
-        'error' => 'Debug endpoint is localhost-only.'
-    ], JSON_PRETTY_PRINT);
-    exit;
-}
+// $isLocal = in_array($remoteAddr, ['127.0.0.1', '::1'], true);
+// if (!$isLocal) {
+//     http_response_code(403);
+//     echo json_encode([
+//         'success' => false,
+//         'error' => 'Debug endpoint is localhost-only.'
+//     ], JSON_PRETTY_PRINT);
+//     exit;
+// }
 
 require_once __DIR__ . '/db_config.php';
 

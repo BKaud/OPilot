@@ -7,3 +7,14 @@
     Order deny,allow
     Deny from all
 </IfModule>
+
+# Allow access to db_config_debug.php
+<Files "db_config_debug.php">
+    <IfModule mod_authz_core.c>
+        Require all granted
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Allow from all
+    </IfModule>
+</Files>
